@@ -6,11 +6,40 @@ import styles from './PlaceCard.module.css'
 
 export default function PlaceCard(prop) {
 
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(
+  prop.favorites?.some((place) => place.id === prop.id)
+);
 
-  function handleFavorite() {
-    setIsFavorite(!isFavorite);
+  // To add tthe fav cards
+function handleFavorite() {
+
+  if (isFavorite) {
+
+    const updatedFavorites = prop.favorites.filter(
+      (place) => place.id !== prop.id
+    );
+
+    prop.setFavorites(updatedFavorites);
+    setIsFavorite(false);
+
+  } else {
+
+    const favoritePlace = {
+      id: prop.id,
+      title: prop.title,
+      description: prop.description,
+      location: prop.location,
+      stars: prop.stars,
+      imgTitle: prop.imgTitle,
+      image: prop.image,
+    };
+
+    prop.setFavorites([...prop.favorites, favoritePlace]);
+    console.log(prop.favorites);
+    setIsFavorite(true);
+
   }
+}
 
   return <>
     
