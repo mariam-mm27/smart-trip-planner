@@ -1,0 +1,10 @@
+:root{
+    --primary-color: #06B6D4;
+    --secondary-color: #F59E0B;
+    --tertiary-color: #8B5CF6;
+    --neutral-color: #0F172A;
+    --background-color: #0B1326;
+
+    --font-main: "Inter", sans-serif;
+    --font-label: "JetBrains Mono", monospace;
+}
