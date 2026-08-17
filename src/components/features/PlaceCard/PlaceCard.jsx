@@ -30,7 +30,7 @@ function handleFavorite() {
       description: prop.description,
       location: prop.location,
       stars: prop.stars,
-      imgTitle: prop.imgTitle,
+      // imgTitle: prop.imgTitle,
       image: prop.image,
     };
 
@@ -46,9 +46,9 @@ function handleFavorite() {
     <div className={styles["place-card"]}>
       <div className={styles["card-image"]}>
         <img src={prop.image} alt="" />
-        <span className={styles["category"]}>
+        {/* <span className={styles["category"]}>
           {prop.imgTitle}
-        </span>
+        </span> */}
         <button
           className={styles["favorite-btn"]}
           onClick={handleFavorite}

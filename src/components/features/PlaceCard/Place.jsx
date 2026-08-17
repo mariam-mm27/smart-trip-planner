@@ -1,36 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PlaceCard from './PlaceCard.jsx'
-
+import { supabase } from "../../../services/supabaseClient.js";
 export default function Place({ favorites, setFavorites }) {
-    const title = "Place"
-    const location = "Location"
-    const stars = 4.5
-    const imgTitle = "Image Title"
-    const image = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-  return <>
-  <PlaceCard
-      id="1"
-      title="Example Place"
-      description="This is an example place."
-      location="Example Location"
-      stars={4.5}
-      reviews={100}
-      imgTitle="Example Image"
-      favorites={favorites}
-      setFavorites={setFavorites}
-    />
 
-    <PlaceCard
-      id="2"
-      title="Example Place2"
-      description="This is an example place."
-      location="Example Location"
-      stars={4.5}
-      reviews={100}
-      imgTitle="Example Image"
-      favorites={favorites}
-      setFavorites={setFavorites}
-    />
-  
-  </>
+  const [places, setPlaces] = useState([])
+
+  useEffect(() => {
+    supabase
+      .from('places')
+      .select('*')
+      .then(({ data, error }) => {
+        if (error) {
+          console.log(error)
+        } else {
+          setPlaces(data)
+        }
+      })
+  }, [])
+
+  return (
+    <>
+      {places.map((place) => (
+        <PlaceCard
+          key={place.id}
+          id={place.id}
+          image="src/assets/images/Frame 1.png"
+          title={place.title}
+          description={place.description}
+          location={place.location}
+          stars={place.stars}
+          reviews={place.reviews}
+          favorites={favorites}
+          setFavorites={setFavorites}
+        />
+      ))}
+    </>
+  )
 }

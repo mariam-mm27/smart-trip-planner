@@ -1,0 +1,110 @@
+.page {
+  min-height: 100vh;
+
+  background-color: #081323;
+
+  color: white;
+
+  padding: 35px 50px;
+}
+
+
+/* HEADER */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 30px;
+}
+
+
+.title {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 28px;
+  font-weight: 700;
+}
+
+
+.subtitle {
+  margin: 7px 0 0;
+
+  color: #8291a5;
+
+  font-size: 13px;
+}
+
+
+/* FAVORITES COUNT */
+
+.count {
+  padding: 8px 14px;
+
+  background-color: #102640;
+
+  border: 1px solid #1d405d;
+
+  border-radius: 5px;
+
+  color: #2ed5f7;
+
+  font-size: 11px;
+  font-weight: 600;
+}
+
+
+/* CARDS GRID */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(320px, 1fr));
+  gap: 22px;
+  align-items: start;
+}
+
+
+/* EMPTY */
+
+.empty {
+  text-align: center;
+
+  color: #8291a5;
+
+  padding: 80px 20px;
+
+  font-size: 15px;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+
+@media (max-width: 650px) {
+
+  .page {
+    padding: 25px 20px;
+  }
+
+  .header {
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 23px;
+  }
+}
