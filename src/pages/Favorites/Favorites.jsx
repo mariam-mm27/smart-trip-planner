@@ -6,7 +6,7 @@ export default function Favorites({ favorites, setFavorites }) {
 
   return (
     <div className={styles.page}>
-
+      <div className="container-fluid">
       <div className={styles.header}>
 
         <div>
@@ -24,6 +24,7 @@ export default function Favorites({ favorites, setFavorites }) {
         </span>
 
       </div>
+      </div>
 
 
       {favorites.length === 0 ? (
@@ -34,9 +35,15 @@ export default function Favorites({ favorites, setFavorites }) {
 
       ) : (
 
-        <div className={styles.grid}>
+        <div className="container-fluid">
+        <div className="row gy-4">
 
           {favorites.map((place) => (
+            
+            <div
+              className="col-12 col-sm-6 col-md-6 col-lg-4 d-flex justify-content-center"
+              key={place.id}
+            >
 
             <PlaceCard
               key={place.id}
@@ -44,10 +51,12 @@ export default function Favorites({ favorites, setFavorites }) {
               favorites={favorites}
               setFavorites={setFavorites}
             />
+            </div>
 
           ))}
-
+            
         </div>
+      </div>
 
       )}
 
