@@ -1,43 +1,37 @@
-import { useState } from "react";
 import Place from "./components/features/PlaceCard/Place";
-import PlaceCard from "./components/features/PlaceCard/PlaceCard";
 import Favorites from "./pages/Favorites/Favorites";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
 
 function App() {
 
-  const [favorites, setFavorites] = useState([]);
-  
-  return <>
-  <BrowserRouter>
-    <Link to="/favorites">Favorites</Link>
-    <Routes>
+  return (
+    <BrowserRouter>
 
-      <Route
-        path="/"
-        element={
-          <Place
-            favorites={favorites}
-            setFavorites={setFavorites}
-          />
-        }
-      />
+      <Link to="/favorites">
+        Favorites
+      </Link>
 
-      <Route
-        path="/favorites"
-        element={
-          <Favorites
-            favorites={favorites}
-            setFavorites={setFavorites}
-          />
-        }
-      />
+      <Routes>
 
-    </Routes>
-  </BrowserRouter>
-  
-  </>
+        <Route
+          path="/"
+          element={<Place />}
+        />
+
+        <Route
+          path="/favorites"
+          element={<Favorites />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
+  );
 }
 
 export default App;

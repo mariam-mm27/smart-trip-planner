@@ -1,55 +1,79 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import styles from './PlaceCard.module.css'
+import { toast } from "react-hot-toast";
+
+import { supabase } from "../../../services/supabaseClient.js";
+import styles from "./PlaceCard.module.css";
 
 export default function PlaceCard(prop) {
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const [isFavorite, setIsFavorite] = useState(
-    prop.favorites?.some((place) => place.id === prop.id)
-  );
+  async function handleFavorite() {
+    const previousState = isFavorite;
 
-  // To add tthe fav cards
-  function handleFavorite() {
+    // Optimistic UI
+    setIsFavorite((prev) => !prev);
 
-    if (isFavorite) {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
 
-      const updatedFavorites = prop.favorites.filter(
-        (place) => place.id !== prop.id
-      );
+      if (userError) {
+        throw userError;
+      }
 
-      prop.setFavorites(updatedFavorites);
-      setIsFavorite(false);
+      if (!user) {
+        setIsFavorite(previousState);
+        toast.error("Please login first");
+        return;
+      }
 
-    } else {
+      if (!previousState) {
+        // ADD FAVORITE
+        const { error } = await supabase
+          .from("favorites")
+          .insert({
+            user_id: user.id,
+            place_id: prop.id,
+          });
 
-      const favoritePlace = {
-        id: prop.id,
-        title: prop.title,
-        description: prop.description,
-        location: prop.location,
-        stars: prop.stars,
-        // imgTitle: prop.imgTitle,
-        image: prop.image,
-      };
+        if (error) {
+          throw error;
+        }
 
-      prop.setFavorites([...prop.favorites, favoritePlace]);
-      console.log(prop.favorites);
-      setIsFavorite(true);
+        toast.success("Added to favorites");
+      } else {
+        // REMOVE FAVORITE
+        const { error } = await supabase
+          .from("favorites")
+          .delete()
+          .eq("user_id", user.id)
+          .eq("place_id", prop.id);
 
+        if (error) {
+          throw error;
+        }
+
+        toast.success("Removed from favorites");
+      }
+    } catch (error) {
+      console.error("🔥 FAVORITE ERROR:", error);
+
+      toast.error(error.message || "Failed to update favorite");
+
+      // Rollback
+      setIsFavorite(previousState);
     }
   }
 
-  return <>
-    
+  return (
     <div className={styles["place-card"]}>
       <div className={styles["card-image"]}>
         <img src={prop.image} alt="" />
-
-        {/* <span className={styles["category"]}>
-          {prop.imgTitle}
-        </span> */}
 
         <button
           className={styles["favorite-btn"]}
@@ -60,7 +84,6 @@ export default function PlaceCard(prop) {
       </div>
 
       <div className={styles["card-content"]}>
-
         <h2 className={styles["card-title"]}>
           {prop.title}
         </h2>
@@ -77,7 +100,6 @@ export default function PlaceCard(prop) {
         <hr />
 
         <div className={styles["card-bottom"]}>
-
           <div className={styles["card-rating"]}>
             <FaRegStar className={styles["star-icon"]} />
 
@@ -89,10 +111,8 @@ export default function PlaceCard(prop) {
           <span className={styles["plan-btn"]}>
             Plan Route
           </span>
-
         </div>
       </div>
     </div>
-  
-  </>
+  );
 }
