@@ -3,6 +3,7 @@ import PlaceCard from "../../components/features/PlaceCard/PlaceCard";
 import { supabase } from "../../services/supabaseClient.js";
 import { toast } from "react-hot-toast";
 import styles from "./Favorites.module.css";
+import { Link } from "react-router-dom";
 
 export default function Favorites() {
 
@@ -97,15 +98,22 @@ export default function Favorites() {
 
         <div className={styles.header}>
 
-          <div>
+          <div className="d-flex gap-3 align-items-center">
+            <div className="backBTN">
+              <Link to="/" className={styles.backButton}>
+              <span className={styles.backIcon}>←</span>
+            </Link>
+            </div>
+            <div className="content">
+              <h1 className={styles.title}>
+                My Favorites
+              </h1>
 
-            <h1 className={styles.title}>
-              My Favorites
-            </h1>
+              <p className={styles.subtitle}>
+                Your curated list of destinations to explore.
+              </p>
 
-            <p className={styles.subtitle}>
-              Your curated list of destinations to explore.
-            </p>
+            </div>
 
           </div>
 

@@ -11,6 +11,56 @@
 
 /* HEADER */
 
+/* .headerContent{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 30px;
+} */
+.backButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  height: 42px;
+
+  margin-bottom: 20px;
+
+  background: #102640;
+  color: #2ed5f7;
+
+  border: 1px solid #1d405d;
+  border-radius: 50%;
+
+  text-decoration: none;
+
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+
+  transition: all 0.25s ease;
+}
+
+.backIcon {
+  font-size: 20px;
+  line-height: 1;
+
+  transition: transform 0.25s ease;
+}
+
+.backButton:hover {
+  transform: translateX(-3px);
+  background: #1f2937;
+  color: #ffffff;
+  border-color: #1f2937;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.backButton:hover .backIcon {
+  transform: translateX(-3px);
+}
+
+
 .header {
   display: flex;
   justify-content: space-between;
