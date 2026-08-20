@@ -53,7 +53,7 @@ function App() {
             }
           />
 
-          {/* Auth-Only Public Routes (Redirect authenticated users to /explore) */}
+          {/* Auth-Only Public Routes */}
           <Route
             path="/login"
             element={
@@ -79,7 +79,7 @@ function App() {
             }
           />
 
-          {/* Protected User Routes (Require Authenticated User) */}
+          {/* Protected User Routes */}
           <Route
             path="/profile"
             element={

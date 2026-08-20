@@ -1,0 +1,182 @@
+.placesPage {
+
+  min-height: calc(100vh - 64px);
+
+padding: 0;
+  background-color: #080f20;
+
+  background-image: radial-gradient(
+
+    /* rgba(255, 255, 255, 0.16) 1px, */
+
+    transparent 1px
+
+  );
+
+  background-size: 18px 18px;
+
+}
+
+
+/* =========================
+   SEARCH BOX
+========================= */
+
+.searchBox {
+
+  width: 96%;
+
+  /* max-width: 1008px; */
+
+  margin: 36px auto 36px;
+
+  padding: 16px;
+
+  background: #182337;
+
+  border: 1px solid #26354d;
+
+  border-radius: 10px;
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 0;
+
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.searchInputWrapper {
+  flex: 1;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  background: #121c30;
+  border: 1px solid #2b3a50;
+  border-radius: 8px;
+
+  padding: 0 14px;
+  box-sizing: border-box;
+
+  transition: 0.2s ease;
+}
+
+
+.filterButtons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 12px;
+}
+
+.filterBtn {
+  height: 36px;
+  padding: 0 16px;
+
+  border-radius: 20px;
+  border: 1px solid #2b3a50;
+
+  background: #121c30;
+  color: #a9b4c5;
+
+  font-size: 13px;
+  font-family: inherit;
+
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.filterBtn:hover {
+  border-color: #28c7ef;
+  color: #28c7ef;
+}
+
+.filterBtn.active {
+  background: #12384b;
+  border-color: #1c6683;
+  color: #28c7ef;
+}
+
+
+
+.searchInputWrapper:focus-within {
+
+  border-color: #28c7ef;
+
+}
+
+
+/* =========================
+   SEARCH ICON
+========================= */
+
+.searchIcon {
+
+  color: #a9b4c5;
+
+  font-size: 17px;
+
+  flex-shrink: 0;
+
+  margin-right: 12px;
+
+}
+
+
+/* =========================
+   INPUT TEXT
+========================= */
+
+.searchInput {
+
+  width: 100%;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #e6edf7;
+
+  font-size: 14px;
+
+  font-family: inherit;
+
+}
+
+
+.searchInput::placeholder {
+
+  color: #68758a;
+
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+
+  .placesPage {
+
+    padding: 30px 20px;
+
+  }
+
+  .searchBox {
+
+    padding: 12px;
+
+    margin-bottom: 28px;
+
+  }
+
+}
