@@ -8,3 +8,42 @@
     --font-main: "Inter", sans-serif;
     --font-label: "JetBrains Mono", monospace;
 }
+
+/* ─── Global Root Layout Reset ─── */
+/* Prevent viewport compression & vertical clipping across the entire app */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  background-color: #0b1329;
+  color: #f8fafc;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+button {
+  height: auto;
+  overflow: visible !important;
+}
