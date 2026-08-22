@@ -55,7 +55,7 @@ export const ResetPassword = () => {
             <input 
               type={showPassword ? "text" : "password"} 
               className="custom-input" 
-              placeholder="Enter new password"
+              placeholder="Enter your password"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
@@ -71,7 +71,7 @@ export const ResetPassword = () => {
         </div>
 
         <button type="submit" className="btn-submit" disabled={loading}>
-          {loading ? 'Updating...' : 'Update Password'}
+          {loading ? 'Processing...' : 'Update Password'}
         </button>
       </form>
     </div>

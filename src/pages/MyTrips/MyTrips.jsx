@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Container, Card, Button, Spinner } from "react-bootstrap";
 import { deleteTrip, getMyTrips } from "../../services/tripService";
+import { useLanguage } from "../../context/LanguageContext";
 import styles from "./MyTrips.module.css";
 import { Link } from "react-router-dom";
 
 export default function MyTrips() {
+  const { t } = useLanguage();
   const [trips, setTrips] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -20,7 +22,7 @@ export default function MyTrips() {
         setTrips(data || []);
       } catch (error) {
         console.error("Failed to load trips:", error);
-        setError("Failed to load your trips. Please try again.");
+        setError(t('failedLoadTrips'));
       } finally {
         setIsLoading(false);
       }
@@ -30,9 +32,7 @@ export default function MyTrips() {
   }, []);
 
   async function handleDeleteTrip(tripId) {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this trip?",
-    );
+    const confirmed = window.confirm(t('deleteConfirm'));
 
     if (!confirmed) {
       return;
@@ -47,7 +47,7 @@ export default function MyTrips() {
     } catch (error) {
       console.error("Failed to delete trip:", error);
 
-      setError("Failed to delete this trip. Please try again.");
+      setError(t('failedDeleteTrip'));
     }
   }
 
@@ -56,7 +56,7 @@ export default function MyTrips() {
       <main className={styles.page}>
         <Container className={styles.center}>
           <Spinner animation="border" />
-          <p>Loading your trips...</p>
+          <p>{t('loadingTrips')}</p>
         </Container>
       </main>
     );
@@ -66,14 +66,14 @@ export default function MyTrips() {
     <main className={styles.page}>
       <Container>
         <div className={styles.header}>
-          <span className={styles.eyebrow}>MY TRIPS</span>
+          <span className={styles.eyebrow}>{t('myTrips')}</span>
 
           <h1 className={styles.title}>
-            Your <span>Trips</span>
+            {t('yourTrips')}
           </h1>
 
           <p className={styles.subtitle}>
-            View and manage the trips you have created.
+            {t('viewEditTrip')}
           </p>
         </div>
 
@@ -81,10 +81,10 @@ export default function MyTrips() {
 
         {!error && trips.length === 0 && (
           <div className={styles.empty}>
-            <h2>No trips yet</h2>
-            <p>You haven't created any trips yet.</p>
+            <h2>{t('noTripsYet')}</h2>
+            <p>{t('noTripsDescription')}</p>
 
-            <Button href="/create-trip">Create Your First Trip</Button>
+            <Button href="/create-trip">{t('createFirstTrip')}</Button>
           </div>
         )}
 
@@ -101,15 +101,15 @@ export default function MyTrips() {
 
                   <div className={styles.details}>
                     <p>
-                      <strong>From:</strong> {trip.start_date}
+                      <strong>{t('from')}:</strong> {trip.start_date}
                     </p>
 
                     <p>
-                      <strong>To:</strong> {trip.end_date}
+                      <strong>{t('to')}:</strong> {trip.end_date}
                     </p>
 
                     <p>
-                      <strong>Budget:</strong> {trip.budget}
+                      <strong>{t('budget')}:</strong> {trip.budget}
                     </p>
                   </div>
 
@@ -119,13 +119,13 @@ export default function MyTrips() {
                       to={`/edit-trip/${trip.id}`}
                       variant="outline-primary"
                     >
-                      Edit
+                      {t('edit')}
                     </Button>
                     <Button
                       variant="outline-danger"
                       onClick={() => handleDeleteTrip(trip.id)}
                     >
-                      Delete
+                      {t('delete')}
                     </Button>{" "}
                   </div>
                 </Card.Body>

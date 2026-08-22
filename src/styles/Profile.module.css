@@ -21,14 +21,14 @@
 .pageWrapper {
   width: 100%;
   min-height: 100vh;
-  background-color: #0b1329;
-  color: #f8fafc;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   padding: 60px 20px 100px 20px !important;
   box-sizing: border-box;
   display: flex;
   justify-content: center;
   position: relative;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-main);
   overflow-y: auto !important;
 }
 
@@ -44,18 +44,22 @@
 
 .sidebar,
 .mainContent {
-  background: #111a2e;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color) !important;
   border-radius: 16px;
   padding: 28px 20px;
   text-align: center;
-  box-shadow: none !important;
+  box-shadow: 0 4px 20px var(--shadow-color) !important;
   overflow: visible !important;
 }
 
 .mainContent {
   text-align: left;
   padding: 32px 32px 48px 32px !important;
+}
+
+[dir="rtl"] .mainContent {
+  text-align: right;
 }
 
 /* Avatar Block */
@@ -66,7 +70,7 @@
   overflow: hidden !important;
   margin: 0 auto 12px auto;
   position: relative;
-  border: 3px solid #00d2ff !important;
+  border: 3px solid #0084ff !important;
   flex-shrink: 0;
 }
 
@@ -82,11 +86,11 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: #1c2b4a;
+  background: var(--bg-surface);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #00d2ff;
+  color: #0084ff;
   font-size: 36px;
   font-weight: bold;
 }
@@ -104,7 +108,7 @@
 .changePhotoBtn {
   height: auto !important;
   min-height: 42px !important;
-  background: linear-gradient(135deg, #00d2ff 0%, #0072ff 100%) !important;
+  background: #0084ff !important;
   color: #ffffff !important;
   border-radius: 8px !important;
   padding: 8px 16px 10px 16px !important;
@@ -118,11 +122,14 @@
   gap: 8px !important;
   border: none !important;
   overflow: visible !important;
-  transition: opacity 0.2s ease !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.25) !important;
 }
 
 .changePhotoBtn:hover:not(:disabled) {
-  opacity: 0.9 !important;
+  background: #006ddb !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35) !important;
 }
 
 /* Delete Photo Button */
@@ -155,13 +162,13 @@
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 4px 0;
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
   line-height: 1.4 !important;
   overflow: visible !important;
 }
 
 .userEmail {
-  color: #8fa0c0;
+  color: var(--text-secondary);
   font-size: 13px;
   margin: 0 0 20px 0;
   line-height: 1.4 !important;
@@ -173,7 +180,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2) !important;
+  background: var(--bg-surface) !important;
   border-radius: 12px;
   padding: 14px 8px;
   margin-bottom: 24px;
@@ -191,14 +198,14 @@
 .statNum {
   font-size: 18px;
   font-weight: 700;
-  color: #00d2ff !important;
+  color: var(--primary-color) !important;
   line-height: 1.4 !important;
   overflow: visible !important;
 }
 
 .statLabel {
   font-size: 12px;
-  color: #8fa0c0 !important;
+  color: var(--text-secondary) !important;
   line-height: 1.4 !important;
   overflow: visible !important;
 }
@@ -206,10 +213,9 @@
 .statDivider {
   width: 1px;
   height: 24px;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--border-color);
 }
 
-/* Sign Out Button - Complete Border & Descender Space */
 .signOutBtn {
   width: 100%;
   height: auto !important;
@@ -240,7 +246,7 @@
   font-size: 22px;
   font-weight: 700;
   margin: 0 0 24px 0;
-  color: #ffffff;
+  color: var(--text-primary);
   line-height: 1.4 !important;
   overflow: visible !important;
 }
@@ -249,7 +255,7 @@
   font-size: 16px;
   font-weight: 600;
   margin: 0 0 12px 0;
-  color: #f8fafc;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -265,7 +271,7 @@
 }
 
 .readOnlyField label {
-  color: #8fa0c0;
+  color: var(--text-secondary);
   font-size: 13px;
   display: flex;
   align-items: center;
@@ -274,11 +280,11 @@
 }
 
 .emailValue {
-  background: #070d1d;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color) !important;
   border-radius: 8px;
   padding: 12px 14px;
-  color: #8fa0c0;
+  color: var(--text-secondary);
   font-size: 14px;
   line-height: 1.4 !important;
   user-select: all;
@@ -300,7 +306,7 @@
 }
 
 .field label {
-  color: #8fa0c0;
+  color: var(--text-secondary);
   font-size: 13px;
   display: flex;
   align-items: center;
@@ -309,32 +315,23 @@
 }
 
 .field input {
-  background-color: #070d1d !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
   border-radius: 8px;
   padding: 12px 14px;
-  color: #ffffff !important;
+  color: var(--text-primary) !important;
   font-size: 14px;
   line-height: 1.4 !important;
   transition: border-color 0.2s ease;
   overflow: visible !important;
 }
 
-.field input:-webkit-autofill,
-.field input:-webkit-autofill:hover,
-.field input:-webkit-autofill:focus,
-.field input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #070d1d inset !important;
-  -webkit-text-fill-color: #ffffff !important;
-  transition: background-color 5000s ease-in-out 0s;
-}
-
 .field input:focus {
-  border-color: #00d2ff !important;
+  border-color: var(--primary-color) !important;
 }
 
 .primaryBtn {
-  background: linear-gradient(135deg, #00d2ff 0%, #0072ff 100%) !important;
+  background: #0084ff !important;
   color: #ffffff !important;
   border: none !important;
   border-radius: 8px !important;
@@ -348,11 +345,14 @@
   justify-content: center !important;
   align-self: flex-start;
   overflow: visible !important;
-  transition: opacity 0.2s ease !important;
+  transition: all 0.25s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.25) !important;
 }
 
 .primaryBtn:hover:not(:disabled) {
-  opacity: 0.9 !important;
+  background: #006ddb !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35) !important;
 }
 
 .primaryBtn:disabled {
@@ -361,7 +361,7 @@
 }
 
 .actionDivider {
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-top: 1px solid var(--border-color) !important;
   margin: 24px 0;
 }
 
@@ -390,7 +390,7 @@
 }
 
 .loadingScreen {
-  color: #fff;
+  color: var(--text-primary);
   padding: 40px;
   text-align: center;
 }

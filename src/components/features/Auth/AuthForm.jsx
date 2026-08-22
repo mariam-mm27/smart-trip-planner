@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
+import { useLanguage } from '../../../context/LanguageContext';
 import { supabase } from '../../../services/supabaseClient';
 import { FiCompass, FiMail, FiLock, FiEye, FiEyeOff, FiUser } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
@@ -9,6 +10,7 @@ import '../../../styles/AuthForm.css';
 export const AuthForm = ({ initialTab = 'login' }) => {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
+  const { t } = useLanguage();
 
   const [activeTab, setActiveTab] = useState(initialTab);
   const [fullName, setFullName] = useState('');
@@ -34,26 +36,26 @@ export const AuthForm = ({ initialTab = 'login' }) => {
   }, [initialTab]);
 
   const formatErrorMessage = (err) => {
-    if (!err) return 'An unexpected error occurred. Please try again.';
+    if (!err) return t('unexpectedError');
     const msg = typeof err === 'string' ? err : err.message || '';
     if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('fetch')) {
-      return 'Network Error: Unable to connect to Supabase authentication server. Please verify your connection or environment variables.';
+      return t('networkError');
     }
     return msg;
   };
 
   const validateForm = () => {
     if (activeTab === 'register' && !fullName.trim()) {
-      setMessage({ type: 'error', text: 'Please enter your full name.' });
+      setMessage({ type: 'error', text: t('fullNameRequired') });
       return false;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setMessage({ type: 'error', text: 'Please enter a valid email address.' });
+      setMessage({ type: 'error', text: t('invalidEmail') });
       return false;
     }
     if (password.length < 6) {
-      setMessage({ type: 'error', text: 'Password must be at least 6 characters.' });
+      setMessage({ type: 'error', text: t('passwordMinLength') });
       return false;
     }
     setMessage({ type: '', text: '' });
@@ -71,7 +73,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
         if (error) {
           setMessage({ type: 'error', text: formatErrorMessage(error) });
         } else {
-          setMessage({ type: 'success', text: 'Logged in successfully! Redirecting...' });
+          setMessage({ type: 'success', text: t('loggedInSuccessfully') });
           setTimeout(() => {
             navigate('/explore', { replace: true });
           }, 800);
@@ -89,7 +91,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
         } else {
           setMessage({
             type: 'success',
-            text: 'Account created successfully! Redirecting...',
+            text: t('accountCreatedSuccessfully'),
           });
           setTimeout(() => {
             navigate('/explore', { replace: true });
@@ -105,7 +107,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
 
   const handleForgotPassword = async () => {
     if (!email) {
-      setMessage({ type: 'error', text: 'Please enter your email address first.' });
+      setMessage({ type: 'error', text: t('pleaseEnterEmail') });
       return;
     }
     setLoading(true);
@@ -116,7 +118,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
       if (error) {
         setMessage({ type: 'error', text: formatErrorMessage(error) });
       } else {
-        setMessage({ type: 'success', text: 'Password reset link sent to your email!' });
+        setMessage({ type: 'success', text: t('passwordResetLink') });
       }
     } catch (err) {
       setMessage({ type: 'error', text: formatErrorMessage(err) });
@@ -144,12 +146,12 @@ export const AuthForm = ({ initialTab = 'login' }) => {
         </div>
 
         <h2 className="auth-title">
-          {activeTab === 'login' ? 'Welcome Back' : 'Create Account'}
+          {activeTab === 'login' ? t('welcome') : t('createAccount')}
         </h2>
         <p className="auth-subtitle">
           {activeTab === 'login'
-            ? 'Log in to continue your journey'
-            : 'Sign up to start planning your trips'}
+            ? t('loginSubtitle')
+            : t('registerSubtitle')}
         </p>
 
         {/* Tabs */}
@@ -162,7 +164,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
               setMessage({ type: '', text: '' });
             }}
           >
-            Login
+            {t('login')}
           </button>
           <button
             type="button"
@@ -172,7 +174,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
               setMessage({ type: '', text: '' });
             }}
           >
-            Register
+            {t('register')}
           </button>
         </div>
 
@@ -186,13 +188,13 @@ export const AuthForm = ({ initialTab = 'login' }) => {
           {/* Full Name Field (Register Only) */}
           {activeTab === 'register' && (
             <div>
-              <label className="input-label">Full Name</label>
+              <label className="input-label">{t('fullName')}</label>
               <div className="custom-input-group">
                 <FiUser className="input-icon" />
                 <input
                   type="text"
                   className="custom-input"
-                  placeholder="Enter your name"
+                  placeholder={t('enterName')}
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                 />
@@ -202,13 +204,13 @@ export const AuthForm = ({ initialTab = 'login' }) => {
 
           {/* Email Field */}
           <div>
-            <label className="input-label">Email Address</label>
+            <label className="input-label">{t('emailAddress')}</label>
             <div className="custom-input-group">
               <FiMail className="input-icon" />
               <input
                 type="email"
                 className="custom-input"
-                placeholder="Enter your email"
+                placeholder={t('enterEmail')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -218,14 +220,14 @@ export const AuthForm = ({ initialTab = 'login' }) => {
           {/* Password Field */}
           <div>
             <div className="password-label-row">
-              <label className="input-label">Password</label>
+              <label className="input-label">{t('password')}</label>
               {activeTab === 'login' && (
                 <button
                   type="button"
                   onClick={handleForgotPassword}
                   className="forgot-btn"
                 >
-                  Forgot Password?
+                  {t('forgotPassword')}
                 </button>
               )}
             </div>
@@ -234,7 +236,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
               <input
                 type={showPassword ? 'text' : 'password'}
                 className="custom-input"
-                placeholder="Enter your password"
+                placeholder={t('enterPassword')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -250,20 +252,20 @@ export const AuthForm = ({ initialTab = 'login' }) => {
 
           <button type="submit" className="btn-submit" disabled={loading}>
             {loading
-              ? 'Processing...'
+              ? t('processing')
               : activeTab === 'login'
-              ? 'Access Planner'
-              : 'Register Now'}
+              ? t('accessPlanner')
+              : t('registerNow')}
           </button>
         </form>
 
         <div className="divider">
-          <span>Or continue with</span>
+          <span>{t('orContinueWith')}</span>
         </div>
 
         <button type="button" className="btn-google" onClick={handleGoogleLogin}>
           <FcGoogle size={20} />
-          Google
+          {t('google')}
         </button>
       </div>
     </div>
