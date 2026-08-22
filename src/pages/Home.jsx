@@ -5,14 +5,14 @@ import styles from '../styles/Home.module.css';
 import clsx from 'clsx';
 import Destinations from '../components/common/Destinations'
 
-const categories = ['All', 'Beaches', 'Historical', 'Hiking', 'Food'];
+const categories = ['Beaches', 'Historical', 'Hiking', 'Food'];
 
 export default function Home() {
   const navigate = useNavigate();
   const [destinations, setDestinations] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState('All');
   const [loading, setLoading] = useState(true);
+  const [selectedCategories,setSelectedCategories]= useState([])
 
   useEffect(() => {
     const fetchDestinations = async () => {
@@ -40,9 +40,9 @@ export default function Home() {
         place.description?.toLowerCase().includes(query)
 
       const matchedCategory=
-      activeFilter.toLowerCase() === "all"||
-      place.category?.toLowerCase().trim()
-       return matchedCategory & matchedSearch
+      place.category?.toLowerCase().trim() === activeFilter.toLowerCase().trim();
+      
+       return matchedCategory && matchedSearch
       })     
     },[destinations,activeFilter,searchQuery])
 
@@ -116,7 +116,7 @@ export default function Home() {
           <p className="text-secondary text-center py-4">Loading destinations...</p>
         ) :  filteredDestinations.length === 0 ? (
           <div className='text-center py-5'>
-            <p classname='text-secondary mb-2'>No destinations</p>
+            <p className='text-secondary mb-2'>No destinations</p>
             <button
               className="btn btn-sm btn-outline-info rounded-pill px-3"
               onClick={() => {

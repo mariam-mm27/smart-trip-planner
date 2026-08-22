@@ -4,7 +4,7 @@ export default function Destinations({ id, title, description, price, rating, im
   const navigate = useNavigate();
 
   const handleViewDetails = () => {
-    navigate(`./details/:${id}`
+    navigate(`/details/${id}`
     ,{state:{itemData:{id,title,description,price,rating,imageUrl}}});
   };
   return (

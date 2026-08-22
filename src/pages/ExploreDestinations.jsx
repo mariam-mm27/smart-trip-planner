@@ -41,8 +41,9 @@ const navigate = useNavigate();
 
       const matchedCategory=
       activeFilter.toLowerCase() === "all"||
-      place.category?.toLowerCase().trim()
-       return matchedCategory & matchedSearch
+      place.category?.toLowerCase().trim() === activeFilter.toLowerCase().trim();      
+
+      return matchedCategory & matchedSearch
       })     
     },[destinations,activeFilter,searchQuery])
 
@@ -92,17 +93,17 @@ const navigate = useNavigate();
         {filteredDestinations.map((place)=>
         (
             <Destinations
-             key={place.id}
+            key={place.id}
             id={place.id}
             title={place.title}
             description={place.description}
             price={place.price}
             rating={place.rating}
-            imageUrl={place.imageUrl}
+            imageUrl={place.image_url}
              />
         ))}
-            </div>)
-            }
+            </div>
+            )}
         </section>
     </div>
   )
