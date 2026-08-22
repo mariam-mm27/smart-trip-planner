@@ -24,6 +24,8 @@ import TripCreation from "./pages/TripCreation/TripCreation";
 import MyTrips from "./pages/MyTrips/MyTrips";
 import EditTrip from "./pages/EditTrip/EditTrip";
 import Profile from "./pages/Profile/Profile";
+import About from "./pages/About/About";
+import Contact from "./pages/Contact/Contact";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
@@ -38,6 +40,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<ExploreDestinations />} />
           <Route path="/details/:id" element={<DestinationDetails />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route
             path="/places"
             element={

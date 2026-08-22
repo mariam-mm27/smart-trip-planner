@@ -5,7 +5,8 @@ export const translations = {
     accountCreatedSuccessfully: "Account created successfully! Redirecting...",
     accountSettings: "Account Settings",
     aiPlanner: "AI Planner",
-    aiPlannerDesc: "Intelligent algorithms craft routes optimized for time, weather, and crowds.",
+    aiPlannerDesc:
+      "Intelligent algorithms craft routes optimized for time, weather, and crowds.",
     all: "All",
     appName: "Smart Trip Planner",
     beaches: "Beaches",
@@ -13,7 +14,8 @@ export const translations = {
     budgetPositive: "Budget must be greater than 0.",
     budgetRequired: "Budget is required.",
     budgeting: "Budgeting",
-    budgetingDesc: "Real-time expense tracking with predictive cost modeling for your journey.",
+    budgetingDesc:
+      "Real-time expense tracking with predictive cost modeling for your journey.",
     buildingItinerary: "Building Itinerary...",
     changePhotoBtn: "Change",
     clearFilters: "Clear Filters",
@@ -50,7 +52,8 @@ export const translations = {
     fullName: "Full Name",
     fullNameRequired: "Please enter your full name.",
     google: "Google",
-    heroSubtitle: "Leverage AI-driven insights to craft the perfect itinerary. Optimize routes, manage budgets, and explore the unknown with precision.",
+    heroSubtitle:
+      "Leverage AI-driven insights to craft the perfect itinerary. Optimize routes, manage budgets, and explore the unknown with precision.",
     heroTitle: "Plan Your Next Adventure",
     heroTitleHighlight: "Smartly",
     hiking: "Hiking",
@@ -71,7 +74,8 @@ export const translations = {
     noTripsDescription: "You haven",
     noTripsYet: "No trips yet",
     offlineAccess: "Offline Access",
-    offlineAccessDesc: "Access your itineraries and saved places anytime, anywhere without internet.",
+    offlineAccessDesc:
+      "Access your itineraries and saved places anytime, anywhere without internet.",
     orContinueWith: "Or continue with",
     password: "Password",
     passwordMinLength: "Password must be at least 6 characters.",
@@ -113,7 +117,89 @@ export const translations = {
     welcomeBack: "Welcome Back",
     whereAreYouGoing: "Where are you going?",
     whereTo: "Where to?",
-    yourTrips: "Your Trips"
+    about: "About Smart Trip Planner",
+    aboutSubtitle:
+      "Smart Trip Planner is a travel planning platform designed to help users discover destinations, create personalized trips, and organize their travel plans in one convenient place.",
+    ourPurpose: "OUR PURPOSE",
+    travelPlanningMadeSimple: "Travel planning, made simpler.",
+    aboutPurposeDescription:
+      "From discovering new places to organizing your itinerary, Smart Trip Planner brings the essential parts of trip planning together. Users can explore destinations, save favorite places, create trips, and manage their plans through a personalized experience.",
+
+    discover: "Discover",
+    discoverDescription:
+      "Explore destinations and find places that match your interests.",
+    organize: "Organize",
+    organizeDescription:
+      "Build and manage your trips with organized dates and itineraries.",
+    plan: "Plan",
+    planDescription:
+      "Keep important trip details such as destinations and budgets together.",
+
+    keyFeatures: "KEY FEATURES",
+    everythingYouNeed: "Everything you need to plan your trip.",
+    featuresDescription:
+      "Smart Trip Planner provides tools that make discovering and managing your travel plans easier.",
+
+    smartTripPlanning: "Smart Trip Planning",
+    smartTripPlanningDesc:
+      "Create personalized trips and organize your travel plans in one place.",
+    exploreDestinations: "Explore Destinations",
+    exploreDestinationsDesc:
+      "Discover destinations and explore places based on different categories.",
+    dailyItinerary: "Daily Itinerary",
+    dailyItineraryDesc:
+      "Organize your selected places into a clear daily itinerary for your trip.",
+    favoritesFeature: "Favorites",
+    favoritesFeatureDesc:
+      "Save places you like so you can easily find them again when planning your trips.",
+    personalProfile: "Personal Profile",
+    personalProfileDesc:
+      "Manage your profile information and keep your travel experience personalized.",
+    secureAccess: "Secure Access",
+    secureAccessDesc:
+      "Protected routes and authentication keep your personal trip data accessible to you.",
+
+    readyToPlan: "Ready to plan your next adventure?",
+    aboutCtaDescription:
+      "Discover new destinations and start organizing your next trip with Smart Trip Planner.",
+    startPlanning: "Start Planning",
+
+    startYourJourney: "START YOUR JOURNEY",
+    planYourTripSmartly: "Plan your next trip smartly.",
+    smartTripDescription:
+      "Discover destinations, save your favorite places, and create personalized travel plans with Smart Trip Planner.",
+    getStarted: "Get Started",
+    readyForAdventure: "Ready for your next adventure?",
+    manageYourTrips:
+      "Create a new trip or continue managing your existing travel plans.",
+    createNewTrip: "Create New Trip",
+
+    getInTouch: "GET IN TOUCH",
+    contactTitle: "Contact Smart Trip Planner",
+    contactSubtitle:
+      "Have a question, suggestion, or feedback? Send us a message and we'll be happy to hear from you.",
+    letsTalk: "Let's talk",
+    contactDescription:
+      "Whether you need help with your trip planning experience or want to share your feedback, we're here to help.",
+    email: "Email",
+    responseTime: "Response Time",
+    within24Hours: "Usually within 24 hours",
+    sendUsMessage: "Send us a message",
+    messageSent: "Your message has been sent successfully!",
+    name: "Name",
+    subject: "Subject",
+    message: "Message",
+    messageSubjectPlaceholder: "What is your message about?",
+    messagePlaceholder: "Write your message here...",
+    sendMessage: "Send Message",
+    nameRequired: "Name is required.",
+    subjectRequired: "Subject is required.",
+    messageRequired: "Message is required.",
+    messageMinLength: "Message must be at least 10 characters.",
+    yourTrips: "Your Trips",
+    emailRequired: "Email is required.",
+    aboutHeroTitle: "Plan Your Journey",
+    aboutHeroHighlight: "Smartly",
   },
   ar: {
     T: "[AR: T]",
@@ -121,7 +207,8 @@ export const translations = {
     accountCreatedSuccessfully: "تم إنشاء الحساب بنجاح! إعادة التوجيه...",
     accountSettings: "إعدادات الحساب",
     aiPlanner: "مخطط الذكاء الاصطناعي",
-    aiPlannerDesc: "خوارزميات ذكية تخطط لمساراتك المحسنة حسب الوقت والطقس والازدحام.",
+    aiPlannerDesc:
+      "خوارزميات ذكية تخطط لمساراتك المحسنة حسب الوقت والطقس والازدحام.",
     all: "الكل",
     appName: "مخطط الرحلات الذكي",
     beaches: "شواطئ",
@@ -129,7 +216,8 @@ export const translations = {
     budgetPositive: "يجب أن تكون الميزانية أكبر من 0.",
     budgetRequired: "الميزانية مطلوبة.",
     budgeting: "إدارة الميزانية",
-    budgetingDesc: "تتبع النفقات في الوقت الفعلي مع تقديم نماذج التكلفة التقديرية لرحلتك.",
+    budgetingDesc:
+      "تتبع النفقات في الوقت الفعلي مع تقديم نماذج التكلفة التقديرية لرحلتك.",
     buildingItinerary: "جاري بناء البرنامج...",
     changePhotoBtn: "تغيير",
     clearFilters: "إعادة ضبط التصفية",
@@ -166,7 +254,8 @@ export const translations = {
     fullName: "الاسم الكامل",
     fullNameRequired: "يرجى إدخال اسمك الكامل.",
     google: "Google",
-    heroSubtitle: "استفد من التوصيات الذكية لإنشاء جدول رحلتك المثالي وتحسين الطرق وإدارة الميزانيات بدقة.",
+    heroSubtitle:
+      "استفد من التوصيات الذكية لإنشاء جدول رحلتك المثالي وتحسين الطرق وإدارة الميزانيات بدقة.",
     heroTitle: "خطط لرحلتك القادمة",
     heroTitleHighlight: "بذكاء",
     hiking: "مغامرات",
@@ -187,11 +276,13 @@ export const translations = {
     noTripsDescription: "لم تقم بإنشاء أي رحلات بعد.",
     noTripsYet: "لا توجد رحلات حتى الآن",
     offlineAccess: "وصول دون اتصال",
-    offlineAccessDesc: "الوصول إلى خطط رحلاتك والأماكن المحفوظة في أي وقت ومن أي مكان.",
+    offlineAccessDesc:
+      "الوصول إلى خطط رحلاتك والأماكن المحفوظة في أي وقت ومن أي مكان.",
     orContinueWith: "أو المتابعة باستخدام",
     password: "كلمة السر",
     passwordMinLength: "يجب أن تكون كلمة المرور 6 أحرف على الأقل.",
-    passwordResetLink: "تم إرسال رابط إعادة ضبط كلمة المرور إلى بريدك الإلكتروني!",
+    passwordResetLink:
+      "تم إرسال رابط إعادة ضبط كلمة المرور إلى بريدك الإلكتروني!",
     perDay: "يومياً",
     planRoute: "تخطيط المسار",
     pleaseEnterEmail: "يرجى إدخال بريدك الإلكتروني أولاً.",
@@ -229,10 +320,89 @@ export const translations = {
     welcomeBack: "مرحباً بعودتك",
     whereAreYouGoing: "إلى أين أنت ذاهب؟",
     whereTo: "إلى أين؟",
-    yourTrips: "رحلاتك"
-  }
+    yourTrips: "رحلاتك",
+    about: "عن مخطط الرحلات الذكي",
+    aboutSubtitle:
+      "مخطط الرحلات الذكي هو منصة لتخطيط السفر تساعد المستخدمين على اكتشاف الوجهات وإنشاء رحلات مخصصة وتنظيم خطط سفرهم في مكان واحد.",
+
+    ourPurpose: "هدفنا",
+    travelPlanningMadeSimple: "تخطيط السفر، أصبح أسهل.",
+    aboutPurposeDescription:
+      "من اكتشاف أماكن جديدة إلى تنظيم جدول الرحلة، يجمع مخطط الرحلات الذكي أهم عناصر تخطيط السفر في مكان واحد. يمكنك استكشاف الوجهات وحفظ الأماكن المفضلة وإنشاء الرحلات وإدارة خططك بطريقة مخصصة.",
+
+    discover: "اكتشف",
+    discoverDescription:
+      "استكشف الوجهات واعثر على الأماكن التي تناسب اهتماماتك.",
+    organize: "نظّم",
+    organizeDescription:
+      "أنشئ رحلاتك وأدرها باستخدام التواريخ والجداول المنظمة.",
+    plan: "خطط",
+    planDescription:
+      "احتفظ بتفاصيل رحلتك المهمة مثل الوجهات والميزانيات في مكان واحد.",
+
+    keyFeatures: "المميزات الأساسية",
+    everythingYouNeed: "كل ما تحتاجه لتخطيط رحلتك.",
+    featuresDescription:
+      "يوفر مخطط الرحلات الذكي أدوات تجعل اكتشاف وإدارة خطط سفرك أسهل.",
+
+    smartTripPlanning: "تخطيط الرحلات الذكي",
+    smartTripPlanningDesc: "أنشئ رحلات مخصصة ونظم خطط سفرك في مكان واحد.",
+    exploreDestinations: "استكشاف الوجهات",
+    exploreDestinationsDesc:
+      "اكتشف الوجهات واستكشف الأماكن حسب الفئات المختلفة.",
+    dailyItinerary: "الجدول اليومي",
+    dailyItineraryDesc: "نظم الأماكن التي اخترتها في جدول يومي واضح لرحلتك.",
+    favoritesFeature: "المفضلة",
+    favoritesFeatureDesc:
+      "احفظ الأماكن التي تعجبك لتجدها بسهولة مرة أخرى عند تخطيط رحلاتك.",
+    personalProfile: "الملف الشخصي",
+    personalProfileDesc: "أدر معلومات ملفك الشخصي وحافظ على تجربة سفر مخصصة.",
+    secureAccess: "الوصول الآمن",
+    secureAccessDesc:
+      "تحافظ المسارات المحمية ونظام المصادقة على بيانات رحلاتك الشخصية.",
+
+    readyToPlan: "مستعد لتخطيط مغامرتك القادمة؟",
+    aboutCtaDescription:
+      "اكتشف وجهات جديدة وابدأ في تنظيم رحلتك القادمة باستخدام مخطط الرحلات الذكي.",
+    startPlanning: "ابدأ التخطيط",
+
+    startYourJourney: "ابدأ رحلتك",
+    planYourTripSmartly: "خطط لرحلتك القادمة بذكاء.",
+    smartTripDescription:
+      "اكتشف الوجهات واحفظ أماكنك المفضلة وأنشئ خطط سفر مخصصة باستخدام مخطط الرحلات الذكي.",
+    getStarted: "ابدأ الآن",
+    readyForAdventure: "مستعد لمغامرتك القادمة؟",
+    manageYourTrips: "أنشئ رحلة جديدة أو تابع إدارة خطط سفرك الحالية.",
+    createNewTrip: "إنشاء رحلة جديدة",
+
+    getInTouch: "تواصل معنا",
+    contactTitle: "تواصل مع مخطط الرحلات الذكي",
+    contactSubtitle:
+      "هل لديك سؤال أو اقتراح أو ملاحظات؟ أرسل لنا رسالة وسنسعد بسماعك.",
+    letsTalk: "لنتحدث",
+    contactDescription:
+      "سواء كنت تحتاج إلى مساعدة في تجربة تخطيط رحلتك أو تريد مشاركة ملاحظاتك، نحن هنا لمساعدتك.",
+    email: "البريد الإلكتروني",
+    responseTime: "وقت الاستجابة",
+    within24Hours: "عادةً خلال 24 ساعة",
+    sendUsMessage: "أرسل لنا رسالة",
+    messageSent: "تم إرسال رسالتك بنجاح!",
+    name: "الاسم",
+    subject: "الموضوع",
+    message: "الرسالة",
+    messageSubjectPlaceholder: "ما موضوع رسالتك؟",
+    messagePlaceholder: "اكتب رسالتك هنا...",
+    sendMessage: "إرسال الرسالة",
+    nameRequired: "الاسم مطلوب.",
+    subjectRequired: "الموضوع مطلوب.",
+    messageRequired: "الرسالة مطلوبة.",
+    messageMinLength: "يجب أن تحتوي الرسالة على 10 أحرف على الأقل.",
+    emailRequired: "البريد الإلكتروني مطلوب.",
+    aboutHeroTitle: "خطط لرحلتك",
+    aboutHeroHighlight: "بذكاء",
+  },
 };
 
-export const t = (key, lang = 'en') => {
+export const t = (key, lang = "en") => {
   return translations[lang]?.[key] || key;
 };
