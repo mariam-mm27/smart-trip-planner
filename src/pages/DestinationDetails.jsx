@@ -65,7 +65,6 @@ export default function DestinationDetails() {
           <span className={styles.rating}>{place.rating}</span>
         </div>
         <h1 className={styles.title}>{place.title}</h1>
-        <p className={styles.location}></p>
         <h2 className={styles.about}>About</h2>
         <p className={styles.description}>{place.description}</p>
       </div>
@@ -88,7 +87,6 @@ export default function DestinationDetails() {
         <p className={styles.pricingText}>
           Starting from <span>{place.price}</span> <span>CR/night</span>
          </p>
-        <button className={styles.pricingBookBtn}>Book Now!</button>
         <button className={styles.pricingAddBtn}>Add to My Trip</button>
       </div>
     </div>

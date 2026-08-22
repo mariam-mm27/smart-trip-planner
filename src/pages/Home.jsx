@@ -12,7 +12,7 @@ export default function Home() {
   const [destinations, setDestinations] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-  const [selectedCategories,setSelectedCategories]= useState([])
+  const [activeFilter,setActiveFilter]= useState('Beaches')
 
   useEffect(() => {
     const fetchDestinations = async () => {
