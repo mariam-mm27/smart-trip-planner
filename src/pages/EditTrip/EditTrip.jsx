@@ -1,10 +1,22 @@
 import { useEffect, useState } from "react";
 import { Container, Form, Button, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { getTripById, updateTrip } from "../../services/tripService";
+import { useLanguage } from "../../context/LanguageContext";
+
+import {
+  getTripWithItinerary,
+  updateTrip,
+  updateTripItemDay,
+  deleteTripItem,
+} from "../../services/tripService";
+
+import ItineraryPreview from "../../components/features/TripCreation/ItineraryPreview/ItineraryPreview";
+
 import styles from "./EditTrip.module.css";
 
 export default function EditTrip() {
+  const { t } = useLanguage();
+
   const { tripId } = useParams();
   const navigate = useNavigate();
 
@@ -16,8 +28,11 @@ export default function EditTrip() {
     budget: "",
   });
 
+  const [itinerary, setItinerary] = useState([]);
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -27,25 +42,28 @@ export default function EditTrip() {
         setIsLoading(true);
         setError("");
 
-        const trip = await getTripById(tripId);
+        const result = await getTripWithItinerary(tripId);
 
         setTripData({
-          title: trip.title || "",
-          destination: trip.destination || "",
-          startDate: trip.start_date || "",
-          endDate: trip.end_date || "",
-          budget: trip.budget || "",
+          title: result.trip.title || "",
+          destination: result.trip.destination || "",
+          startDate: result.trip.start_date || "",
+          endDate: result.trip.end_date || "",
+          budget: result.trip.budget || "",
         });
+
+        setItinerary(result.itinerary || []);
       } catch (error) {
         console.error("Failed to load trip:", error);
-        setError("Failed to load this trip.");
+
+        setError(error.message || t("failedLoadTrip"));
       } finally {
         setIsLoading(false);
       }
     }
 
     loadTrip();
-  }, [tripId]);
+  }, [tripId, t]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -54,6 +72,9 @@ export default function EditTrip() {
       ...prev,
       [name]: value,
     }));
+
+    setError("");
+    setSuccess("");
   }
 
   async function handleSubmit(event) {
@@ -66,16 +87,116 @@ export default function EditTrip() {
 
       await updateTrip(tripId, tripData);
 
-      setSuccess("Trip updated successfully!");
-
-      setTimeout(() => {
-        navigate("/my-trips");
-      }, 1000);
+      setSuccess(t("tripUpdatedSuccessfully"));
     } catch (error) {
       console.error("Failed to update trip:", error);
-      setError(error.message || "Failed to update trip.");
+
+      setError(error.message || t("unexpectedError"));
     } finally {
       setIsSaving(false);
+    }
+  }
+
+  async function handleRemovePlace(placeId, dayNumber) {
+    try {
+      setError("");
+      setSuccess("");
+
+      const sourceDay = itinerary.find((day) => day.day === Number(dayNumber));
+
+      const place = sourceDay?.places.find((item) => item.id === placeId);
+
+      if (!place) {
+        throw new Error(t("placeNotFound"));
+      }
+
+      if (!place.tripItemId) {
+        throw new Error(t("tripItemNotFound"));
+      }
+
+      await deleteTripItem(place.tripItemId, tripId);
+
+      setItinerary((currentItinerary) =>
+        currentItinerary.map((day) => {
+          if (day.day !== Number(dayNumber)) {
+            return day;
+          }
+
+          return {
+            ...day,
+            places: day.places.filter((item) => item.id !== placeId),
+          };
+        }),
+      );
+
+      setSuccess(t("placeRemovedSuccessfully"));
+    } catch (error) {
+      console.error("Failed to remove place:", error);
+
+      setError(error.message || t("failedRemovePlace"));
+    }
+  }
+
+  async function handleMovePlace(placeId, fromDay, toDay) {
+    try {
+      setError("");
+      setSuccess("");
+
+      const sourceDayNumber = Number(fromDay);
+
+      const targetDayNumber = Number(toDay);
+
+      if (sourceDayNumber === targetDayNumber) {
+        return;
+      }
+
+      const sourceDay = itinerary.find((day) => day.day === sourceDayNumber);
+
+      if (!sourceDay) {
+        throw new Error(t("sourceDayNotFound"));
+      }
+
+      const place = sourceDay.places.find((item) => item.id === placeId);
+
+      if (!place) {
+        throw new Error(t("placeNotFound"));
+      }
+
+      if (!place.tripItemId) {
+        throw new Error(t("tripItemNotFound"));
+      }
+
+      // Update Supabase first.
+      await updateTripItemDay(place.tripItemId, tripId, targetDayNumber);
+
+      // Update the UI after the database succeeds.
+      setItinerary((currentItinerary) =>
+        currentItinerary.map((day) => {
+          // Remove from old day.
+          if (day.day === sourceDayNumber) {
+            return {
+              ...day,
+              places: day.places.filter((item) => item.id !== placeId),
+            };
+          }
+
+          // Add to new day.
+          if (day.day === targetDayNumber) {
+            return {
+              ...day,
+              places: [...day.places, place],
+            };
+          }
+
+          return day;
+        }),
+      );
+
+      setSuccess(t("placeMovedSuccessfully"));
+    } catch (error) {
+      console.error("Failed to move place:", error);
+
+      setError(error.message || t("failedMovePlace"));
     }
   }
 
@@ -84,7 +205,7 @@ export default function EditTrip() {
       <main className={styles.page}>
         <Container className={styles.center}>
           <Spinner animation="border" />
-          <p>Loading trip...</p>
+          <p>{t("loadingTrip")}</p>
         </Container>
       </main>
     );
@@ -93,11 +214,11 @@ export default function EditTrip() {
   if (error && !tripData.title) {
     return (
       <main className={styles.page}>
-        <Container>
+        <Container className={styles.center}>
           <p className={styles.error}>{error}</p>
 
           <Button onClick={() => navigate("/my-trips")}>
-            Back to My Trips
+            {t("backToMyTrips")}
           </Button>
         </Container>
       </main>
@@ -107,24 +228,23 @@ export default function EditTrip() {
   return (
     <main className={styles.page}>
       <Container>
+        {/* Header */}
         <div className={styles.header}>
-          <span className={styles.eyebrow}>EDIT TRIP</span>
+          <span className={styles.eyebrow}>{t("editTrip")}</span>
 
-          <h1 className={styles.title}>
-            Update Your <span>Trip</span>
-          </h1>
+          <h1 className={styles.title}>{t("updateYourTrip")}</h1>
 
-          <p className={styles.subtitle}>
-            Update your trip details and save your changes.
-          </p>
+          <p className={styles.subtitle}>{t("updateYourTrip")}</p>
         </div>
 
+        {/* Trip Information */}
         <div className={styles.card}>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-4">
-              <Form.Label>Trip Title</Form.Label>
+              <Form.Label>{t("tripTitle")}</Form.Label>
 
               <Form.Control
+                className={styles.input}
                 type="text"
                 name="title"
                 value={tripData.title}
@@ -134,9 +254,10 @@ export default function EditTrip() {
             </Form.Group>
 
             <Form.Group className="mb-4">
-              <Form.Label>Destination</Form.Label>
+              <Form.Label>{t("destination")}</Form.Label>
 
               <Form.Control
+                className={styles.input}
                 type="text"
                 name="destination"
                 value={tripData.destination}
@@ -146,9 +267,10 @@ export default function EditTrip() {
             </Form.Group>
 
             <Form.Group className="mb-4">
-              <Form.Label>Start Date</Form.Label>
+              <Form.Label>{t("startDate")}</Form.Label>
 
               <Form.Control
+                className={styles.input}
                 type="date"
                 name="startDate"
                 value={tripData.startDate}
@@ -158,9 +280,10 @@ export default function EditTrip() {
             </Form.Group>
 
             <Form.Group className="mb-4">
-              <Form.Label>End Date</Form.Label>
+              <Form.Label>{t("endDate")}</Form.Label>
 
               <Form.Control
+                className={styles.input}
                 type="date"
                 name="endDate"
                 value={tripData.endDate}
@@ -170,9 +293,10 @@ export default function EditTrip() {
             </Form.Group>
 
             <Form.Group className="mb-4">
-              <Form.Label>Budget</Form.Label>
+              <Form.Label>{t("budget")}</Form.Label>
 
               <Form.Control
+                className={styles.input}
                 type="number"
                 name="budget"
                 min="1"
@@ -189,11 +313,11 @@ export default function EditTrip() {
                 onClick={() => navigate("/my-trips")}
                 disabled={isSaving}
               >
-                Cancel
+                {t("cancel")}
               </Button>
 
               <Button type="submit" disabled={isSaving}>
-                {isSaving ? "Saving..." : "Save Changes"}
+                {isSaving ? t("processing") : t("saveChanges")}
               </Button>
             </div>
 
@@ -202,6 +326,23 @@ export default function EditTrip() {
             {error && <p className={styles.error}>{error}</p>}
           </Form>
         </div>
+
+        {/* Itinerary Editing */}
+        <section className={styles.itinerarySection}>
+          <div className={styles.itineraryHeader}>
+            <span className={styles.eyebrow}>{t("tripPlan")}</span>
+
+            <h2 className={styles.itineraryTitle}>{t("editYourItinerary")}</h2>
+
+            <p className={styles.itinerarySubtitle}>{t("editYourItinerary")}</p>
+          </div>
+
+          <ItineraryPreview
+            itinerary={itinerary}
+            onRemovePlace={handleRemovePlace}
+            onMovePlace={handleMovePlace}
+          />
+        </section>
       </Container>
     </main>
   );
