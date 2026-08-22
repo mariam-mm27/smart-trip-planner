@@ -12,7 +12,7 @@ import {
 import { getPlaces } from "../../../services/placeService";
 import ItineraryPreview from "./ItineraryPreview/ItineraryPreview";
 import { createTrip, createTripItems } from "../../../services/tripService";
-
+import { useNavigate } from "react-router-dom";
 import styles from "./TripForm.module.css";
 
 const CREATE_TRIP_DRAFT_KEY = "smartTripPlanner_createTripDraft";
@@ -29,6 +29,7 @@ function getCreateTripDraft() {
 }
 
 export default function TripForm() {
+  const navigate = useNavigate();
   const { t } = useLanguage();
   // Restore the current create-trip draft when returning from a details page.
   const savedDraft = getCreateTripDraft();
@@ -258,6 +259,9 @@ export default function TripForm() {
 
       // The trip is now saved in Supabase, so the temporary draft is no longer needed.
       sessionStorage.removeItem(CREATE_TRIP_DRAFT_KEY);
+
+      // Open the newly saved trip directly in its View page.
+      navigate(`/view-trip/${trip.id}`);
     } catch (error) {
       console.error("Failed to save trip:", error);
 
