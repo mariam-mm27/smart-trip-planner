@@ -11,84 +11,70 @@ import {
 } from "react-icons/fi";
 import styles from "./About.module.css";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "../../context/LanguageContext";
 
 const features = [
   {
     icon: <FiCompass />,
-    title: "Smart Trip Planning",
-    description:
-      "Create personalized trips and organize your travel plans in one place.",
+    title: "smartTripPlanning",
+    description: "smartTripPlanningDesc",
   },
   {
     icon: <FiMap />,
-    title: "Explore Destinations",
-    description:
-      "Discover destinations and explore places based on different categories.",
+    title: "exploreDestinations",
+    description: "exploreDestinationsDesc",
   },
   {
     icon: <FiCalendar />,
-    title: "Daily Itinerary",
-    description:
-      "Organize your selected places into a clear daily itinerary for your trip.",
+    title: "dailyItinerary",
+    description: "dailyItineraryDesc",
   },
   {
     icon: <FiHeart />,
-    title: "Favorites",
-    description:
-      "Save places you like so you can easily find them again when planning your trips.",
+    title: "favoritesFeature",
+    description: "favoritesFeatureDesc",
   },
   {
     icon: <FiUser />,
-    title: "Personal Profile",
-    description:
-      "Manage your profile information and keep your travel experience personalized.",
+    title: "personalProfile",
+    description: "personalProfileDesc",
   },
   {
     icon: <FiShield />,
-    title: "Secure Access",
-    description:
-      "Protected routes and authentication keep your personal trip data accessible to you.",
+    title: "secureAccess",
+    description: "secureAccessDesc",
   },
 ];
 
 export default function About() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
   return (
     <main className={styles.page}>
       {/* Hero / Overview */}
       <section className={styles.hero}>
-        <span className={styles.eyebrow}>ABOUT SMART TRIP PLANNER</span>
+        <span className={styles.eyebrow}>{t("about")}</span>
 
         <div className={styles.heroIcon}>
           <FiCompass />
         </div>
 
         <h1 className={styles.title}>
-          Plan Your Journey <span>Smartly</span>
+          {t("aboutHeroTitle")} <span>{t("aboutHeroHighlight")}</span>
         </h1>
 
-        <p className={styles.subtitle}>
-          Smart Trip Planner is a travel planning platform designed to help
-          users discover destinations, create personalized trips, and organize
-          their travel plans in one convenient place.
-        </p>
+        <p className={styles.subtitle}>{t("aboutSubtitle")}</p>
       </section>
 
       {/* Project Overview */}
       <section className={styles.overview}>
         <div className={styles.sectionHeading}>
-          <span className={styles.sectionLabel}>OUR PURPOSE</span>
+          <span className={styles.sectionLabel}>{t("ourPurpose")}</span>
 
-          <h2>
-            Travel planning, <span>made simpler.</span>
-          </h2>
+          <h2>{t("travelPlanningMadeSimple")}</h2>
 
-          <p>
-            From discovering new places to organizing your itinerary, Smart Trip
-            Planner brings the essential parts of trip planning together. Users
-            can explore destinations, save favorite places, create trips, and
-            manage their plans through a personalized experience.
-          </p>
+          <p>{t("aboutPurposeDescription")}</p>
         </div>
 
         <div className={styles.overviewCards}>
@@ -96,10 +82,9 @@ export default function About() {
             <FiMapPin className={styles.cardIcon} />
 
             <div>
-              <h3>Discover</h3>
-              <p>
-                Explore destinations and find places that match your interests.
-              </p>
+              <h3>{t("discover")}</h3>
+
+              <p>{t("discoverDescription")}</p>
             </div>
           </div>
 
@@ -107,11 +92,9 @@ export default function About() {
             <FiCalendar className={styles.cardIcon} />
 
             <div>
-              <h3>Organize</h3>
-              <p>
-                Build and manage your trips with organized dates and
-                itineraries.
-              </p>
+              <h3>{t("organize")}</h3>
+
+              <p>{t("organizeDescription")}</p>
             </div>
           </div>
 
@@ -119,11 +102,9 @@ export default function About() {
             <FiDollarSign className={styles.cardIcon} />
 
             <div>
-              <h3>Plan</h3>
-              <p>
-                Keep important trip details such as destinations and budgets
-                together.
-              </p>
+              <h3>{t("plan")}</h3>
+
+              <p>{t("planDescription")}</p>
             </div>
           </div>
         </div>
@@ -132,16 +113,13 @@ export default function About() {
       {/* Features */}
       <section className={styles.features}>
         <div className={styles.sectionHeading}>
-          <span className={styles.sectionLabel}>KEY FEATURES</span>
+          <span className={styles.sectionLabel}>{t("keyFeatures")}</span>
 
           <h2>
-            Everything you need to <span>plan your trip.</span>
+            {t("everythingYouNeed")} <span>{t("planYourTrip")}</span>
           </h2>
 
-          <p>
-            Smart Trip Planner provides tools that make discovering and managing
-            your travel plans easier.
-          </p>
+          <p>{t("featuresDescription")}</p>
         </div>
 
         <div className={styles.featureGrid}>
@@ -149,9 +127,9 @@ export default function About() {
             <article key={feature.title} className={styles.featureCard}>
               <div className={styles.featureIcon}>{feature.icon}</div>
 
-              <h3>{feature.title}</h3>
+              <h3>{t(feature.title)}</h3>
 
-              <p>{feature.description}</p>
+              <p>{t(feature.description)}</p>
             </article>
           ))}
         </div>
@@ -161,19 +139,16 @@ export default function About() {
       <section className={styles.cta}>
         <FiCompass className={styles.ctaIcon} />
 
-        <h2>Ready to plan your next adventure?</h2>
+        <h2>{t("readyToPlan")}</h2>
 
-        <p>
-          Discover new destinations and start organizing your next trip with
-          Smart Trip Planner.
-        </p>
+        <p>{t("aboutCtaDescription")}</p>
 
         <button
           type="button"
           className={styles.ctaButton}
           onClick={() => navigate("/create-trip")}
         >
-          Start Planning
+          {t("startPlanning")}
           <span>→</span>
         </button>
       </section>

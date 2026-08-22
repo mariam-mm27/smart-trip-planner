@@ -1,0 +1,64 @@
+.app-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent !important;
+  margin: 0;
+  padding: 0;
+}
+
+.toolbar-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  background: var(--glass-bg, rgba(255, 255, 255, 0.08)) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: 30px !important;
+  color: var(--text-primary, #ffffff) !important;
+  padding: 8px 14px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  text-decoration: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  transition: all 0.2s ease-in-out !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  min-height: 40px !important;
+}
+
+.toolbar-btn:hover {
+  background: rgba(0, 132, 255, 0.18) !important;
+  border-color: #0084ff !important;
+  color: #0084ff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.2) !important;
+}
+
+.toolbar-btn:focus,
+.toolbar-btn:focus-visible,
+.toolbar-btn:active {
+  outline: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+.toolbar-icon {
+  font-size: 1rem !important;
+  flex-shrink: 0 !important;
+  display: inline-block !important;
+}
+
+/* Language button specific styling */
+.toolbar-btn.language-btn span {
+  font-weight: 700;
+  letter-spacing: 0px;
+  display: inline-block;
+}

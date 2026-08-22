@@ -1,7 +1,7 @@
 .page {
   min-height: 100vh;
   background-color: var(--background-color);
-  color: #f8fafc;
+  color: var(--text-primary);
   padding: 60px 20px 100px;
   font-family: var(--font-main);
 }
@@ -45,6 +45,7 @@
 .title {
   margin: 0;
   background: transparent !important;
+  color: var(--text-primary);
   font-size: clamp(2rem, 4vw, 3.1rem);
   font-weight: 800;
   line-height: 1.15;
@@ -59,7 +60,7 @@
   max-width: 720px;
   margin: 20px auto 0;
   background: transparent !important;
-  color: #94a3b8;
+  color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1.8;
 }
@@ -83,7 +84,7 @@
 .sectionHeading h2 {
   margin: 0;
   background: transparent !important;
-  color: #f8fafc;
+  color: var(--text-primary);
   font-size: clamp(1.8rem, 4vw, 2.5rem);
   font-weight: 700;
 }
@@ -91,7 +92,7 @@
 .sectionHeading p {
   margin: 15px auto 0;
   background: transparent !important;
-  color: #94a3b8;
+  color: var(--text-secondary);
   line-height: 1.7;
 }
 
@@ -133,14 +134,14 @@
 .overviewCard h3 {
   margin: 0 0 8px;
   background: transparent !important;
-  color: #f8fafc;
+  color: var(--text-primary);
   font-size: 1.05rem;
 }
 
 .overviewCard p {
   margin: 0;
   background: transparent !important;
-  color: #94a3b8;
+  color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
 }
@@ -156,17 +157,20 @@
 
 .featureCard {
   padding: 28px 24px;
-  background-color: #111a2d;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: var(--neutral-color);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
+
   transition:
     transform 0.2s ease,
-    border-color 0.2s ease;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .featureCard:hover {
   transform: translateY(-4px);
   border-color: rgba(6, 182, 212, 0.45);
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.08);
 }
 
 .featureIcon {
@@ -174,7 +178,7 @@
   height: 48px;
   margin-bottom: 18px;
   border-radius: 12px;
-  background-color: rgba(6, 182, 212, 0.1);
+  background: rgba(6, 182, 212, 0.1);
   color: var(--primary-color);
   display: flex;
   align-items: center;
@@ -185,14 +189,14 @@
 .featureCard h3 {
   margin: 0 0 10px;
   background: transparent !important;
-  color: #f8fafc;
+  color: var(--text-primary);
   font-size: 1.05rem;
 }
 
 .featureCard p {
   margin: 0;
   background: transparent !important;
-  color: #94a3b8;
+  color: var(--text-secondary);
   font-size: 0.88rem;
   line-height: 1.65;
 }
@@ -220,7 +224,7 @@
   margin: 0 0 12px;
   padding: 0;
   background: transparent !important;
-  color: #f8fafc;
+  color: var(--text-primary);
   font-size: 1.7rem;
 }
 
@@ -229,7 +233,7 @@
   margin: 0 auto;
   padding: 0;
   background: transparent !important;
-  color: #94a3b8;
+  color: var(--text-secondary);
   line-height: 1.7;
 }
 
@@ -238,8 +242,8 @@
   padding: 10px 22px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #00d2ff 0%, #0072ff 100%);
-  color: #ffffff;
+  background: var(--primary-color);
+  color: #06111f;
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -249,17 +253,19 @@
   gap: 8px;
   transition:
     transform 0.2s ease,
-    opacity 0.2s ease;
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .ctaButton:hover {
   transform: translateY(-2px);
   opacity: 0.9;
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2);
 }
 
 .ctaButton span {
   background: transparent !important;
-  color: #ffffff;
+  color: #06111f;
   font-size: 1.1rem;
 }
 

@@ -10,6 +10,16 @@
   border: none !important;
   outline: none !important;
   overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  height: auto !important;
+}
+
+[dir="rtl"] .topRightHeader {
+  right: auto !important;
+  left: 24px !important;
+  flex-direction: row-reverse;
 }
 
 .topRightHeader *,
@@ -39,9 +49,9 @@
   justify-content: center !important;
   gap: 8px !important;
   text-decoration: none !important;
-  color: #f1f5f9 !important;
+  color: var(--text-primary, #f1f5f9) !important;
   background: transparent !important;
-  border: 1.5px solid rgba(0, 210, 255, 0.6) !important;
+  border: 1.5px solid rgba(0, 132, 255, 0.6) !important;
   padding: 6px 14px 8px 14px !important;
   border-radius: 30px !important;
   font-weight: 600 !important;
@@ -54,14 +64,14 @@
 }
 
 .profileAvatarBtn span {
-  color: #ffffff !important;
+  color: var(--text-primary, #ffffff) !important;
   line-height: 1.4 !important;
   display: inline-block !important;
 }
 
 .profileAvatarBtn:hover {
   background: transparent !important;
-  border-color: #00d2ff !important;
+  border-color: #0084ff !important;
 }
 
 .avatarImage {
@@ -69,14 +79,14 @@
   height: 28px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid #00d2ff !important;
+  border: 1.5px solid #0084ff !important;
   box-shadow: none !important;
   flex-shrink: 0;
 }
 
 .avatarPlaceholderIcon {
   font-size: 1.1rem;
-  color: #00d2ff;
+  color: #0084ff;
   flex-shrink: 0;
 }
 
@@ -87,10 +97,10 @@
 .loginBtn:visited {
   height: auto !important;
   min-height: 40px !important;
-  background: linear-gradient(135deg, #00d2ff 0%, #0072ff 100%) !important;
+  background: #0084ff !important;
   color: #ffffff !important;
   text-decoration: none !important;
-  padding: 8px 18px 10px 18px !important;
+  padding: 8px 18px !important;
   border-radius: 8px !important;
   font-weight: 600 !important;
   font-size: 0.9rem !important;
@@ -100,14 +110,16 @@
   justify-content: center !important;
   gap: 8px !important;
   border: none !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.25) !important;
   outline: none !important;
   overflow: visible !important;
-  transition: opacity 0.2s ease !important;
+  transition: all 0.25s ease !important;
 }
 
 .loginBtn:hover {
-  opacity: 0.9 !important;
+  background: #006ddb !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35) !important;
 }
 
 .loginBtn svg {

@@ -1,150 +1,145 @@
 .page {
   min-height: 100vh;
-  padding: 60px 20px 80px;
-  background: transparent;
-  color: #e2e8f0;
+  padding: 60px 20px 100px;
+  background-color: var(--background-color);
+  color: var(--text-primary);
   font-family: var(--font-main);
 }
 
-/* =========================
-   Hero
-========================= */
+/* Hero */
 
 .hero {
-  max-width: 950px;
+  max-width: 850px;
   margin: 0 auto 70px;
   text-align: center;
   background: transparent !important;
 }
 
 .eyebrow {
-  margin: 0 0 14px;
+  display: inline-block;
+  margin-bottom: 16px;
+  background: transparent !important;
   color: var(--primary-color);
   font-family: var(--font-label);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.18em;
-  background: transparent !important;
 }
 
 .hero h1 {
   margin: 0;
-  color: #f8fafc;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
+  background: transparent !important;
+  color: var(--text-primary);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
   line-height: 1.15;
-  background: transparent !important;
-}
-
-.hero h1 span {
-  color: var(--primary-color);
-  background: transparent !important;
 }
 
 .subtitle {
-  max-width: 760px;
-  margin: 22px auto 0;
-  color: #94a3b8;
+  max-width: 700px;
+  margin: 20px auto 0;
+  background: transparent !important;
+  color: var(--text-secondary);
   font-size: 1rem;
-  line-height: 1.7;
+  line-height: 1.8;
+}
+
+/* Main Contact Section */
+
+.contactSection {
+  max-width: 1050px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 25px;
+  align-items: start;
   background: transparent !important;
 }
 
-/* =========================
-   Contact Section
-========================= */
-
-.contactSection {
-  max-width: 1180px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 0.85fr 1.15fr;
-  gap: 24px;
-  align-items: stretch;
-}
-
-/* =========================
-   Cards
-========================= */
-
-.infoCard,
-.formCard {
-  background-color: var(--neutral-color) !important;
-  border: 1px solid rgba(6, 182, 212, 0.18);
-  border-radius: 14px;
-}
+/* Contact Information */
 
 .infoCard {
   padding: 32px;
+  background-color: var(--neutral-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
 }
-
-.formCard {
-  padding: 32px;
-}
-
-/* =========================
-   Info Card
-========================= */
 
 .icon {
-  width: 56px;
-  height: 56px;
-  margin-bottom: 26px;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  background: rgba(6, 182, 212, 0.1);
+  color: var(--primary-color);
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border-radius: 12px;
-  background: rgba(6, 182, 212, 0.1) !important;
-  border: 1px solid rgba(6, 182, 212, 0.18);
-
-  color: var(--primary-color);
-  font-size: 24px;
+  font-size: 23px;
 }
 
 .infoCard h2,
 .formCard h2 {
-  margin: 0 0 16px;
-  color: #f8fafc;
-  font-size: 1.75rem;
-  font-weight: 700;
+  margin: 0 0 12px;
   background: transparent !important;
+  color: var(--text-primary);
+  font-size: 1.5rem;
 }
 
 .infoDescription {
-  margin: 0;
-  color: #94a3b8;
-  line-height: 1.75;
+  margin: 0 0 30px;
   background: transparent !important;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-size: 0.9rem;
 }
 
 .infoItem {
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 5px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
   background: transparent !important;
 }
 
 .infoItem strong {
-  color: #e2e8f0;
-  font-size: 0.95rem;
   background: transparent !important;
+  color: var(--text-primary);
+  font-size: 0.9rem;
 }
 
 .infoItem span {
-  color: #94a3b8;
-  font-size: 0.95rem;
   background: transparent !important;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
 }
 
-/* =========================
-   Form
-========================= */
+/* Form */
+
+.formCard {
+  padding: 32px;
+  background-color: var(--neutral-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+}
 
 .formCard h2 {
-  margin-bottom: 22px;
+  margin-bottom: 25px;
 }
+
+.successMessage {
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 8px;
+  background: rgba(34, 197, 94, 0.08);
+  color: #22c55e;
+  font-size: 0.9rem;
+}
+
+/* Form Fields */
 
 .formRow {
   display: grid;
@@ -155,41 +150,40 @@
 .field {
   display: flex;
   flex-direction: column;
-  gap: 7px;
   margin-bottom: 18px;
   background: transparent !important;
 }
 
 .field label {
-  color: #e2e8f0;
+  margin-bottom: 8px;
+  background: transparent !important;
+  color: var(--text-primary);
   font-size: 0.85rem;
   font-weight: 600;
-  background: transparent !important;
 }
 
 .field input,
 .field textarea {
   width: 100%;
   box-sizing: border-box;
-
   padding: 12px 14px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  outline: none;
 
-  background: #070d1d !important;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 9px;
+  background: var(--input-bg) !important;
+  color: var(--text-primary) !important;
 
-  color: #ffffff !important;
-  font-family: var(--font-main);
+  font-family: inherit;
   font-size: 0.9rem;
 
-  outline: none;
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
 
 .field input {
-  height: 48px;
+  height: 44px;
 }
 
 .field textarea {
@@ -199,7 +193,8 @@
 
 .field input::placeholder,
 .field textarea::placeholder {
-  color: #71809a;
+  color: var(--text-secondary);
+  opacity: 0.7;
 }
 
 .field input:focus,
@@ -208,91 +203,64 @@
   box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.08);
 }
 
-/* =========================
-   Validation
-========================= */
-
 .inputError {
   border-color: #ef4444 !important;
 }
 
 .error {
-  color: #ef4444;
-  font-size: 0.78rem;
+  margin-top: 6px;
   background: transparent !important;
+  color: #ef4444;
+  font-size: 0.75rem;
 }
 
-.successMessage {
-  margin-bottom: 20px;
-  padding: 11px 14px;
-
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: 9px;
-
-  background: rgba(34, 197, 94, 0.08) !important;
-  color: #4ade80;
-
-  font-size: 0.85rem;
-}
-
-/* =========================
-   Button
-========================= */
+/* Submit */
 
 .submitButton {
   width: 100%;
-  height: 48px;
-
-  margin-top: 2px;
+  min-height: 44px;
+  margin-top: 5px;
+  padding: 10px 20px;
 
   border: none;
-  border-radius: 9px;
+  border-radius: 8px;
 
-  background: var(--primary-color) !important;
-  color: #06111f !important;
+  background: var(--primary-color);
+  color: #06111f;
 
-  font-family: var(--font-main);
+  font-family: inherit;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 600;
 
   cursor: pointer;
 
   transition:
     transform 0.2s ease,
-    box-shadow 0.2s ease,
-    opacity 0.2s ease;
+    opacity 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .submitButton:hover {
   transform: translateY(-2px);
+  opacity: 0.9;
   box-shadow: 0 8px 24px rgba(6, 182, 212, 0.2);
 }
 
-.submitButton:active {
-  transform: translateY(0);
-}
+/* Responsive */
 
-/* =========================
-   Responsive
-========================= */
-
-@media (max-width: 900px) {
+@media (max-width: 800px) {
   .contactSection {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 650px) {
+@media (max-width: 600px) {
   .page {
-    padding: 40px 16px 60px;
+    padding: 45px 16px 70px;
   }
 
   .hero {
-    margin-bottom: 45px;
-  }
-
-  .hero h1 {
-    font-size: 2.4rem;
+    margin-bottom: 50px;
   }
 
   .formRow {
@@ -302,6 +270,6 @@
 
   .infoCard,
   .formCard {
-    padding: 24px;
+    padding: 24px 20px;
   }
 }

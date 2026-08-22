@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { supabase } from "../../services/supabaseClient";
 import { FiUser, FiMail, FiLock, FiCheckCircle, FiAlertCircle, FiLogOut, FiCamera, FiTrash2 } from "react-icons/fi";
 import styles from "../../styles/Profile.module.css";
 
 export default function Profile() {
   const { user, loading: authLoading } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
@@ -175,13 +177,12 @@ export default function Profile() {
     navigate("/login", { replace: true });
   };
 
-  if (authLoading) return <div className={styles.loadingScreen}>Loading...</div>;
+  if (authLoading) return <div className={styles.loadingScreen}>{t('processing')}</div>;
 
   return (
     <div className={styles.pageWrapper}>
       <div className={styles.container}>
         
-        {/* Sidebar */}
         <aside className={styles.sidebar}>
           <div className={styles.avatarBlock}>
             {avatarUrl ? (
@@ -200,7 +201,7 @@ export default function Profile() {
               className={styles.changePhotoBtn}
               disabled={uploading}
             >
-              <FiCamera /> {uploading ? "..." : "Change"}
+              <FiCamera /> {uploading ? "..." : t('changePhotoBtn') || "Change"}
             </button>
             <input
               ref={fileInputRef}
@@ -212,7 +213,7 @@ export default function Profile() {
             />
             {avatarUrl && (
               <button type="button" onClick={handleDeletePhoto} className={styles.deletePhotoBtn} disabled={uploading}>
-                <FiTrash2 /> Delete
+                <FiTrash2 /> {t('delete') || "Delete"}
               </button>
             )}
           </div>
@@ -223,23 +224,22 @@ export default function Profile() {
           <div className={styles.statsContainer}>
             <div className={styles.statBox}>
               <span className={styles.statNum}>{tripsCount}</span>
-              <span className={styles.statLabel}>Trips</span>
+              <span className={styles.statLabel}>{t('createTrip')}</span>
             </div>
             <div className={styles.statDivider} />
             <div className={styles.statBox}>
               <span className={styles.statNum}>{placesCount}</span>
-              <span className={styles.statLabel}>Places</span>
+              <span className={styles.statLabel}>{t('favorites')}</span>
             </div>
           </div>
 
           <button onClick={handleSignOut} className={styles.signOutBtn}>
-            <FiLogOut /> Sign Out
+            <FiLogOut /> {t('logout')}
           </button>
         </aside>
 
-        {/* Main Content */}
         <main className={styles.mainContent}>
-          <h1 className={styles.title}>Account Settings</h1>
+          <h1 className={styles.title}>{t('accountSettings') || 'Account Settings'}</h1>
 
           {message.text && (
             <div className={`${styles.alert} ${styles[message.type]}`}>
@@ -248,58 +248,55 @@ export default function Profile() {
             </div>
           )}
 
-          {/* Email Display Only  */}
           <div className={styles.readOnlyField}>
-            <label><FiMail /> Account Email</label>
+            <label><FiMail /> {t('emailAddress')}</label>
             <div className={styles.emailValue}>{user?.email}</div>
           </div>
 
           <div className={styles.actionDivider} />
 
-          {/* Full Name Section */}
           <form onSubmit={handleUpdateName} className={styles.sectionForm}>
             <div className={styles.field}>
-              <label><FiUser /> Full Name</label>
+              <label><FiUser /> {t('fullName')}</label>
               <input
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                placeholder="Enter your full name"
+                placeholder={t('enterName')}
               />
             </div>
             <button type="submit" className={styles.primaryBtn} disabled={savingName}>
-              {savingName ? "Saving..." : "Save Name"}
+              {savingName ? t('processing') : t('saveName') || "Save Name"}
             </button>
           </form>
 
           <div className={styles.actionDivider} />
 
-          {/* Password Direct Change Section */}
           <form onSubmit={handleDirectPasswordChange} className={styles.sectionForm}>
-            <h3 className={styles.subTitle}><FiLock /> Security & Password</h3>
+            <h3 className={styles.subTitle}><FiLock /> {t('securityPassword') || 'Security & Password'}</h3>
             
             <div className={styles.field}>
-              <label>New Password</label>
+              <label>{t('newPassword')}</label>
               <input
                 type="password"
-                placeholder="Enter new password"
+                placeholder={t('enterPassword')}
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
               />
             </div>
 
             <div className={styles.field}>
-              <label>Confirm New Password</label>
+              <label>{t('confirmPassword') || 'Confirm New Password'}</label>
               <input
                 type="password"
-                placeholder="Confirm new password"
+                placeholder={t('confirmPassword') || 'Confirm new password'}
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
 
             <button type="submit" className={styles.primaryBtn} disabled={savingPassword}>
-              {savingPassword ? "Updating..." : "Update Password"}
+              {savingPassword ? t('processing') : t('updatePassword')}
             </button>
           </form>
         </main>
