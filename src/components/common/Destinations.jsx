@@ -1,19 +1,28 @@
-import styles from '../../styles/Home.module.css';import { useNavigate } from 'react-router-dom';
+import styles from '../../styles/Home.module.css';
+import { useNavigate } from 'react-router-dom';
+import { useAutoText } from '../../hooks/useAutoText';
+import { useLanguage } from '../../context/LanguageContext';
+import { getLocalized } from '../../utils/i18nHelper';
 
-export default function Destinations({ id, title, description, price, rating, imageUrl }) {
+export default function Destinations({ id, title, description, price, rating, imageUrl, lang }) {
   const navigate = useNavigate();
+  const { t, lang: contextLang } = useLanguage();
+  const currentLang = lang || contextLang;
+
+  const displayTitle = useAutoText(title || getLocalized({ title }, 'title', currentLang));
+  const displayDescription = useAutoText(description || getLocalized({ description }, 'description', currentLang));
 
   const handleViewDetails = () => {
     navigate(`/details/${id}`
     ,{state:{itemData:{id,title,description,price,rating,imageUrl}}});
   };
+
   return (
-  
     <div className={styles.destinationCard}>
       <div className={styles.cardImageWrapper}>
         <img
           src={imageUrl || 'https://via.placeholder.com/400x200'}
-          alt={title}
+          alt={displayTitle}
           className={styles.cardImage}
         />
         <span className={styles.ratingBadge}>
@@ -22,15 +31,15 @@ export default function Destinations({ id, title, description, price, rating, im
       </div>
 
       <div className={styles.cardContent}>
-        <h3 className={styles.cardTitle}>{title}</h3>
-        <p className={styles.cardDescription}>{description}</p>
+        <h3 className={styles.cardTitle}>{displayTitle}</h3>
+        <p className={styles.cardDescription}>{displayDescription}</p>
 
         <div className={styles.cardFooter}>
           <div>
-            <span className={styles.priceLabel}>From</span>
+            <span className={styles.priceLabel}>{t('from')}</span>
             <div className={styles.priceAmount}>
               ${price || 0}
-              <span className={styles.priceUnit}>/day</span>
+              <span className={styles.priceUnit}>{t('perDay')}</span>
             </div>
           </div>
 
@@ -38,7 +47,7 @@ export default function Destinations({ id, title, description, price, rating, im
             className={styles.detailsBtn}
             onClick={handleViewDetails}
           >
-            View Details
+            {t('viewDetails')}
           </button>
         </div>
       </div>

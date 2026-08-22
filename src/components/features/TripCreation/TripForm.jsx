@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { useLanguage } from "../../../context/LanguageContext";
 
 import {
   calculateTripDuration,
@@ -15,6 +16,7 @@ import { createTrip, createTripItems } from "../../../services/tripService";
 import styles from "./TripForm.module.css";
 
 export default function TripForm() {
+  const { t } = useLanguage();
   // Stores the main information entered by the user.
   const [tripData, setTripData] = useState({
     title: "",
@@ -60,29 +62,29 @@ export default function TripForm() {
     const end = tripData.endDate ? new Date(tripData.endDate) : null;
 
     if (!tripData.title.trim()) {
-      newErrors.title = "Trip title is required.";
+      newErrors.title = t('tripTitleRequired');
     }
 
     if (!tripData.destination.trim()) {
-      newErrors.destination = "Destination is required.";
+      newErrors.destination = t('destinationRequired');
     }
 
     if (!tripData.startDate) {
-      newErrors.startDate = "Start date is required.";
+      newErrors.startDate = t('startDateRequired');
     } else if (start < today) {
-      newErrors.startDate = "Start date cannot be in the past.";
+      newErrors.startDate = t('startDatePast');
     }
 
     if (!tripData.endDate) {
-      newErrors.endDate = "End date is required.";
+      newErrors.endDate = t('endDateRequired');
     } else if (tripData.startDate && end < start) {
-      newErrors.endDate = "End date cannot be before start date.";
+      newErrors.endDate = t('endDateBeforeStart');
     }
 
     if (!tripData.budget) {
-      newErrors.budget = "Budget is required.";
+      newErrors.budget = t('budgetRequired');
     } else if (Number(tripData.budget) <= 0) {
-      newErrors.budget = "Budget must be greater than 0.";
+      newErrors.budget = t('budgetPositive');
     }
 
     setErrors(newErrors);
@@ -144,7 +146,7 @@ export default function TripForm() {
       const places = await getPlaces();
 
       if (!places || places.length === 0) {
-        setPlacesError("No places are available.");
+        setPlacesError(t('noPlacesAvailable'));
         return;
       }
 
@@ -174,7 +176,7 @@ export default function TripForm() {
     } catch (error) {
       console.error("Failed to load places:", error);
 
-      setPlacesError("Failed to load places. Please try again.");
+      setPlacesError(t('failedLoadPlaces'));
     } finally {
       setIsLoadingPlaces(false);
     }
@@ -214,11 +216,11 @@ export default function TripForm() {
 
       // Disable the save button after a successful save.
       setIsSaved(true);
-      setSaveSuccess("Trip saved successfully!");
+      setSaveSuccess(t('tripSavedSuccessfully'));
     } catch (error) {
       console.error("Failed to save trip:", error);
 
-      setSaveError(error.message || "Failed to save trip. Please try again.");
+      setSaveError(error.message || t('failedSaveTrip'));
     } finally {
       setIsSaving(false);
     }
@@ -231,11 +233,11 @@ export default function TripForm() {
           <span className={styles.eyebrow}>SMART TRIP PLANNER</span>
 
           <h1 className={styles.title}>
-            Plan Your Next <span>Adventure</span>
+            {t('planRoute')} <span>{t('heroTitleHighlight')}</span>
           </h1>
 
           <p className={styles.subtitle}>
-            Create your trip and let us help you build the perfect itinerary.
+            {t('heroSubtitle')}
           </p>
         </div>
 
@@ -243,7 +245,7 @@ export default function TripForm() {
           <Form onSubmit={handleSubmit} noValidate>
             {/* Trip title */}
             <Form.Group className="mb-4" controlId="tripTitle">
-              <Form.Label className={styles.label}>Trip Title</Form.Label>
+              <Form.Label className={styles.label}>{t('tripTitle')}</Form.Label>
 
               <Form.Control
                 className={styles.input}
@@ -262,13 +264,13 @@ export default function TripForm() {
 
             {/* Trip destination */}
             <Form.Group className="mb-4" controlId="destination">
-              <Form.Label className={styles.label}>Destination</Form.Label>
+              <Form.Label className={styles.label}>{t('destination')}</Form.Label>
 
               <Form.Control
                 className={styles.input}
                 type="text"
                 name="destination"
-                placeholder="Where are you going?"
+                placeholder={t('whereAreYouGoing')}
                 value={tripData.destination}
                 onChange={handleChange}
                 isInvalid={!!errors.destination}
@@ -283,7 +285,7 @@ export default function TripForm() {
             <Row>
               <Col md={6}>
                 <Form.Group className="mb-4" controlId="startDate">
-                  <Form.Label className={styles.label}>Start Date</Form.Label>
+                  <Form.Label className={styles.label}>{t('startDate')}</Form.Label>
 
                   <Form.Control
                     className={styles.input}
@@ -303,7 +305,7 @@ export default function TripForm() {
 
               <Col md={6}>
                 <Form.Group className="mb-4" controlId="endDate">
-                  <Form.Label className={styles.label}>End Date</Form.Label>
+                  <Form.Label className={styles.label}>{t('endDate')}</Form.Label>
 
                   <Form.Control
                     className={styles.input}
@@ -325,20 +327,20 @@ export default function TripForm() {
             {/* Show the calculated trip duration once both dates are selected. */}
             {tripDuration > 0 && (
               <div className={styles.duration}>
-                Trip Duration: <strong>{tripDuration} Days</strong>
+                {t('tripDuration')}: <strong>{tripDuration} {t('days')}</strong>
               </div>
             )}
 
             {/* Trip budget */}
             <Form.Group className="mb-4" controlId="budget">
-              <Form.Label className={styles.label}>Budget</Form.Label>
+              <Form.Label className={styles.label}>{t('budget')}</Form.Label>
 
               <Form.Control
                 className={styles.input}
                 type="number"
                 name="budget"
                 min="1"
-                placeholder="Enter your budget"
+                placeholder={t('enterYourBudget')}
                 value={tripData.budget}
                 onChange={handleChange}
                 isInvalid={!!errors.budget}
@@ -356,10 +358,10 @@ export default function TripForm() {
               disabled={isLoadingPlaces}
             >
               {isLoadingPlaces
-                ? "Building Itinerary..."
+                ? t('buildingItinerary')
                 : isCreated
-                  ? "Regenerate Itinerary"
-                  : "Create Trip"}
+                  ? t('regenerateItinerary')
+                  : t('createTrip')}
             </Button>
           </Form>
         </div>
@@ -381,10 +383,10 @@ export default function TripForm() {
                 disabled={isSaving || isSaved}
               >
                 {isSaving
-                  ? "Saving Trip..."
+                  ? t('savingTrip')
                   : isSaved
-                    ? "Trip Saved"
-                    : "Save Trip"}
+                    ? t('tripSaved')
+                    : t('saveTrip')}
               </Button>
 
               {saveSuccess && (
