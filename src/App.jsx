@@ -1,22 +1,31 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // Context
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider } from "./context/AuthContext";
 
 // Components & Features
 import Place from "./components/features/PlaceCard/Place";
-import PlaceCard from "./components/features/PlaceCard/PlaceCard";
-import { AuthForm } from './components/features/Auth/AuthForm';
-import { ResetPassword } from './components/features/Auth/ResetPassword';
+import { AuthForm } from "./components/features/Auth/AuthForm";
+import { ResetPassword } from "./components/features/Auth/ResetPassword";
+import Navbar from "./components/common/Navbar";
+
+// Routes & Route Guards
+import ProtectedRoute from "./routes/ProtectedRoute";
+import PublicRoute from "./routes/PublicRoute";
 
 // Pages
-import Home from './pages/Home';
+import Home from "./pages/Home";
 import DestinationDetails from "./pages/DestinationDetails";
 import ExploreDestinations from "./pages/ExploreDestinations";
 import Favorites from "./pages/Favorites/Favorites";
 import TripCreation from "./pages/TripCreation/TripCreation";
+import MyTrips from "./pages/MyTrips/MyTrips";
+import EditTrip from "./pages/EditTrip/EditTrip";
+import Profile from "./pages/Profile/Profile";
+import About from "./pages/About/About";
+import Contact from "./pages/Contact/Contact";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
@@ -24,20 +33,15 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <nav>
-          <Link to="/">Home</Link> |{" "}
-          <Link to="/explore">Explore</Link> |{" "}
-          <Link to="/places">Places</Link> |{" "}
-          <Link to="/favorites">Favorites</Link>
-        </nav>
+        <Navbar />
 
         <Routes>
-          {/* Main Pages */}
+          {/* Public Pages Accessible to All */}
           <Route path="/" element={<Home />} />
           <Route path="/explore" element={<ExploreDestinations />} />
           <Route path="/details/:id" element={<DestinationDetails />} />
-          
-          {/* Places & Favorites */}
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
           <Route
             path="/places"
             element={
@@ -47,14 +51,71 @@ function App() {
           <Route
             path="/favorites"
             element={
-              <Favorites favorites={favorites} setFavorites={setFavorites} />
+              <ProtectedRoute>
+                <Favorites favorites={favorites} setFavorites={setFavorites} />
+              </ProtectedRoute>
             }
           />
-          
-          {/* Trips & Authentication */}
-          <Route path="/create-trip" element={<TripCreation />} />
-          <Route path="/login" element={<AuthForm />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
+
+          {/* Auth-Only Public Routes (Redirect authenticated users to /explore) */}
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <AuthForm initialTab="login" />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <AuthForm initialTab="register" />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/reset-password"
+            element={
+              <PublicRoute>
+                <ResetPassword />
+              </PublicRoute>
+            }
+          />
+
+          {/* Protected User Routes (Require Authenticated User) */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-trip"
+            element={
+              <ProtectedRoute>
+                <TripCreation />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-trips"
+            element={
+              <ProtectedRoute>
+                <MyTrips />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-trip/:tripId"
+            element={
+              <ProtectedRoute>
+                <EditTrip />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -1,0 +1,139 @@
+.topRightHeader {
+  position: absolute;
+  top: 16px;
+  right: 24px;
+  z-index: 1000;
+  background: transparent !important;
+  padding: 0;
+  margin: 0;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  height: auto !important;
+}
+
+[dir="rtl"] .topRightHeader {
+  right: auto !important;
+  left: 24px !important;
+  flex-direction: row-reverse;
+}
+
+.topRightHeader *,
+.topRightHeader a,
+.topRightHeader span {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  outline: none !important;
+  text-decoration: none !important;
+}
+
+.userSection {
+  display: flex;
+  align-items: center;
+  overflow: visible !important;
+}
+
+/* Profile Badge Button */
+.profileAvatarBtn,
+.profileAvatarBtn:hover,
+.profileAvatarBtn:focus,
+.profileAvatarBtn:active,
+.profileAvatarBtn:visited {
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  text-decoration: none !important;
+  color: var(--text-primary, #f1f5f9) !important;
+  background: transparent !important;
+  border: 1.5px solid rgba(0, 132, 255, 0.6) !important;
+  padding: 6px 14px 8px 14px !important;
+  border-radius: 30px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  overflow: visible !important;
+  transition: all 0.2s ease;
+}
+
+.profileAvatarBtn span {
+  color: var(--text-primary, #ffffff) !important;
+  line-height: 1.4 !important;
+  display: inline-block !important;
+}
+
+.profileAvatarBtn:hover {
+  background: transparent !important;
+  border-color: #0084ff !important;
+}
+
+.avatarImage {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid #0084ff !important;
+  box-shadow: none !important;
+  flex-shrink: 0;
+}
+
+.avatarPlaceholderIcon {
+  font-size: 1.1rem;
+  color: #0084ff;
+  flex-shrink: 0;
+}
+
+.loginBtn,
+.loginBtn:hover,
+.loginBtn:focus,
+.loginBtn:active,
+.loginBtn:visited {
+  height: auto !important;
+  min-height: 40px !important;
+  background: #0084ff !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  padding: 8px 18px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.25) !important;
+  outline: none !important;
+  overflow: visible !important;
+  transition: all 0.25s ease !important;
+}
+
+.loginBtn:hover {
+  background: #006ddb !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35) !important;
+}
+
+.loginBtn svg {
+  font-size: 1.1rem !important;
+  color: #ffffff !important;
+  flex-shrink: 0 !important;
+  background: transparent !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
+}
+
+.loginBtn span {
+  color: #ffffff !important;
+  line-height: 1.4 !important;
+  display: inline-block !important;
+  background: transparent !important;
+}
