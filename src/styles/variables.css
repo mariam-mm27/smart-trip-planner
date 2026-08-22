@@ -1,17 +1,50 @@
-:root{
-    --primary-color: #06B6D4;
-    --secondary-color: #F59E0B;
-    --tertiary-color: #8B5CF6;
-    --neutral-color: #0F172A;
-    --background-color: #0B1326;
+:root {
+  --primary-color: #0084ff;
+  --primary-hover: #006ddb;
+  --secondary-color: #F59E0B;
+  --tertiary-color: #8B5CF6;
 
-    --font-main: "Inter", sans-serif;
-    --font-label: "JetBrains Mono", monospace;
+  --font-main: "Inter", system-ui, -apple-system, sans-serif;
+  --font-label: "JetBrains Mono", monospace;
 }
 
-/* ─── Global Root Layout Reset ─── */
-/* Prevent viewport compression & vertical clipping across the entire app */
+/* ─── Dark Theme Variables ─── */
+:root[data-theme="dark"], body.dark-theme {
+  --bg-primary: #0b1329;
+  --bg-secondary: #111a2e;
+  --bg-surface: #162132;
+  --neutral-color: #0f172a;
+  --background-color: #0b1329;
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --border-color: rgba(255, 255, 255, 0.12);
+  --card-bg: #111a2d;
+  --input-bg: #070d1d;
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --shadow-color: rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
 
+/* ─── Light Theme Variables ─── */
+:root[data-theme="light"], body.light-theme {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-surface: #f1f5f9;
+  --neutral-color: #ffffff;
+  --background-color: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: rgba(15, 23, 42, 0.12);
+  --card-bg: #ffffff;
+  --input-bg: #f1f5f9;
+  --glass-bg: rgba(15, 23, 42, 0.06);
+  --glass-border: rgba(15, 23, 42, 0.15);
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  color-scheme: light;
+}
+
+/* ─── Global Reset & Layout ─── */
 *,
 *::before,
 *::after {
@@ -30,9 +63,10 @@ body {
   padding: 0;
   overflow-y: auto !important;
   overflow-x: hidden;
-  background-color: #0b1329;
-  color: #f8fafc;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-main);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 #root {
@@ -41,9 +75,111 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
+  background-color: var(--bg-primary);
 }
 
 button {
   height: auto;
   overflow: visible !important;
-}
+}
+
+/* ─── Strict Primary Button Unification ─── */
+.loginBtn,
+.searchBtn,
+.detailsBtn,
+.plan-btn,
+.primaryBtn,
+.btn-submit,
+.submitButton,
+.saveButton,
+.changePhotoBtn {
+  background: #0084ff !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 8px 18px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.25) !important;
+  outline: none !important;
+  text-decoration: none !important;
+  transition: all 0.25s ease !important;
+}
+
+.loginBtn:hover,
+.searchBtn:hover,
+.detailsBtn:hover,
+.plan-btn:hover,
+.primaryBtn:hover:not(:disabled),
+.btn-submit:hover:not(:disabled),
+.submitButton:hover:not(:disabled),
+.saveButton:hover:not(:disabled),
+.changePhotoBtn:hover:not(:disabled) {
+  background: #006ddb !important;
+  color: #ffffff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35) !important;
+}
+
+/* ─── RTL Support ─── */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] * {
+  /* Ensure all text respects RTL */
+  direction: inherit;
+}
+
+/* Arabic letter-spacing fix: Normalize to prevent letter disconnection */
+[dir="rtl"] body,
+[dir="rtl"] html,
+[dir="rtl"] p,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6,
+[dir="rtl"] span,
+[dir="rtl"] div,
+[dir="rtl"] button,
+[dir="rtl"] input,
+[dir="rtl"] label {
+  letter-spacing: normal !important;
+}
+
+[dir="rtl"] .app-toolbar {
+  flex-direction: row;
+}
+
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] input::placeholder,
+[dir="rtl"] textarea::placeholder {
+  text-align: right;
+}
+
+/* Ensure proper RTL layout for buttons and flexbox */
+[dir="rtl"] .toolbar-btn span,
+[dir="rtl"] .loginBtn span,
+[dir="rtl"] .btn-submit span {
+  display: inline-block;
+}
+
+/* Smooth transitions for theme switching */
+body, nav, header, main, footer, div, section, article, card, input, select, textarea, button {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}

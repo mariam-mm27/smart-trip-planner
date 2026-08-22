@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
 import styles from '../../styles/Navbar.module.css';
 import { FiUser, FiLogIn } from 'react-icons/fi';
+import { Toolbar } from './Toolbar';
 
 export default function Navbar() {
   const { user } = useAuth();
@@ -47,12 +48,13 @@ export default function Navbar() {
 
   return (
     <header className={styles.topRightHeader}>
+      <Toolbar />
       <div className={styles.userSection}>
         {user ? (
           <Link
             to="/profile"
             className={styles.profileAvatarBtn}
-            title="User Profile"
+            title="Profile"
           >
             {avatarUrl ? (
               <img

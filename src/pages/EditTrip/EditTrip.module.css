@@ -1,7 +1,7 @@
 .page {
   min-height: 100vh;
-  background-color: var(--background-color);
-  color: #e2e8f0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   padding: 60px 0;
   font-family: var(--font-main);
 }
@@ -24,7 +24,7 @@
 
 .title {
   margin: 0;
-  color: #e2e8f0;
+  color: var(--text-primary);
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 700;
 }
@@ -35,7 +35,7 @@
 
 .subtitle {
   margin: 15px auto 0;
-  color: #94a3b8;
+  color: var(--text-secondary);
   line-height: 1.7;
 }
 
@@ -43,26 +43,27 @@
   max-width: 700px;
   margin: 0 auto;
   padding: 32px;
-  background-color: var(--neutral-color);
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
   border-radius: 16px;
+  box-shadow: 0 8px 32px var(--shadow-color);
 }
 
 .card label {
-  color: #cbd5e1;
+  color: var(--text-secondary);
   margin-bottom: 8px;
 }
 
 .card input {
   min-height: 48px;
-  background-color: var(--background-color);
-  border: 1px solid #334155;
-  color: #e2e8f0;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
 }
 
 .card input:focus {
-  background-color: var(--background-color);
-  color: #e2e8f0;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
   border-color: var(--primary-color);
   box-shadow: 0 0 0 0.2rem rgba(6, 182, 212, 0.15);
 }
@@ -84,7 +85,7 @@
   align-items: center;
   justify-content: center;
   gap: 15px;
-  color: #94a3b8;
+  color: var(--text-secondary);
 }
 
 .success {
