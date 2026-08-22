@@ -52,6 +52,7 @@ export default function Home() {
         activeFilter.toLowerCase() === "all" ||
         place.category?.toLowerCase().trim() ===
           activeFilter.toLowerCase().trim();
+
       return matchedCategory && matchedSearch;
     });
   }, [destinations, activeFilter, searchQuery]);
@@ -187,7 +188,7 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <p className="text-secondary text-center py-4">Loading...</p>
+          <p className="text-secondary text-center py-4">{t("loading")}...</p>
         ) : filteredDestinations.length === 0 ? (
           <div className="text-center py-5">
             <p className="text-secondary mb-3">{t("noDestinations")}</p>

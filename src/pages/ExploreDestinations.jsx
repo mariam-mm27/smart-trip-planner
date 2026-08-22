@@ -49,6 +49,7 @@ export default function ExploreDestinations() {
       const matchedCategory =
         activeFilter.toLowerCase() === 'all' ||
         place.category?.toLowerCase().trim() === activeFilter.toLowerCase().trim();
+
       return matchedCategory && matchedSearch;
     });
   }, [destinations, activeFilter, searchQuery]);

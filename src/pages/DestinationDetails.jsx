@@ -1,38 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-// import { 
-//   ArrowLeft, 
-//   Share2, 
-//   Heart, 
-//   MapPin, 
-//   Star, 
-//   Wifi, 
-//   Waves, 
-//   UtensilsCrossed, 
-//   Dumbbell, 
-//   PlusCircle,
-//   Home,
-//   Compass,
-//   Info,
-//   Mail
-// } from 'lucide-react';
 import { supabase } from '../services/supabaseClient';
+import styles from '../styles/Details.module.css'
 
 export default function DestinationDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [amenities,setamenities]=useState()
+  
 
   useEffect(() => {
     const fetchPlaceDetails = async () => {
       try {
         setLoading(true);
         const { data, error } = await supabase
-          .from('places')
-          .select('*')
-          .eq('id', id)
-          .single();
+        .from('places')
+        .select(`
+          *,
+          amenities (
+            id,
+            label
+          )
+        `)
+        .eq('id', id)
+        .single();
 
         if (error) throw error;
         setPlace(data);
@@ -46,6 +39,8 @@ export default function DestinationDetails() {
     if (id) fetchPlaceDetails();
   }, [id]);
 
+  
+
   if (loading) {
     return (
       <div className="min-h-screen bg-[#070b14] text-cyan-400 flex items-center justify-center font-mono">
@@ -55,27 +50,47 @@ export default function DestinationDetails() {
   }
 
   // Fallback data structure in case certain database fields are optional
-  const destination = place || {
-    title: 'Neon Oasis Retreat',
-    category: 'RESORT',
-    rating: 4.9,
-    location: 'Cyber-Kyoto, Sector 4',
-    description:
-      'Experience the pinnacle of synthetic tranquility at the Neon Oasis Retreat. Nestled in the heart of Sector 4, this sanctuary blends traditional zen aesthetics with cutting-edge environmental control systems. Enjoy atmospheric climate regulation, bioluminescent botanical gardens, and fully automated suite customization to ensure your stay is perfectly calibrated to your biological needs.',
-    price: 1250,
-    imageUrl: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1000&q=80',
-  };
+  
 
-  // const amenities = [
-  //   { icon: Wifi, label: 'Quantum Link' },
-  //   { icon: Waves, label: 'Thermal Pool' },
-  //   { icon: UtensilsCrossed, label: 'Synth-Dining' },
-  //   { icon: Dumbbell, label: 'Grav-Gym' },
-  // ];
 
   return (
-    <div>
+    <div className={styles.pageWrapper}>
+      {/* image */}
+        <div className={styles.imageContainer}>
+          <img src={place.image_url} alt={place?.title || 'Destination'} />
+        </div>
+        <div className={styles.textContainer}>
+        <div className={styles.perksContainer}>
+          <span className={styles.category}>{place.category}</span>
+          <span className={styles.rating}>{place.rating}</span>
+        </div>
+        <h1 className={styles.title}>{place.title}</h1>
+        <p className={styles.location}></p>
+        <h2 className={styles.about}>About</h2>
+        <p className={styles.description}>{place.description}</p>
+      </div>
 
+      <div className={styles.amenitiesContainer}>
+        <h1 className={styles.amenitiesHeading}>
+          Amenties
+        </h1>
+        {/* amenities box */}
+        {place.amenities.map((item)=>(
+          <div key={item.id} className={styles.amenityContainer} >
+          <h4 className={styles.amenityLabel}>{item.label}</h4>
+        </div>
+        ))}
+        
+       
+      </div>
+        {/* price */}
+      <div className={styles.pricingContainer}>
+        <p className={styles.pricingText}>
+          Starting from <span>{place.price}</span> <span>CR/night</span>
+         </p>
+        <button className={styles.pricingBookBtn}>Book Now!</button>
+        <button className={styles.pricingAddBtn}>Add to My Trip</button>
+      </div>
     </div>
   );
 }

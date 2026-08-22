@@ -13,9 +13,8 @@ export default function Destinations({ id, title, description, price, rating, im
   const displayDescription = useAutoText(description || getLocalized({ description }, 'description', currentLang));
 
   const handleViewDetails = () => {
-    navigate(`./details/:${id}`, {
-      state: { itemData: { id, title: displayTitle, description: displayDescription, price, rating, imageUrl } },
-    });
+    navigate(`/details/${id}`
+    ,{state:{itemData:{id,title,description,price,rating,imageUrl}}});
   };
 
   return (
