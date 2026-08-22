@@ -1,10 +1,11 @@
 import styles from '../../styles/Home.module.css';import { useNavigate } from 'react-router-dom';
+import placeholderImage from '../../assets/images/Frame 1.png';
 
 export default function Destinations({ id, title, description, price, rating, imageUrl }) {
   const navigate = useNavigate();
 
   const handleViewDetails = () => {
-    navigate(`./details/:${id}`
+    navigate(`/destination/${id}`
     ,{state:{itemData:{id,title,description,price,rating,imageUrl}}});
   };
   return (
@@ -12,7 +13,7 @@ export default function Destinations({ id, title, description, price, rating, im
     <div className={styles.destinationCard}>
       <div className={styles.cardImageWrapper}>
         <img
-          src={imageUrl || 'https://via.placeholder.com/400x200'}
+          src={imageUrl || placeholderImage}
           alt={title}
           className={styles.cardImage}
         />

@@ -98,7 +98,7 @@ const navigate = useNavigate();
             description={place.description}
             price={place.price}
             rating={place.rating}
-            imageUrl={place.imageUrl}
+            imageUrl={place.image_url}
              />
         ))}
             </div>)

@@ -4,6 +4,8 @@ import { supabase } from "../../services/supabaseClient.js";
 import { toast } from "react-hot-toast";
 import styles from "./Favorites.module.css";
 import { Link } from "react-router-dom";
+import placeImage from "../../assets/images/Frame 1.png";
+import LoadingSpinner from "../../components/common/LoadingSpinner.jsx";
 
 export default function Favorites() {
 
@@ -68,28 +70,19 @@ export default function Favorites() {
     }
   }
 
-  // Called when a favorite is removed
   function handleFavoriteChange(placeId, isFavorite) {
 
     if (!isFavorite) {
-
       setFavorites((prev) =>
         prev.filter((place) => place.id !== placeId)
       );
-
     }
 
   }
 
-  if (loading) {
-
-    return (
-      <div className={styles.empty}>
-        Loading favorites...
-      </div>
-    );
-
-  }
+ if (loading) {
+  return <LoadingSpinner />;
+}
 
   return (
     <div className={styles.page}>
@@ -99,12 +92,15 @@ export default function Favorites() {
         <div className={styles.header}>
 
           <div className="d-flex gap-3 align-items-center">
+
             <div className="backBTN">
               <Link to="/" className={styles.backButton}>
-              <span className={styles.backIcon}>←</span>
-            </Link>
+                <span className={styles.backIcon}>←</span>
+              </Link>
             </div>
+
             <div className="content">
+
               <h1 className={styles.title}>
                 My Favorites
               </h1>
@@ -124,6 +120,7 @@ export default function Favorites() {
         </div>
 
       </div>
+
 
       {favorites.length === 0 ? (
 
@@ -145,7 +142,13 @@ export default function Favorites() {
               >
 
                 <PlaceCard
-                  {...place}
+                  id={place.id}
+                  image={placeImage}
+                  title={place.title}
+                  description={place.description}
+                  location={place.location}
+                  stars={place.stars}
+                  reviews={place.reviews}
                   isFavorite={true}
                   onFavoriteChange={handleFavoriteChange}
                 />

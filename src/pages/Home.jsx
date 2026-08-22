@@ -41,8 +41,8 @@ export default function Home() {
 
       const matchedCategory=
       activeFilter.toLowerCase() === "all"||
-      place.category?.toLowerCase().trim()
-       return matchedCategory & matchedSearch
+      place.category?.toLowerCase().trim() === activeFilter.toLowerCase()
+       return matchedCategory && matchedSearch
       })     
     },[destinations,activeFilter,searchQuery])
 
@@ -110,18 +110,27 @@ export default function Home() {
         <div className="d-flex align-items-center justify-content-center gap-2 mb-3 bg-transparent">
           <i className="bi bi-fire text-info fs-5"></i>
           <h2 className="fs-5 fw-bold mb-0 ms-3 text-white bg-transparent text-center">Trending Destinations</h2>
+          
         </div>
+          <div className="text-center mb-4">
+            <button
+              className={styles.explorePlacesBtn}
+              onClick={() => navigate('/place')}
+            >
+              Explore All Places
+            </button>
+          </div>
 
         {loading ? (
           <p className="text-secondary text-center py-4">Loading destinations...</p>
         ) :  filteredDestinations.length === 0 ? (
           <div className='text-center py-5'>
-            <p classname='text-secondary mb-2'>No destinations</p>
+            <p className='text-secondary mb-2'>No destinations</p>
             <button
               className="btn btn-sm btn-outline-info rounded-pill px-3"
               onClick={() => {
                 setSearchQuery('');
-                setActiveCategory('All');
+                setActiveFilter('All');
               }}
             >
               Clear Filters
@@ -146,21 +155,18 @@ export default function Home() {
       {/* benefits */}
       <section className={styles.benefits}>
         <div className={styles.benefitsItem}>
-          <img className={styles.benefitsImg} src="" alt="" />
           <div className={styles.benefitsText}>
             <h4 className={styles.benefitsHeading}>AI Planner</h4>
             <p className={styles.benefitsDescription}>Intelligent algorithms craft routes optimized for time, weather, and crowds.</p>
           </div>
         </div>
         <div className={styles.benefitsItem}>
-          <img className={styles.benefitsImg} src="" alt="" />
           <div className={styles.benefitsText}>
             <h4 className={styles.benefitsHeading}>Budgeting</h4>
             <p className={styles.benefitsDescription}>Real-time expense tracking with predictive cost modeling for your journey.</p>
           </div>
         </div>
         <div className={styles.benefitsItem}>
-          <img className={styles.benefitsImg} src="" alt="" />
           <div className={styles.benefitsText}>
             <h4 className={styles.benefitsHeading}>Offline Access</h4>
             <p className={styles.benefitsDescription}>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, alias rerum ad doloremque at aspernatur?</p>

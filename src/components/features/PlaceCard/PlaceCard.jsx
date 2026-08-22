@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
@@ -9,12 +9,39 @@ import styles from "./PlaceCard.module.css";
 
 export default function PlaceCard(prop) {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
+
+  // Check if this place is already a favorite
+  useEffect(() => {
+    const checkFavorite = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("favorites")
+        .select("id")
+        .eq("user_id", user.id)
+        .eq("place_id", prop.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Error checking favorite:", error);
+        return;
+      }
+
+      setIsFavorite(!!data);
+    };
+
+    checkFavorite();
+  }, [prop.id]);
 
   async function handleFavorite() {
-    const previousState = isFavorite;
+    if (favoriteLoading) return;
 
-    // Optimistic UI
-    setIsFavorite((prev) => !prev);
+    setFavoriteLoading(true);
 
     try {
       const {
@@ -22,18 +49,15 @@ export default function PlaceCard(prop) {
         error: userError,
       } = await supabase.auth.getUser();
 
-      if (userError) {
-        throw userError;
-      }
+      if (userError) throw userError;
 
       if (!user) {
-        setIsFavorite(previousState);
         toast.error("Please login first");
         return;
       }
 
-      if (!previousState) {
-        // ADD FAVORITE
+      if (!isFavorite) {
+        // ADD
         const { error } = await supabase
           .from("favorites")
           .insert({
@@ -41,49 +65,51 @@ export default function PlaceCard(prop) {
             place_id: prop.id,
           });
 
-        if (error) {
-          throw error;
-        }
+        if (error) throw error;
 
+        setIsFavorite(true);
         toast.success("Added to favorites");
       } else {
-        // REMOVE FAVORITE
+        // REMOVE
         const { error } = await supabase
           .from("favorites")
           .delete()
           .eq("user_id", user.id)
           .eq("place_id", prop.id);
 
-        if (error) {
-          throw error;
-        }
+        if (error) throw error;
 
+        setIsFavorite(false);
         toast.success("Removed from favorites");
+        if (prop.onFavoriteChange) {
+        prop.onFavoriteChange(prop.id, false);
+}
       }
     } catch (error) {
       console.error("🔥 FAVORITE ERROR:", error);
-
       toast.error(error.message || "Failed to update favorite");
-
-      // Rollback
-      setIsFavorite(previousState);
+    } finally {
+      setFavoriteLoading(false);
     }
   }
 
   return (
     <div className={styles["place-card"]}>
+
       <div className={styles["card-image"]}>
         <img src={prop.image} alt="" />
 
         <button
           className={styles["favorite-btn"]}
           onClick={handleFavorite}
+          disabled={favoriteLoading}
         >
           {isFavorite ? <FaHeart /> : <FaRegHeart />}
         </button>
       </div>
 
       <div className={styles["card-content"]}>
+
         <h2 className={styles["card-title"]}>
           {prop.title}
         </h2>
@@ -100,6 +126,7 @@ export default function PlaceCard(prop) {
         <hr />
 
         <div className={styles["card-bottom"]}>
+
           <div className={styles["card-rating"]}>
             <FaRegStar className={styles["star-icon"]} />
 
@@ -111,6 +138,7 @@ export default function PlaceCard(prop) {
           <span className={styles["plan-btn"]}>
             Plan Route
           </span>
+
         </div>
       </div>
     </div>
