@@ -22,7 +22,7 @@ export default function MyTrips() {
         setTrips(data || []);
       } catch (error) {
         console.error("Failed to load trips:", error);
-        setError(t("failedLoadTrips"));
+        setError(t('failedLoadTrips'));
       } finally {
         setIsLoading(false);
       }
@@ -32,7 +32,7 @@ export default function MyTrips() {
   }, []);
 
   async function handleDeleteTrip(tripId) {
-    const confirmed = window.confirm(t("deleteConfirm"));
+    const confirmed = window.confirm(t('deleteConfirm'));
 
     if (!confirmed) {
       return;
@@ -47,7 +47,7 @@ export default function MyTrips() {
     } catch (error) {
       console.error("Failed to delete trip:", error);
 
-      setError(t("failedDeleteTrip"));
+      setError(t('failedDeleteTrip'));
     }
   }
 
@@ -56,7 +56,7 @@ export default function MyTrips() {
       <main className={styles.page}>
         <Container className={styles.center}>
           <Spinner animation="border" />
-          <p>{t("loadingTrips")}</p>
+          <p>{t('loadingTrips')}</p>
         </Container>
       </main>
     );
@@ -66,21 +66,25 @@ export default function MyTrips() {
     <main className={styles.page}>
       <Container>
         <div className={styles.header}>
-          <span className={styles.eyebrow}>{t("myTrips")}</span>
+          <span className={styles.eyebrow}>{t('myTrips')}</span>
 
-          <h1 className={styles.title}>{t("yourTrips")}</h1>
+          <h1 className={styles.title}>
+            {t('yourTrips')}
+          </h1>
 
-          <p className={styles.subtitle}>{t("viewEditTrip")}</p>
+          <p className={styles.subtitle}>
+            {t('viewEditTrip')}
+          </p>
         </div>
 
         {error && <p className={styles.error}>{error}</p>}
 
         {!error && trips.length === 0 && (
           <div className={styles.empty}>
-            <h2>{t("noTripsYet")}</h2>
-            <p>{t("noTripsDescription")}</p>
+            <h2>{t('noTripsYet')}</h2>
+            <p>{t('noTripsDescription')}</p>
 
-            <Button href="/create-trip">{t("createFirstTrip")}</Button>
+            <Button href="/create-trip">{t('createFirstTrip')}</Button>
           </div>
         )}
 
@@ -97,44 +101,32 @@ export default function MyTrips() {
 
                   <div className={styles.details}>
                     <p>
-                      <strong>{t("from")}:</strong> {trip.start_date}
+                      <strong>{t('from')}:</strong> {trip.start_date}
                     </p>
 
                     <p>
-                      <strong>{t("to")}:</strong> {trip.end_date}
+                      <strong>{t('to')}:</strong> {trip.end_date}
                     </p>
 
                     <p>
-                      <strong>{t("budget")}:</strong> {trip.budget}
+                      <strong>{t('budget')}:</strong> {trip.budget}
                     </p>
                   </div>
 
                   <div className={styles.actions}>
                     <Button
                       as={Link}
-                      to={`/view-trip/${trip.id}`}
-                      variant="outline-primary"
-                      className={styles.actionButton}
-                    >
-                      {t("viewTrip")}
-                    </Button>
-
-                    <Button
-                      as={Link}
                       to={`/edit-trip/${trip.id}`}
-                      variant="outline-secondary"
-                      className={styles.actionButton}
+                      variant="outline-primary"
                     >
-                      {t("edit")}
+                      {t('edit')}
                     </Button>
-
                     <Button
                       variant="outline-danger"
-                      className={styles.actionButton}
                       onClick={() => handleDeleteTrip(trip.id)}
                     >
-                      {t("delete")}
-                    </Button>
+                      {t('delete')}
+                    </Button>{" "}
                   </div>
                 </Card.Body>
               </Card>

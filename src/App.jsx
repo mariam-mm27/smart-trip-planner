@@ -26,7 +26,6 @@ import EditTrip from "./pages/EditTrip/EditTrip";
 import Profile from "./pages/Profile/Profile";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
-import ViewTrip from "./pages/ViewTrip/ViewTrip";
 
 function App() {
   const [favorites, setFavorites] = useState([]);
@@ -114,14 +113,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <EditTrip />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/view-trip/:tripId"
-            element={
-              <ProtectedRoute>
-                <ViewTrip />
               </ProtectedRoute>
             }
           />
