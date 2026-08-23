@@ -11,6 +11,161 @@
   width: 100%;
 }
 
+/* Filter Trigger Button */
+.sidebarTriggerBtn {
+  background: rgba(13, 21, 39, 0.8);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  color: #38bdf8;
+  padding: 0 1rem;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.sidebarTriggerBtn:hover {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: #38bdf8;
+}
+
+/* Dimmed Backdrop */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 998;
+}
+
+/* Left Aside Drawer */
+.filterSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  color: var(--text-primary);
+  z-index: 999;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 10px 0 25px rgba(0, 0, 0, 0.5);
+}
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.sidebarTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  margin: 0;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.sidebarBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-top: 1.25rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filterValue {
+  font-size: 0.8rem;
+  font-family: monospace;
+  color: #38bdf8;
+}
+
+.selectInput {
+  background: #070b14;
+  border: 1px solid rgba(51, 65, 85, 0.8);
+  color: #f1f5f9;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.rangeInput {
+  accent-color: #38bdf8;
+  width: 100%;
+}
+
+.ratingPill {
+  flex: 1;
+  background: #070b14;
+  border: 1px solid rgba(51, 65, 85, 0.8);
+  color: #94a3b8;
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.activeRatingPill {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.clearBtn {
+  background: transparent;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  color: #94a3b8;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.applyBtn {
+  background: #0284c7;
+  border: none;
+  color: #ffffff;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 .searchCard {
   margin-top: 40px;
   background-color: var(--bg-secondary);
@@ -37,6 +192,7 @@
   padding: 6px 14px;
   margin-bottom: 16px;
   transition: border-color 0.2s ease;
+  width: 90%;
 }
 
 .inputGroup:focus-within {
@@ -111,11 +267,11 @@
 }
 
 .destinationCard {
-  background-color: var(--card-bg);
-  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   overflow: hidden;
   border: 1px solid var(--border-color);
   width: 320px;
-  color: var(--text-primary);
   box-shadow: 0 4px 20px var(--shadow-color);
 }

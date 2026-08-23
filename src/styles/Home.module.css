@@ -53,8 +53,9 @@
 
 /* Search Card */
 .searchCard {
-  background-color: var(--bg-secondary);
+  background: var(--card-bg);
   border: 1px solid var(--border-color);
+  color: var(--text-primary);
   border-radius: 16px;
   padding: 16px;
   text-align: left;
@@ -102,10 +103,10 @@
 
 .searchInput {
   width: 100%;
-  background: transparent !important;
-  border: none !important;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   outline: none !important;
-  color: var(--text-primary) !important;
   padding: 8px 4px;
   font-size: 0.9rem;
 }
