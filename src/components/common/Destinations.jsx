@@ -89,24 +89,7 @@ export default function Destinations({
         <button
           type="button"
           onClick={handleFavorite}
-          style={{
-            position: 'absolute',
-            top: '10px',
-            left: '10px',
-            background: 'var(--glass-bg, rgba(7, 11, 20, 0.6))',
-            border: '1px solid var(--border-color, rgba(255, 255, 255, 0.2))',
-            borderRadius: '50%',
-            width: '34px',
-            height: '34px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-            zIndex: 3,
-            color: isFavorite ? '#ef4444' : 'var(--text-primary, #ffffff)',
-            fontSize: '1rem',
-            transition: 'all 0.2s ease',
-          }}
+         className={styles.favoriteButton}
           aria-label="Toggle Favorite"
         >
           {isFavorite ? <FaHeart color="#ef4444" /> : <FaRegHeart />}
