@@ -112,35 +112,3 @@
     flex-direction: column;
   }
 }
-.itinerarySection {
-  max-width: 1000px;
-  margin: 70px auto 40px;
-}
-
-.itineraryHeader {
-  margin-bottom: 25px;
-  text-align: center;
-}
-
-.itineraryTitle {
-  margin: 0;
-  color: var(--text-primary);
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.itineraryTitle span {
-  color: var(--primary-color);
-}
-
-.itinerarySubtitle {
-  margin-top: 10px;
-  color: var(--text-secondary);
-  line-height: 1.7;
-}
-
-@media (max-width: 576px) {
-  .itinerarySection {
-    margin-top: 50px;
-  }
-}
