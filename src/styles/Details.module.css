@@ -1,0 +1,420 @@
+/* Details.module.css */
+
+.pageWrapper {
+  /* Shared side gutter for every section below the banner. */
+  --details-gutter: 24px;
+  width: 100%;
+  max-width: 1100px;
+  min-height: calc(100vh - var(--navbar-height));
+  background-color: transparent;
+  color: #f1f5f9;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  padding-bottom: 6rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* media  */
+/* Large Tablets / Portrait Mode (<= 768px) */
+@media (max-width: 768px) {
+  .pageWrapper {
+    --details-gutter: 18px;
+  }
+
+  .title {
+    font-size: 1.85rem;
+  }
+}
+
+/* Mobile Devices (<= 480px) */
+@media (max-width: 480px) {
+  .pageWrapper {
+    --details-gutter: 14px;
+  }
+
+  .imageContainer {
+    height: 320px;
+  }
+
+  .amenitiesContainer {
+    gap: 0.5rem;
+  }
+}
+
+/* Ultra-Compact Screens (<= 360px) */
+@media (max-width: 360px) {
+  .amenitiesContainer {
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+}
+/* Image Banner */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+  border-radius: 0 0 1rem 1rem;
+}
+
+.imageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.imageContainer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 11, 20, 0) 60%, #070b14 100%);
+  pointer-events: none;
+}
+
+/* Text & Details Section */
+.textContainer {
+  padding: 0 var(--details-gutter);
+  margin-top: -0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.perksContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.category {
+  font-size: 0.7rem;
+  font-family: monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background-color: rgba(6, 44, 58, 0.7);
+  color: #22d3ee;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 25px;
+}
+
+.rating {
+  font-size: 0.75rem;
+  font-family: monospace;
+  font-weight: 700;
+  color: #fbbf24;
+  background-color: rgba(69, 41, 12, 0.4);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border-radius: 25px;
+}
+
+.rating::before {
+  content: '★';
+}
+
+.title {
+  font-size: 1.65rem;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #ffffff;
+  margin: 0.25rem 0 0.4rem;
+  letter-spacing: -0.02em;
+}
+
+.location {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin: 0 0 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.location::before {
+  content: '📍';
+  font-size: 0.75rem;
+}
+
+.about {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #e2e8f0;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.description {
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #94a3b8;
+  margin: 0;
+  max-width: 80ch;
+  text-align: justify;
+}
+
+/* Amenities Grid */
+.amenitiesContainer {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.amenitiesHeading {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+.amenityContainer {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+/* Grid layout wrapper if you keep multiple .amenityContainer */
+.amenitiesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  padding: 1.25rem var(--details-gutter);
+}
+
+.amenitiesHeading {
+  grid-column: 1 / -1;
+}
+
+.amenityContainer {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.8);
+  border-radius: 0.75rem;
+  padding: 1rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.amenityContainer:hover {
+  border-color: rgba(34, 211, 238, 0.3);
+}
+
+.amenityLabel {
+  font-size: 0.75rem;
+  font-family: monospace;
+  color: #cbd5e1;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+/* Pricing Card */
+.pricingContainer {
+  margin: 0 var(--details-gutter);
+  background: rgba(14, 22, 38, 0.95);
+  border: 1px solid rgba(8, 145, 178, 0.25);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.pricingText {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pricingText span:first-of-type {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #22d3ee;
+  line-height: 1;
+}
+
+.pricingText span:last-of-type {
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: rgba(103, 232, 249, 0.7);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.pricingBookBtn {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 0.75rem;
+  border: none;
+  background: linear-gradient(90deg, #f59e0b, #ea580c);
+  color: #020617;
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.25);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+
+
+.pricingAddBtn {
+  width: 100%;
+  padding: 0.65rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  background: #131f36;
+  color: #22d3ee;
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.pricingAddBtn:hover {
+  background: #182846;
+}
+
+/* Map Preview */
+.mapSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.mapHeading {
+  font-size: 0.7rem;
+  font-family: monospace;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(103, 232, 249, 0.7);
+  margin: 0;
+}
+
+.mapCard {
+  position: relative;
+  display: block;
+  height: 220px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  background: #131f36;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.mapCard:hover {
+  border-color: rgba(34, 211, 238, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(34, 211, 238, 0.25);
+}
+
+.mapCard:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+.mapFrame {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  filter: saturate(0.9) contrast(1.05);
+  pointer-events: none;
+}
+
+.mapOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(11, 19, 41, 0) 55%, rgba(11, 19, 41, 0.92) 100%);
+}
+
+.mapFooter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+}
+
+.mapPlaceName {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mapPlaceName::before {
+  content: '📍';
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.mapCta {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-family: monospace;
+  font-weight: 600;
+  color: #22d3ee;
+  white-space: nowrap;
+}
+
+[dir="rtl"] .mapFooter {
+  flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+  .mapCard {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mapCard {
+    height: 150px;
+  }
+
+  .mapCta {
+    font-size: 0.65rem;
+  }
+}
+
+/* Scale the banner and map up so they aren't letterboxed in the wide container. */
+@media (min-width: 1024px) {
+  .imageContainer {
+    height: 440px;
+  }
+
+  .mapCard {
+    height: 320px;
+  }
+}
+

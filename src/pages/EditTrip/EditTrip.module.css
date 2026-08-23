@@ -1,0 +1,114 @@
+.page {
+  min-height: calc(100vh - var(--navbar-height));
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  padding: 60px 0;
+  font-family: var(--font-main);
+}
+
+.header {
+  max-width: 760px;
+  margin: 0 auto 35px;
+  text-align: center;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--primary-color);
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+}
+
+.title {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+}
+
+.title span {
+  color: var(--primary-color);
+}
+
+.subtitle {
+  margin: 15px auto 0;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.card {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 32px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px var(--shadow-color);
+}
+
+.card label {
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.card input {
+  min-height: 48px;
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+.card input:focus {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(6, 182, 212, 0.15);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+}
+
+.actions button {
+  flex: 1;
+  min-height: 48px;
+}
+
+.center {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  color: var(--text-secondary);
+}
+
+.success {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.error {
+  margin-top: 20px;
+  color: #ef4444;
+}
+
+@media (max-width: 576px) {
+  .page {
+    padding: 35px 0;
+  }
+
+  .card {
+    padding: 22px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+}
