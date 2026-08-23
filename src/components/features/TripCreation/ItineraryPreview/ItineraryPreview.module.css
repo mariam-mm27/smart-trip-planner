@@ -11,20 +11,26 @@
   font-weight: 700;
 }
 
-.dayCard {
-  height: 100%;
-  background-color: var(--card-bg) !important;
-  border: 1px solid var(--border-color) !important;
-  border-radius: 14px !important;
-  color: var(--text-primary) !important;
+/* Day */
+
+.day {
+  margin-bottom: 30px;
+  padding: 22px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  color: var(--text-primary);
 }
 
 .dayTitle {
-  margin-bottom: 18px;
+  margin: 0 0 18px;
   color: var(--primary-color) !important;
   font-family: var(--font-label);
   font-size: 0.95rem;
+  font-weight: 700;
 }
+
+/* Places */
 
 .place {
   display: flex;
@@ -41,16 +47,19 @@
 
 .placeInfo {
   min-width: 0;
+  flex: 1;
 }
 
-.place h3 {
+.place h3,
+.place h4 {
   margin: 0 0 5px;
   color: var(--text-primary);
   font-size: 0.95rem;
   font-weight: 600;
 }
 
-.placeInfo > span:not(.rating) {
+.category {
+  display: block;
   color: var(--text-secondary);
   font-size: 0.75rem;
 }
@@ -63,6 +72,8 @@
   font-size: 0.75rem !important;
 }
 
+/* Move / Remove */
+
 .actions {
   display: flex;
   align-items: center;
@@ -72,11 +83,19 @@
 
 .moveSelect {
   width: 95px;
+  min-height: 34px;
+  padding: 6px 8px;
+
   background-color: var(--input-bg) !important;
   border: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+
   color: var(--text-primary) !important;
+
   font-family: var(--font-label);
   font-size: 0.7rem !important;
+
+  cursor: pointer;
 }
 
 .moveSelect:focus {
@@ -85,9 +104,9 @@
 }
 
 .removeButton {
-  width: 34px;
+  min-width: 34px;
   height: 34px;
-  padding: 0 !important;
+  padding: 0 10px !important;
 
   display: flex !important;
   align-items: center;
@@ -99,6 +118,12 @@
 
   color: #ef4444 !important;
   font-size: 0.75rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .removeButton:hover {
@@ -106,11 +131,15 @@
   border-color: #ef4444 !important;
 }
 
+/* Empty Day */
+
 .empty {
   margin: 0;
   color: var(--text-secondary);
   font-size: 0.85rem;
 }
+
+/* Mobile */
 
 @media (max-width: 576px) {
   .container {
@@ -131,10 +160,40 @@
   }
 
   .moveSelect {
-    width: 85px;
+    width: 100%;
   }
 
   .removeButton {
-    width: 85px;
+    width: 100%;
+    min-width: 0;
   }
+}
+.detailsButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 38px;
+  padding: 7px 14px;
+
+  border: 1px solid var(--primary-color);
+  border-radius: 6px;
+
+  background-color: transparent;
+  color: var(--primary-color);
+
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.detailsButton:hover {
+  background-color: var(--primary-color);
+  color: white;
+  transform: translateY(-1px);
 }
