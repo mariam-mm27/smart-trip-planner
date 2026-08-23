@@ -82,3 +82,41 @@ export function movePlaceInItinerary(itinerary, placeId, fromDay, toDay) {
     };
   });
 }
+
+export function getTripStatus(endDate) {
+  if (!endDate) {
+    return "upcoming";
+  }
+
+  const end = new Date(endDate);
+
+  if (Number.isNaN(end.getTime())) {
+    return "upcoming";
+  }
+
+  // Compare calendar days only, so a trip ending today still counts as upcoming.
+  end.setHours(0, 0, 0, 0);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return end.getTime() < today.getTime() ? "completed" : "upcoming";
+}
+
+export function formatTripDate(dateString, lang = "en") {
+  if (!dateString) {
+    return "—";
+  }
+
+  const date = new Date(dateString);
+
+  if (Number.isNaN(date.getTime())) {
+    return dateString;
+  }
+
+  return date.toLocaleDateString(lang === "ar" ? "ar-EG" : "en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}

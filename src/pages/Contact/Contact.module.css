@@ -1,5 +1,5 @@
 .page {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--navbar-height));
   padding: 60px 20px 100px;
   background-color: var(--background-color);
   color: var(--text-primary);
@@ -136,6 +136,16 @@
   border-radius: 8px;
   background: rgba(34, 197, 94, 0.08);
   color: #22c55e;
+  font-size: 0.9rem;
+}
+
+.errorMessage {
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ef4444;
   font-size: 0.9rem;
 }
 

@@ -9,7 +9,7 @@ import '../../../styles/AuthForm.css';
 
 export const AuthForm = ({ initialTab = 'login' }) => {
   const navigate = useNavigate();
-  const { user, loading: authLoading } = useAuth();
+  const { user, isAdmin, loading: authLoading } = useAuth();
   const { t } = useLanguage();
 
   const [activeTab, setActiveTab] = useState(initialTab);
@@ -21,12 +21,12 @@ export const AuthForm = ({ initialTab = 'login' }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  // Auto-redirect authenticated users away from login/register
+  // Single source of redirect truth: fires once the session (and role) resolve.
   useEffect(() => {
     if (user && !authLoading) {
-      navigate('/explore', { replace: true });
+      navigate(isAdmin ? '/admin' : '/explore', { replace: true });
     }
-  }, [user, authLoading, navigate]);
+  }, [user, isAdmin, authLoading, navigate]);
 
   useEffect(() => {
     if (initialTab) {
@@ -74,9 +74,6 @@ export const AuthForm = ({ initialTab = 'login' }) => {
           setMessage({ type: 'error', text: formatErrorMessage(error) });
         } else {
           setMessage({ type: 'success', text: t('loggedInSuccessfully') });
-          setTimeout(() => {
-            navigate('/explore', { replace: true });
-          }, 800);
         }
       } else {
         const { error } = await supabase.auth.signUp({
@@ -93,9 +90,6 @@ export const AuthForm = ({ initialTab = 'login' }) => {
             type: 'success',
             text: t('accountCreatedSuccessfully'),
           });
-          setTimeout(() => {
-            navigate('/explore', { replace: true });
-          }, 800);
         }
       }
     } catch (err) {

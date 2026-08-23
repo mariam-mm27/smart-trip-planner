@@ -9,7 +9,7 @@
 }
 
 .auth-wrapper {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--navbar-height));
   width: 100%;
   background: var(--bg-primary) !important;
   display: flex;

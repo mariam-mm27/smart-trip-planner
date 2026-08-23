@@ -6,6 +6,24 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAutoText } from '../hooks/useAutoText';
 import { getLocalized } from '../utils/i18nHelper';
 
+const ALLOWED_MAP_HOSTS = ['maps.app.goo.gl', 'goo.gl', 'maps.google.com', 'google.com'];
+
+// Stops a bad DB value from becoming a javascript: link or an off-site redirect.
+function getSafeMapsUrl(raw) {
+  if (typeof raw !== 'string') return null;
+
+  try {
+    const url = new URL(raw.trim());
+    if (url.protocol !== 'https:') return null;
+
+    const host = url.hostname.toLowerCase();
+    const isAllowed = ALLOWED_MAP_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
+    return isAllowed ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
 export default function DestinationDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -77,6 +95,12 @@ export default function DestinationDetails() {
     );
   }
 
+  const mapsUrl = getSafeMapsUrl(place?.Location);
+  // The short share link can't be framed, so the preview is geocoded from the title instead.
+  const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
+    place?.title || ''
+  )}&z=13&output=embed`;
+
   return (
     <div className={styles.pageWrapper}>
       {/* Top Image Banner */}
@@ -124,6 +148,39 @@ export default function DestinationDetails() {
           {t('from') || 'Starting from'}{' '}
           <span>${place.price || 0}</span> <span>{t('perDay') || 'per night'}</span>
         </p>
+
+        {mapsUrl && (
+          <div className={styles.mapSection}>
+            <h3 className={styles.mapHeading}>{t('location') || 'Location'}</h3>
+            <a
+              className={styles.mapCard}
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${t('openInGoogleMaps') || 'Open in Google Maps'}: ${
+                displayTitle || place.title || ''
+              }`}
+            >
+              <iframe
+                className={styles.mapFrame}
+                src={mapEmbedSrc}
+                title={`${t('location') || 'Location'}: ${place.title || ''}`}
+                loading="lazy"
+                tabIndex={-1}
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              {/* An iframe swallows clicks, so a transparent layer forwards them to the anchor. */}
+              <span className={styles.mapOverlay} aria-hidden="true" />
+              <span className={styles.mapFooter}>
+                <span className={styles.mapPlaceName}>{displayTitle || place.title}</span>
+                <span className={styles.mapCta}>
+                  {t('openInGoogleMaps') || 'Open in Google Maps'} ↗
+                </span>
+              </span>
+            </a>
+          </div>
+        )}
+
         <button className={styles.pricingAddBtn}>
           {t('addToMyTrip') || (lang === 'ar' ? 'أضف إلى رحلتي' : 'Add to My Trip')}
         </button>

@@ -1,5 +1,5 @@
 .page {
-  min-height: 100vh;
+  min-height: calc(100vh - var(--navbar-height));
   background-color: var(--bg-primary);
   color: var(--text-primary);
   padding: 60px 0;
@@ -67,11 +67,42 @@
   box-shadow: 0 4px 20px var(--shadow-color) !important;
 }
 
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .tripTitle {
   margin-bottom: 8px;
   color: var(--text-primary) !important;
   font-size: 1.2rem;
   font-weight: 700;
+}
+
+.badge {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  border-radius: 30px;
+  font-family: var(--font-label);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badgeUpcoming {
+  border: 1px solid rgba(0, 132, 255, 0.35);
+  background-color: rgba(0, 132, 255, 0.12);
+  color: #0084ff;
+}
+
+.badgeCompleted {
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #16a34a;
 }
 
 .destination {

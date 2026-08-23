@@ -20,7 +20,7 @@
 
 .pageWrapper {
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--navbar-height));
   background-color: var(--bg-primary);
   color: var(--text-primary);
   padding: 60px 20px 100px 20px !important;

@@ -4,6 +4,8 @@
   --secondary-color: #F59E0B;
   --tertiary-color: #8B5CF6;
 
+  --navbar-height: 68px;
+
   --font-main: "Inter", system-ui, -apple-system, sans-serif;
   --font-label: "JetBrains Mono", monospace;
 }
@@ -133,26 +135,16 @@ button {
   text-align: right;
 }
 
+/* The mono label font has no Arabic glyphs, so it falls back to a monospaced
+   face that stretches the joins between letters. */
+:root[dir="rtl"] {
+  --font-label: "Cairo", "Tajawal", "Segoe UI", system-ui, sans-serif;
+}
+
 [dir="rtl"] * {
   /* Ensure all text respects RTL */
   direction: inherit;
-}
-
-/* Arabic letter-spacing fix: Normalize to prevent letter disconnection */
-[dir="rtl"] body,
-[dir="rtl"] html,
-[dir="rtl"] p,
-[dir="rtl"] h1,
-[dir="rtl"] h2,
-[dir="rtl"] h3,
-[dir="rtl"] h4,
-[dir="rtl"] h5,
-[dir="rtl"] h6,
-[dir="rtl"] span,
-[dir="rtl"] div,
-[dir="rtl"] button,
-[dir="rtl"] input,
-[dir="rtl"] label {
+  /* Arabic is cursive: any tracking breaks the joins between letters. */
   letter-spacing: normal !important;
 }
 

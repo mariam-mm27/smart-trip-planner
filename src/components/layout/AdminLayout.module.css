@@ -1,0 +1,76 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+/* Own class instead of Navbar's .actions: that one stacks vertically under 992px
+   for the mobile dropdown, which the admin bar does not have. */
+.adminActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-inline-start: auto;
+  flex-shrink: 0;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.tab:hover {
+  color: var(--text-primary);
+  border-color: var(--primary-color);
+}
+
+.tabActive {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #fff;
+}
+
+.tabActive:hover {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 24px 16px 48px;
+  }
+
+  .adminActions {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 560px) {
+  .adminUserName {
+    display: none;
+  }
+}

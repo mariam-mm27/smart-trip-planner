@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -9,11 +9,15 @@ import { AuthProvider } from "./context/AuthContext";
 import Place from "./components/features/PlaceCard/Place";
 import { AuthForm } from "./components/features/Auth/AuthForm";
 import { ResetPassword } from "./components/features/Auth/ResetPassword";
-import Navbar from "./components/common/Navbar";
+
+// Layouts
+import PublicLayout from "./components/layout/PublicLayout";
+import AdminLayout from "./components/layout/AdminLayout";
 
 // Routes & Route Guards
 import ProtectedRoute from "./routes/ProtectedRoute";
 import PublicRoute from "./routes/PublicRoute";
+import AdminRoute from "./routes/AdminRoute";
 
 // Pages
 import Home from "./pages/Home";
@@ -27,6 +31,9 @@ import Profile from "./pages/Profile/Profile";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 import ViewTrip from "./pages/ViewTrip/ViewTrip";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminMessages from "./pages/Admin/AdminMessages";
+import NotFound from "./pages/NotFound";
 
 function App() {
   const [favorites, setFavorites] = useState(() => {
@@ -45,97 +52,130 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Navbar />
-
         <Routes>
-          {/* Public Pages Accessible to All */}
-          <Route path="/" element={<Home favorites={favorites} setFavorites={setFavorites} />} />
-          <Route path="/explore" element={<ExploreDestinations favorites={favorites} setFavorites={setFavorites} />} />
-          <Route path="/details/:id" element={<DestinationDetails />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          {/* Admin Shell (logo + theme/language/profile only, no site nav or footer) */}
           <Route
-            path="/places"
+            path="/admin"
             element={
-              <Place favorites={favorites} setFavorites={setFavorites} />
+              <AdminRoute>
+                <AdminLayout />
+              </AdminRoute>
             }
-          />
-          <Route
-            path="/favorites"
-            element={
-              <ProtectedRoute>
-                <Favorites favorites={favorites} setFavorites={setFavorites} />
-              </ProtectedRoute>
-            }
-          />
+          >
+            <Route index element={<AdminDashboard />} />
+            <Route path="messages" element={<AdminMessages />} />
+          </Route>
 
-          {/* Auth-Only Public Routes (Redirect authenticated users to /explore) */}
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <AuthForm initialTab="login" />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <AuthForm initialTab="register" />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/reset-password"
-            element={
-              <PublicRoute>
-                <ResetPassword />
-              </PublicRoute>
-            }
-          />
+          {/* Public Shell (Navbar + Footer) */}
+          <Route element={<PublicLayout />}>
+            {/* Public Pages Accessible to All */}
+            <Route
+              path="/"
+              element={
+                <Home favorites={favorites} setFavorites={setFavorites} />
+              }
+            />
+            <Route
+              path="/explore"
+              element={
+                <ExploreDestinations
+                  favorites={favorites}
+                  setFavorites={setFavorites}
+                />
+              }
+            />
+            <Route path="/details/:id" element={<DestinationDetails />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route
+              path="/places"
+              element={
+                <Place favorites={favorites} setFavorites={setFavorites} />
+              }
+            />
+            <Route
+              path="/favorites"
+              element={
+                <ProtectedRoute>
+                  <Favorites
+                    favorites={favorites}
+                    setFavorites={setFavorites}
+                  />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* Protected User Routes (Require Authenticated User) */}
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/create-trip"
-            element={
-              <ProtectedRoute>
-                <TripCreation />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/my-trips"
-            element={
-              <ProtectedRoute>
-                <MyTrips />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/edit-trip/:tripId"
-            element={
-              <ProtectedRoute>
-                <EditTrip />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/view-trip/:tripId"
-            element={
-              <ProtectedRoute>
-                <ViewTrip />
-              </ProtectedRoute>
-            }
-          />
+            {/* Auth-Only Public Routes (Redirect authenticated users away) */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <AuthForm initialTab="login" />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute>
+                  <AuthForm initialTab="register" />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/reset-password"
+              element={
+                <PublicRoute>
+                  <ResetPassword />
+                </PublicRoute>
+              }
+            />
+
+            {/* Protected User Routes (Require Authenticated User) */}
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/create-trip"
+              element={
+                <ProtectedRoute>
+                  <TripCreation />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/my-trips"
+              element={
+                <ProtectedRoute>
+                  <MyTrips />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/edit-trip/:tripId"
+              element={
+                <ProtectedRoute>
+                  <EditTrip />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/view-trip/:tripId"
+              element={
+                <ProtectedRoute>
+                  <ViewTrip />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Catch-all for unknown URLs */}
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

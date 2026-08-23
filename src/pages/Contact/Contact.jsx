@@ -16,6 +16,7 @@ export default function Contact() {
 
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [sendError, setSendError] = useState("");
   const [isSending, setIsSending] = useState(false);
 
   const handleChange = (e) => {
@@ -27,6 +28,7 @@ export default function Contact() {
     }));
 
     setSubmitted(false);
+    setSendError("");
 
     setErrors((prev) => ({
       ...prev,
@@ -69,9 +71,15 @@ export default function Contact() {
 
     setIsSending(true);
     setSubmitted(false);
+    setSendError("");
 
     try {
-      await sendContactMessage(formData);
+      await sendContactMessage({
+        name: formData.name.trim(),
+        email: formData.email.trim().toLowerCase(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      });
 
       setSubmitted(true);
 
@@ -83,6 +91,7 @@ export default function Contact() {
       });
     } catch (error) {
       console.error("Error sending contact message:", error);
+      setSendError(t("messageFailed"));
     } finally {
       setIsSending(false);
     }
@@ -128,6 +137,12 @@ export default function Contact() {
 
           {submitted && (
             <div className={styles.successMessage}>{t("messageSent")}</div>
+          )}
+
+          {sendError && (
+            <div className={styles.errorMessage} role="alert">
+              {sendError}
+            </div>
           )}
 
           <form onSubmit={handleSubmit} noValidate>
@@ -210,7 +225,7 @@ export default function Contact() {
               className={styles.submitButton}
               disabled={isSending}
             >
-              {isSending ? "Sending..." : t("sendMessage")}
+              {isSending ? t("sending") : t("sendMessage")}
             </button>
           </form>
         </div>

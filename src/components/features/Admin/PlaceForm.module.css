@@ -1,0 +1,60 @@
+.modalContent {
+  background-color: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 14px !important;
+  color: var(--text-primary) !important;
+}
+
+.modalHeader,
+.modalFooter {
+  border-color: var(--border-color) !important;
+}
+
+.modalTitle {
+  color: var(--text-primary) !important;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.modalBody {
+  color: var(--text-primary);
+}
+
+.label {
+  color: var(--text-secondary) !important;
+  font-family: var(--font-label);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.input {
+  background-color: var(--input-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 25%, transparent) !important;
+}
+
+.preview {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.error {
+  margin-bottom: 1rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background-color: rgba(220, 53, 69, 0.12);
+  color: #ef4444;
+  font-size: 0.9rem;
+}
