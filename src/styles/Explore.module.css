@@ -6,9 +6,212 @@
   gap: 40px;
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  min-height: calc(100vh - var(--navbar-height));
+  min-height: 100vh;
   padding: 40px 16px 80px;
   width: 100%;
+}
+
+/* Filter Trigger Button */
+.sidebarTriggerBtn {
+  inset-inline-start: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--primary-color);
+  padding: 0 1rem;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px var(--shadow-color);
+  transition: all 0.2s ease;
+}
+
+.sidebarTriggerBtn:hover {
+  background: var(--glass-bg);
+  border-color: var(--primary-hover);
+  color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Dimmed Backdrop */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 998;
+}
+
+/* Left Aside Drawer */
+/* .filterSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  color: var(--text-primary);
+  z-index: 999;
+  padding: 3.5rem 1.5rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 10px 0 25px rgba(0, 0, 0, 0.5);
+} */
+ .filterSidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;           /* Left in LTR (EN), Right in RTL (AR) */
+  width: 300px;
+  background: var(--bg-secondary);
+  border-inline-end: 1px solid var(--border-color); /* Right border in EN, Left border in AR */
+  z-index: 999;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 25px var(--shadow-color);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-primary);
+}
+/* 2. Hidden/Closed State for English (Pushes left off-screen) */
+:root[dir="ltr"] .filterSidebar,
+html:not([dir="rtl"]) .filterSidebar {
+  transform: translateX(-100%);
+}
+
+/* 3. Hidden/Closed State for Arabic (Pushes right off-screen) */
+:root[dir="rtl"] .filterSidebar,
+html[dir="rtl"] .filterSidebar {
+  transform: translateX(100%);
+}
+
+/* 4. Open State (Slides into view from whichever edge it belongs to) */
+.filterSidebar.sidebarOpen {
+  transform: translateX(0) !important;
+}
+
+.sidebarOpen {
+  transform: translateX(0);
+}
+
+.sidebarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.sidebarTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.sidebarBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-top: 1.25rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterLabel {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filterValue {
+  font-size: 0.8rem;
+  font-family: monospace;
+  color: #38bdf8;
+}
+
+.selectInput {
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.selectInput:focus {
+  border-color: var(--primary-color);
+}
+
+.rangeInput {
+  accent-color: var(--primary-color);
+  width: 100%;
+}
+
+.ratingPill {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ratingPill:hover {
+  border-color: var(--primary-color);
+  color: var(--text-primary);
+}
+
+.activeRatingPill {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+.clearBtn {
+  background: transparent;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  color: #94a3b8;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.applyBtn {
+  background: #0284c7;
+  border: none;
+  color: #ffffff;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .searchCard {
@@ -37,6 +240,7 @@
   padding: 6px 14px;
   margin-bottom: 16px;
   transition: border-color 0.2s ease;
+  width: 90%;
 }
 
 .inputGroup:focus-within {
@@ -111,11 +315,11 @@
 }
 
 .destinationCard {
-  background-color: var(--card-bg);
-  border-radius: 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   overflow: hidden;
   border: 1px solid var(--border-color);
   width: 320px;
-  color: var(--text-primary);
   box-shadow: 0 4px 20px var(--shadow-color);
 }

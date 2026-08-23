@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -30,12 +30,24 @@ import EditTrip from "./pages/EditTrip/EditTrip";
 import Profile from "./pages/Profile/Profile";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
+import ViewTrip from "./pages/ViewTrip/ViewTrip";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminMessages from "./pages/Admin/AdminMessages";
 import NotFound from "./pages/NotFound";
 
 function App() {
-  const [favorites, setFavorites] = useState([]);
+  const [favorites, setFavorites] = useState(() => {
+    try {
+      const saved = localStorage.getItem('favorites');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
     <AuthProvider>
@@ -57,8 +69,21 @@ function App() {
           {/* Public Shell (Navbar + Footer) */}
           <Route element={<PublicLayout />}>
             {/* Public Pages Accessible to All */}
-            <Route path="/" element={<Home />} />
-            <Route path="/explore" element={<ExploreDestinations />} />
+            <Route
+              path="/"
+              element={
+                <Home favorites={favorites} setFavorites={setFavorites} />
+              }
+            />
+            <Route
+              path="/explore"
+              element={
+                <ExploreDestinations
+                  favorites={favorites}
+                  setFavorites={setFavorites}
+                />
+              }
+            />
             <Route path="/details/:id" element={<DestinationDetails />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
@@ -136,6 +161,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <EditTrip />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/view-trip/:tripId"
+              element={
+                <ProtectedRoute>
+                  <ViewTrip />
                 </ProtectedRoute>
               }
             />

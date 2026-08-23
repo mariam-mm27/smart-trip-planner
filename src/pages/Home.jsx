@@ -7,6 +7,7 @@ import Destinations from "../components/common/Destinations";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 
+
 const categoryItems = [
   { id: "All", label: "all" },
   { id: "Beaches", label: "beaches" },
@@ -15,19 +16,19 @@ const categoryItems = [
   { id: "Food", label: "food" },
 ];
 
-export default function Home() {
+export default function Home({ favorites = [], setFavorites }) {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { t, lang } = useLanguage();
   const [destinations, setDestinations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState("All");
   const [loading, setLoading] = useState(true);
+  const [activeFilter,setActiveFilter]= useState('Beaches')
 
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
-        const { data, error } = await supabase.from("places").select("*");
+        const { data, error } = await supabase.from("places").select("*").order('rating',{ascending:false}).limit(6);
         if (error) throw error;
         setDestinations(data || []);
       } catch (err) {
@@ -206,15 +207,19 @@ export default function Home() {
           <div className={styles.destinationsList}>
             {filteredDestinations.map((place) => (
               <Destinations
-                key={place.id}
-                id={place.id}
-                title={place.title}
-                description={place.description}
-                price={place.price}
-                rating={place.rating}
-                imageUrl={place.image_url}
-                lang={lang}
-              />
+              key={place.id}
+              id={place.id}
+              title={place.title}
+              description={place.description}
+              price={place.price}
+              rating={place.rating}
+              imageUrl={place.image_url || place.imageUrl}
+              category={place.category}
+              location={place.location}
+              lang={lang}
+              favorites={favorites}
+              setFavorites={setFavorites}
+            />
             ))}
           </div>
         )}

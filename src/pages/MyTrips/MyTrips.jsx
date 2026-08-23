@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { Container, Card, Button, Spinner } from "react-bootstrap";
 import { deleteTrip, getMyTrips } from "../../services/tripService";
 import { useLanguage } from "../../context/LanguageContext";
-import { getTripStatus, formatTripDate } from "../../utils/tripUtils";
 import styles from "./MyTrips.module.css";
 import { Link } from "react-router-dom";
 
 export default function MyTrips() {
-  const { t, lang } = useLanguage();
+  const { t } = useLanguage();
   const [trips, setTrips] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -23,7 +22,7 @@ export default function MyTrips() {
         setTrips(data || []);
       } catch (error) {
         console.error("Failed to load trips:", error);
-        setError(t('failedLoadTrips'));
+        setError(t("failedLoadTrips"));
       } finally {
         setIsLoading(false);
       }
@@ -33,7 +32,7 @@ export default function MyTrips() {
   }, []);
 
   async function handleDeleteTrip(tripId) {
-    const confirmed = window.confirm(t('deleteConfirm'));
+    const confirmed = window.confirm(t("deleteConfirm"));
 
     if (!confirmed) {
       return;
@@ -48,7 +47,7 @@ export default function MyTrips() {
     } catch (error) {
       console.error("Failed to delete trip:", error);
 
-      setError(t('failedDeleteTrip'));
+      setError(t("failedDeleteTrip"));
     }
   }
 
@@ -57,7 +56,7 @@ export default function MyTrips() {
       <main className={styles.page}>
         <Container className={styles.center}>
           <Spinner animation="border" />
-          <p>{t('loadingTrips')}</p>
+          <p>{t("loadingTrips")}</p>
         </Container>
       </main>
     );
@@ -67,89 +66,79 @@ export default function MyTrips() {
     <main className={styles.page}>
       <Container>
         <div className={styles.header}>
-          <span className={styles.eyebrow}>{t('myTrips')}</span>
+          <span className={styles.eyebrow}>{t("myTrips")}</span>
 
-          <h1 className={styles.title}>
-            {t('yourTrips')}
-          </h1>
+          <h1 className={styles.title}>{t("yourTrips")}</h1>
 
-          <p className={styles.subtitle}>
-            {t('viewEditTrip')}
-          </p>
+          <p className={styles.subtitle}>{t("viewEditTrip")}</p>
         </div>
 
         {error && <p className={styles.error}>{error}</p>}
 
         {!error && trips.length === 0 && (
           <div className={styles.empty}>
-            <h2>{t('noTripsYet')}</h2>
-            <p>{t('noTripsDescription')}</p>
+            <h2>{t("noTripsYet")}</h2>
+            <p>{t("noTripsDescription")}</p>
 
-            <Button href="/create-trip">{t('createFirstTrip')}</Button>
+            <Button href="/create-trip">{t("createFirstTrip")}</Button>
           </div>
         )}
 
         {trips.length > 0 && (
           <div className={styles.grid}>
-            {trips.map((trip) => {
-              const status = getTripStatus(trip.end_date);
+            {trips.map((trip) => (
+              <Card key={trip.id} className={styles.card}>
+                <Card.Body>
+                  <Card.Title className={styles.tripTitle}>
+                    {trip.title}
+                  </Card.Title>
 
-              return (
-                <Card key={trip.id} className={styles.card}>
-                  <Card.Body>
-                    <div className={styles.cardHead}>
-                      <Card.Title className={styles.tripTitle}>
-                        {trip.title}
-                      </Card.Title>
+                  <p className={styles.destination}>{trip.destination}</p>
 
-                      <span
-                        className={`${styles.badge} ${
-                          status === "completed"
-                            ? styles.badgeCompleted
-                            : styles.badgeUpcoming
-                        }`}
-                      >
-                        {t(status)}
-                      </span>
-                    </div>
+                  <div className={styles.details}>
+                    <p>
+                      <strong>{t("from")}:</strong> {trip.start_date}
+                    </p>
 
-                    <p className={styles.destination}>{trip.destination}</p>
+                    <p>
+                      <strong>{t("to")}:</strong> {trip.end_date}
+                    </p>
 
-                    <div className={styles.details}>
-                      <p>
-                        <strong>{t('from')}:</strong>{" "}
-                        {formatTripDate(trip.start_date, lang)}
-                      </p>
+                    <p>
+                      <strong>{t("budget")}:</strong> {trip.budget}
+                    </p>
+                  </div>
 
-                      <p>
-                        <strong>{t('to')}:</strong>{" "}
-                        {formatTripDate(trip.end_date, lang)}
-                      </p>
+                  <div className={styles.actions}>
+                    <Button
+                      as={Link}
+                      to={`/view-trip/${trip.id}`}
+                      variant="outline-primary"
+                      className={styles.actionButton}
+                    >
+                      {t("viewTrip")}
+                    </Button>
 
-                      <p>
-                        <strong>{t('budget')}:</strong> {trip.budget}
-                      </p>
-                    </div>
+                    <Button
+                      as={Link}
+                      to={`/edit-trip/${trip.id}`}
+                      variant="outline-secondary"
+                      className={styles.actionButton}
+                    >
+                      {t("edit")}
+                    </Button>
 
-                    <div className={styles.actions}>
-                      <Button
-                        as={Link}
-                        to={`/edit-trip/${trip.id}`}
-                        variant="outline-primary"
-                      >
-                        {t('edit')}
-                      </Button>
-                      <Button
-                        variant="outline-danger"
-                        onClick={() => handleDeleteTrip(trip.id)}
-                      >
-                        {t('delete')}
-                      </Button>
-                    </div>
-                  </Card.Body>
-                </Card>
-              );
-            })}
+                    <Button
+                      variant="outline-danger"
+                      className={styles.actionButton}
+                      onClick={() => handleDeleteTrip(trip.id)}
+                    >
+                      {t("delete")}
+                    </Button>
+                  </div>
+                </Card.Body>
+              </Card>
+            ))}
           </div>
         )}
       </Container>
