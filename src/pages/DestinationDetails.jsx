@@ -125,7 +125,7 @@ export default function DestinationDetails() {
           <span>${place.price || 0}</span> <span>{t('perDay') || 'per night'}</span>
         </p>
         <button className={styles.pricingAddBtn}>
-          {t('addToMyTrip') || 'Add to My Trip'}
+          {t('addToMyTrip') || (lang === 'ar' ? 'أضف إلى رحلتي' : 'Add to My Trip')}
         </button>
       </div>
 
@@ -136,7 +136,7 @@ export default function DestinationDetails() {
         className={styles.fullWidthBackBtn}
       >
         <i className="bi bi-arrow-left"></i>
-        <span>{t('back') || 'Go Back'}</span>
+        <span>{t('back') || (lang === 'ar' ? 'رجوع' : 'Go Back')}</span>
       </button>
     </div>
   );

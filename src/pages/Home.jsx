@@ -6,7 +6,6 @@ import clsx from "clsx";
 import Destinations from "../components/common/Destinations";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
-import placeCard from '../components/features/PlaceCard/PlaceCard'
 
 
 const categoryItems = [
@@ -29,7 +28,7 @@ export default function Home({ favorites = [], setFavorites }) {
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
-        const { data, error } = await supabase.from("places").select("*");
+        const { data, error } = await supabase.from("places").select("*").order('rating',{ascending:false}).limit(6);
         if (error) throw error;
         setDestinations(data || []);
       } catch (err) {
