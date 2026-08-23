@@ -49,6 +49,7 @@ export const translations = {
     food: "Food",
     forgotPassword: "Forgot Password?",
     from: "From",
+    startingFrom: "Starting from",
     fullName: "Full Name",
     fullNameRequired: "Please enter your full name.",
     google: "Google",
@@ -71,7 +72,7 @@ export const translations = {
     newPassword: "New Password",
     noDestinations: "No destinations match your search",
     noPlacesAvailable: "No places are available.",
-    noTripsDescription: "You haven",
+    noTripsDescription: "You haven't created any trips yet.",
     noTripsYet: "No trips yet",
     offlineAccess: "Offline Access",
     offlineAccessDesc:
@@ -81,6 +82,7 @@ export const translations = {
     passwordMinLength: "Password must be at least 6 characters.",
     passwordResetLink: "Password reset link sent to your email!",
     perDay: "/day",
+    perNight: "per night",
     planRoute: "Plan Route",
     pleaseEnterEmail: "Please enter your email address first.",
     processing: "Processing...",
@@ -118,6 +120,7 @@ export const translations = {
     whereAreYouGoing: "Where are you going?",
     whereTo: "Where to?",
     about: "About Smart Trip Planner",
+    aboutPlace: "About",
     aboutSubtitle:
       "Smart Trip Planner is a travel planning platform designed to help users discover destinations, create personalized trips, and organize their travel plans in one convenient place.",
     ourPurpose: "OUR PURPOSE",
@@ -200,6 +203,20 @@ export const translations = {
     emailRequired: "Email is required.",
     aboutHeroTitle: "Plan Your Journey",
     aboutHeroHighlight: "Smartly",
+
+    amenities: "Amenities",
+    noAmenities: "No amenities available",
+    addToMyTrip: "Add to My Trip",
+    back: "Go Back",
+    filters: "Filters & Sort",
+    sortBy: "Sort By",
+    popular: "Popular / Default",
+    highestRated: "Highest Rated",
+    priceLowHigh: "Price: Low to High",
+    priceHighLow: "Price: High to Low",
+    minRating: "Minimum Rating",
+    applyAndClose: "Apply & Close",
+
     viewTrip: "View Trip",
     tripDetails: "Trip Details",
     savedItinerary: "Saved Itinerary",
@@ -224,7 +241,6 @@ export const translations = {
     tripItemNotFound: "Trip item could not be found.",
     sourceDayNotFound: "Source day could not be found.",
     placeNotFound: "Place could not be found.",
-    viewDetails: "View Details",
   },
   ar: {
     T: "[AR: T]",
@@ -276,6 +292,7 @@ export const translations = {
     food: "أطعمة",
     forgotPassword: "هل نسيت كلمة السر؟",
     from: "من",
+    startingFrom: "يبدأ من",
     fullName: "الاسم الكامل",
     fullNameRequired: "يرجى إدخال اسمك الكامل.",
     google: "Google",
@@ -309,6 +326,7 @@ export const translations = {
     passwordResetLink:
       "تم إرسال رابط إعادة ضبط كلمة المرور إلى بريدك الإلكتروني!",
     perDay: "يومياً",
+    perNight: "لكل ليلة",
     planRoute: "تخطيط المسار",
     pleaseEnterEmail: "يرجى إدخال بريدك الإلكتروني أولاً.",
     processing: "جاري المعالجة...",
@@ -347,6 +365,7 @@ export const translations = {
     whereTo: "إلى أين؟",
     yourTrips: "رحلاتك",
     about: "عن مخطط الرحلات الذكي",
+    aboutPlace: "عن المكان",
     aboutSubtitle:
       "مخطط الرحلات الذكي هو منصة لتخطيط السفر تساعد المستخدمين على اكتشاف الوجهات وإنشاء رحلات مخصصة وتنظيم خطط سفرهم في مكان واحد.",
 
@@ -425,6 +444,20 @@ export const translations = {
     emailRequired: "البريد الإلكتروني مطلوب.",
     aboutHeroTitle: "خطط لرحلتك",
     aboutHeroHighlight: "بذكاء",
+
+    amenities: "المرافق والخدمات",
+    noAmenities: "لا توجد خدمات متاحة",
+    addToMyTrip: "أضف إلى رحلتي",
+    back: "رجوع",
+    filters: "الفلاتر والترتيب",
+    sortBy: "الترتيب حسب",
+    popular: "الأكثر شعبية / افتراضي",
+    highestRated: "الأعلى تقييماً",
+    priceLowHigh: "السعر: من الأقل للأعلى",
+    priceHighLow: "السعر: من الأعلى للأقل",
+    minRating: "الحد الأدنى للتقييم",
+    applyAndClose: "تطبيق وإغلاق",
+
     viewTrip: "عرض الرحلة",
     tripDetails: "تفاصيل الرحلة",
     savedItinerary: "الجدول المحفوظ",
@@ -449,7 +482,6 @@ export const translations = {
     tripItemNotFound: "تعذر العثور على عنصر الرحلة.",
     sourceDayNotFound: "تعذر العثور على اليوم المصدر.",
     placeNotFound: "تعذر العثور على المكان.",
-    viewDetails: "عرض التفاصيل",
   },
 };
 

@@ -13,9 +13,10 @@
 
 /* Filter Trigger Button */
 .sidebarTriggerBtn {
-  background: rgba(13, 21, 39, 0.8);
-  border: 1px solid rgba(51, 65, 85, 0.6);
-  color: #38bdf8;
+  inset-inline-start: 0;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--primary-color);
   padding: 0 1rem;
   border-radius: 0.75rem;
   font-size: 1.1rem;
@@ -23,12 +24,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 2px 6px var(--shadow-color);
   transition: all 0.2s ease;
 }
 
 .sidebarTriggerBtn:hover {
-  background: rgba(56, 189, 248, 0.15);
-  border-color: #38bdf8;
+  background: var(--glass-bg);
+  border-color: var(--primary-hover);
+  color: var(--primary-hover);
+  transform: translateY(-1px);
 }
 
 /* Dimmed Backdrop */
@@ -41,7 +45,7 @@
 }
 
 /* Left Aside Drawer */
-.filterSidebar {
+/* .filterSidebar {
   position: fixed;
   top: 0;
   left: 0;
@@ -51,12 +55,44 @@
   border-right: 1px solid var(--border-color);
   color: var(--text-primary);
   z-index: 999;
-  padding: 1.5rem;
+  padding: 3.5rem 1.5rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
   transform: translateX(-100%);
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 10px 0 25px rgba(0, 0, 0, 0.5);
+} */
+ .filterSidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;           /* Left in LTR (EN), Right in RTL (AR) */
+  width: 300px;
+  background: var(--bg-secondary);
+  border-inline-end: 1px solid var(--border-color); /* Right border in EN, Left border in AR */
+  z-index: 999;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 25px var(--shadow-color);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-primary);
+}
+/* 2. Hidden/Closed State for English (Pushes left off-screen) */
+:root[dir="ltr"] .filterSidebar,
+html:not([dir="rtl"]) .filterSidebar {
+  transform: translateX(-100%);
+}
+
+/* 3. Hidden/Closed State for Arabic (Pushes right off-screen) */
+:root[dir="rtl"] .filterSidebar,
+html[dir="rtl"] .filterSidebar {
+  transform: translateX(100%);
+}
+
+/* 4. Open State (Slides into view from whichever edge it belongs to) */
+.filterSidebar.sidebarOpen {
+  transform: translateX(0) !important;
 }
 
 .sidebarOpen {
@@ -74,7 +110,7 @@
 .sidebarTitle {
   font-size: 1rem;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -114,35 +150,47 @@
 }
 
 .selectInput {
-  background: #070b14;
-  border: 1px solid rgba(51, 65, 85, 0.8);
-  color: #f1f5f9;
+  background: var(--input-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
   padding: 0.5rem;
   border-radius: 0.5rem;
   font-size: 0.85rem;
   outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.selectInput:focus {
+  border-color: var(--primary-color);
 }
 
 .rangeInput {
-  accent-color: #38bdf8;
+  accent-color: var(--primary-color);
   width: 100%;
 }
 
 .ratingPill {
   flex: 1;
-  background: #070b14;
-  border: 1px solid rgba(51, 65, 85, 0.8);
-  color: #94a3b8;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
   padding: 0.4rem;
   border-radius: 0.5rem;
   font-size: 0.75rem;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ratingPill:hover {
+  border-color: var(--primary-color);
+  color: var(--text-primary);
 }
 
 .activeRatingPill {
   background: rgba(245, 158, 11, 0.15);
-  border-color: #f59e0b;
-  color: #f59e0b;
+  border-color: var(--secondary-color);
+  color: var(--secondary-color);
+  font-weight: 600;
 }
 
 .clearBtn {

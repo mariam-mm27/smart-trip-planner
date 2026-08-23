@@ -3,12 +3,37 @@
   color: var(--text-primary);
   min-height: 100vh;
   padding: 32px 16px;
-  max-width: 100%;
+
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .page {
+    width: 864px;
+  }
+}
+@media (max-width: 964px) {
+  .page {
+    width: 680px;
+  }
+}
+@media (max-width: 768px) {
+  .page {
+    width: 90%;
+    padding: 100px 1rem 4rem;
+  }
+  
+}
+@media (max-width: 480px) {
+  .page {
+    width: 100%;
+    padding: 90px 0.5rem 4rem;
+  }
+  
 }
 
 .heroSection {
@@ -104,7 +129,7 @@
 .searchInput {
   width: 100%;
   background: var(--input-bg);
-  border: 1px solid var(--border-color);
+  border: none;
   color: var(--text-primary);
   outline: none !important;
   padding: 8px 4px;
@@ -233,7 +258,9 @@
 .cardImageWrapper {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 0.75rem 0.75rem 0 0;
 }
 
 .cardImage {
@@ -242,17 +269,46 @@
   object-fit: cover;
 }
 
+/* 1. Anchors the heart button to the START edge */
+/* (Left in English LTR, Right in Arabic RTL) */
+.favoriteButton {
+  position: absolute;
+  top: 10px;
+  inset-inline-start: 10px; 
+  background: var(--glass-bg, rgba(7, 11, 20, 0.65));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(4px);
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 3;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: transform 0.2s ease;
+}
+
+/* 2. Anchors the rating badge to the END edge */
+/* (Right in English LTR, Left in Arabic RTL) */
 .ratingBadge {
   position: absolute;
   top: 10px;
-  right: 10px;
-  background: rgba(11, 18, 30, 0.75);
+  inset-inline-end: 10px; 
+  background: var(--glass-bg, rgba(7, 11, 20, 0.65));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
   backdrop-filter: blur(4px);
-  padding: 4px 8px;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  color: #facc15;
+  color: #fbbf24;
+  font-size: 0.8rem;
   font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 [dir="rtl"] .ratingBadge {

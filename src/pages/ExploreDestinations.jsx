@@ -116,10 +116,10 @@ export default function ExploreDestinations({ favorites = [], setFavorites }) {
               onChange={(e) => setSortBy(e.target.value)}
               className={styles.selectInput}
             >
-              <option value="popular">Popular / Default</option>
-              <option value="rating">Highest Rated</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
+              <option value="popular">{t("popular")}</option>
+              <option value="rating">{t("highestRated")}</option>
+              <option value="price-asc">{t("priceLowHigh")}</option>
+              <option value="price-desc">{t("priceHighLow")}</option>
             </select>
           </div>
 
@@ -153,7 +153,7 @@ export default function ExploreDestinations({ favorites = [], setFavorites }) {
                     [styles.activeRatingPill]: minRating === rate,
                   })}
                 >
-                  {rate === 0 ? 'All' : `⭐ ${rate}+`}
+                  {rate === 0 ? t("all") : `⭐ ${rate}+`}
                 </button>
               ))}
             </div>
@@ -173,7 +173,7 @@ export default function ExploreDestinations({ favorites = [], setFavorites }) {
               onClick={() => setIsSidebarOpen(false)}
               className={styles.applyBtn}
             >
-              Apply & Close
+              {t("applyAndClose")}
             </button>
           </div>
           {/* Categories */}
@@ -201,9 +201,9 @@ export default function ExploreDestinations({ favorites = [], setFavorites }) {
           <button
             type="button"
             className={styles.sidebarTriggerBtn}
-            onClick={() => setIsSidebarOpen(true)}
+            onClick={()=>isSidebarOpen==true?setIsSidebarOpen(false):setIsSidebarOpen(true)}
           >
-           +
+           ☰
           </button>
 
           {/* Search Input */}
