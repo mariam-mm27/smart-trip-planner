@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { Container, Card, Button, Spinner } from "react-bootstrap";
 import { deleteTrip, getMyTrips } from "../../services/tripService";
 import { useLanguage } from "../../context/LanguageContext";
+import { useNavigate } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
 import styles from "./MyTrips.module.css";
 import { Link } from "react-router-dom";
 
 export default function MyTrips() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [trips, setTrips] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -65,6 +68,16 @@ export default function MyTrips() {
   return (
     <main className={styles.page}>
       <Container>
+        <button
+          type="button"
+          className={styles.backBtn}
+          onClick={() => navigate(-1)}
+          title="Go back"
+          aria-label="Go back"
+        >
+          <FiArrowLeft /> {t("back")}
+        </button>
+
         <div className={styles.header}>
           <span className={styles.eyebrow}>{t("myTrips")}</span>
 

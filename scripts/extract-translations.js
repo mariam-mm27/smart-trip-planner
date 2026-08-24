@@ -27,6 +27,13 @@ function translateToArabic(englishText) {
     'error': 'خطأ',
     'success': 'نجح',
     'close': 'إغلاق',
+    'Sea Turtle Watching Spot': 'موقع مراقبة السلاحف البحرية',
+    'Lagoon Snorkel Equipment': 'معدات الغطس في البحيرة',
+    'White Sand Beach': 'الشاطئ الرملي الأبيض',
+    'Coral Reef': 'شعاب مرجانية',
+    'Marine Biodiversity': 'التنوع البحري',
+    'About': 'عن',
+    'About Place': 'عن المكان',
   };
   return basicTranslations[englishText] || `[AR: ${englishText}]`;
 }

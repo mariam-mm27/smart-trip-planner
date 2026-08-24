@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { supabase } from '../../services/supabaseClient';
 import styles from '../../styles/Navbar.module.css';
 import { FiUser, FiLogIn, FiMenu, FiX, FiMapPin } from 'react-icons/fi';
 import { Toolbar } from './Toolbar';
@@ -11,6 +12,9 @@ export default function Navbar() {
   const { t } = useLanguage();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Hide auth button on auth pages
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   // Close the mobile menu whenever the route changes.
   useEffect(() => {
@@ -88,12 +92,12 @@ export default function Navbar() {
                 )}
                 <span>{displayName}</span>
               </Link>
-            ) : (
+            ) : !isAuthPage ? (
               <Link to="/login" className={styles.loginBtn}>
                 <FiLogIn />
-                <span>{t('login')}</span>
+                <span>Login / Sign Up</span>
               </Link>
-            )}
+            ) : null}
           </div>
         </div>
       </nav>
