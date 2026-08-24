@@ -3,50 +3,65 @@
   --primary-hover: #006ddb;
   --secondary-color: #F59E0B;
   --tertiary-color: #8B5CF6;
-
   --navbar-height: 68px;
-
   --font-main: "Inter", system-ui, -apple-system, sans-serif;
   --font-label: "JetBrains Mono", monospace;
 }
 
 /* ─── Dark Theme Variables ─── */
-:root[data-theme="dark"], body.dark-theme {
+
+:root[data-theme="dark"],
+body.dark-theme {
   --bg-primary: #0b1329;
   --bg-secondary: #111a2e;
   --bg-surface: #162132;
   --neutral-color: #0f172a;
   --background-color: #0b1329;
+
   --text-primary: #ffffff;
   --text-secondary: #94a3b8;
+
   --border-color: rgba(255, 255, 255, 0.12);
+
   --card-bg: #111a2d;
   --input-bg: #070d1d;
+
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-border: rgba(255, 255, 255, 0.15);
+
   --shadow-color: rgba(0, 0, 0, 0.35);
+
   color-scheme: dark;
 }
 
 /* ─── Light Theme Variables ─── */
-:root[data-theme="light"], body.light-theme {
+
+:root[data-theme="light"],
+body.light-theme {
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
   --bg-surface: #f1f5f9;
   --neutral-color: #ffffff;
   --background-color: #f8fafc;
+
   --text-primary: #0f172a;
   --text-secondary: #475569;
+
   --border-color: rgba(15, 23, 42, 0.12);
+
   --card-bg: #ffffff;
   --input-bg: #f1f5f9;
+
   --glass-bg: rgba(15, 23, 42, 0.06);
   --glass-border: rgba(15, 23, 42, 0.15);
+
   --shadow-color: rgba(0, 0, 0, 0.08);
+
   color-scheme: light;
 }
 
 /* ─── Global Reset & Layout ─── */
+
 *,
 *::before,
 *::after {
@@ -65,10 +80,15 @@ body {
   padding: 0;
   overflow-y: auto !important;
   overflow-x: hidden;
+
   background-color: var(--bg-primary) !important;
   color: var(--text-primary) !important;
+
   font-family: var(--font-main);
-  transition: background-color 0.3s ease, color 0.3s ease;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 #root {
@@ -86,6 +106,7 @@ button {
 }
 
 /* ─── Strict Primary Button Unification ─── */
+
 .loginBtn,
 .searchBtn,
 .detailsBtn,
@@ -130,21 +151,20 @@ button {
 }
 
 /* ─── RTL Support ─── */
+
 [dir="rtl"] {
   direction: rtl;
   text-align: right;
 }
 
-/* The mono label font has no Arabic glyphs, so it falls back to a monospaced
-   face that stretches the joins between letters. */
+/* Arabic font */
+
 :root[dir="rtl"] {
   --font-label: "Cairo", "Tajawal", "Segoe UI", system-ui, sans-serif;
 }
 
 [dir="rtl"] * {
-  /* Ensure all text respects RTL */
   direction: inherit;
-  /* Arabic is cursive: any tracking breaks the joins between letters. */
   letter-spacing: normal !important;
 }
 
@@ -165,13 +185,30 @@ button {
 }
 
 /* Ensure proper RTL layout for buttons and flexbox */
+
 [dir="rtl"] .toolbar-btn span,
 [dir="rtl"] .loginBtn span,
 [dir="rtl"] .btn-submit span {
   display: inline-block;
 }
 
-/* Smooth transitions for theme switching */
-body, nav, header, main, footer, div, section, article, card, input, select, textarea, button {
-  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+/* ─── Smooth transitions for theme switching ─── */
+
+body,
+nav,
+header,
+main,
+footer,
+div,
+section,
+article,
+card,
+input,
+select,
+textarea,
+button {
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
 }

@@ -7,7 +7,6 @@ import Destinations from "../components/common/Destinations";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 
-
 const categoryItems = [
   { id: "All", label: "all" },
   { id: "Beaches", label: "beaches" },
@@ -16,23 +15,41 @@ const categoryItems = [
   { id: "Food", label: "food" },
 ];
 
-export default function Home({ favorites = [], setFavorites }) {
+export default function Home({
+  favorites = [],
+  setFavorites,
+}) {
   const navigate = useNavigate();
+
   const { user } = useAuth();
   const { t, lang } = useLanguage();
+
   const [destinations, setDestinations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [activeFilter,setActiveFilter]= useState('Beaches')
+  const [activeFilter, setActiveFilter] = useState("Beaches");
+
+  // =========================
+  // FETCH DESTINATIONS
+  // =========================
 
   useEffect(() => {
     const fetchDestinations = async () => {
       try {
-        const { data, error } = await supabase.from("places").select("*").order('rating',{ascending:false}).limit(6);
+        const { data, error } = await supabase
+          .from("places")
+          .select("*")
+          .order("rating", { ascending: false })
+          .limit(6);
+
         if (error) throw error;
+
         setDestinations(data || []);
       } catch (err) {
-        console.error("Error fetching destinations:", err.message);
+        console.error(
+          "Error fetching destinations:",
+          err.message
+        );
       } finally {
         setLoading(false);
       }
@@ -41,101 +58,195 @@ export default function Home({ favorites = [], setFavorites }) {
     fetchDestinations();
   }, []);
 
+  // =========================
+  // FILTER DESTINATIONS
+  // =========================
+
   const filteredDestinations = useMemo(() => {
     return destinations.filter((place) => {
-      const query = searchQuery.toLowerCase().trim();
+      const query = searchQuery
+        .toLowerCase()
+        .trim();
+
       const matchedSearch =
         query === "" ||
-        place.title?.toLowerCase().includes(query) ||
-        place.description?.toLowerCase().includes(query);
+        place.title
+          ?.toLowerCase()
+          .includes(query) ||
+        place.description
+          ?.toLowerCase()
+          .includes(query);
 
       const matchedCategory =
         activeFilter.toLowerCase() === "all" ||
-        place.category?.toLowerCase().trim() ===
-          activeFilter.toLowerCase().trim();
+        place.category
+          ?.toLowerCase()
+          .trim() ===
+          activeFilter
+            .toLowerCase()
+            .trim();
 
       return matchedCategory && matchedSearch;
     });
-  }, [destinations, activeFilter, searchQuery]);
+  }, [
+    destinations,
+    activeFilter,
+    searchQuery,
+  ]);
+
+  // =========================
+  // CLEAR FILTERS
+  // =========================
+
+  const handleClearFilters = () => {
+    setSearchQuery("");
+    setActiveFilter("All");
+  };
+
+  // =========================
+  // SCROLL TO DESTINATIONS
+  // =========================
+
+  const handleSearch = () => {
+    document
+      .getElementById("destinations-section")
+      ?.scrollIntoView({
+        behavior: "smooth",
+      });
+  };
 
   return (
     <div className={styles.page}>
+
+      {/* =========================
+          HERO SECTION
+      ========================= */}
+
       <section className={styles.heroSection}>
+
         <h1 className={styles.heroTitle}>
-          {t("heroTitle")} <span>{t("heroTitleHighlight")}</span>
+          {t("heroTitle")}{" "}
+          <span>
+            {t("heroTitleHighlight")}
+          </span>
         </h1>
-        <p className={styles.heroSubtitle}>{t("heroSubtitle")}</p>
+
+        <p className={styles.heroSubtitle}>
+          {t("heroSubtitle")}
+        </p>
+
+        {/* SEARCH CARD */}
 
         <div className={styles.searchCard}>
+
+          {/* Search */}
+
           <div className={styles.inputGroup}>
+
             <span className={styles.inputIcon}>
               <i className="bi bi-search"></i>
             </span>
+
             <input
               type="text"
               className={styles.searchInput}
               placeholder={t("whereTo")}
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) =>
+                setSearchQuery(e.target.value)
+              }
             />
+
           </div>
 
+          {/* Date */}
+
           <div className={styles.inputGroup}>
+
             <span className={styles.inputIcon}>
               <i className="bi bi-calendar"></i>
             </span>
+
             <input
               type="text"
               className={styles.searchInput}
               placeholder={t("dates")}
             />
+
           </div>
 
+          {/* Search Button */}
+
           <button
-            onClick={() => {
-              document
-                .getElementById("destinations-section")
-                ?.scrollIntoView({ behavior: "smooth" });
-            }}
+            type="button"
+            onClick={handleSearch}
             className={styles.searchBtn}
           >
             {t("search")}
           </button>
 
+          {/* Categories */}
+
           <div className={styles.categories}>
+
             {categoryItems.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
-                onClick={() => setActiveFilter(cat.id)}
-                className={clsx(styles.categoryBtn, {
-                  [styles.activeCategory]: activeFilter === cat.id,
-                })}
+                onClick={() =>
+                  setActiveFilter(cat.id)
+                }
+                className={clsx(
+                  styles.categoryBtn,
+                  {
+                    [styles.activeCategory]:
+                      activeFilter === cat.id,
+                  }
+                )}
               >
                 {t(cat.label)}
               </button>
             ))}
+
           </div>
+
         </div>
       </section>
 
-      {/* Dynamic section */}
+      {/* =========================
+          DYNAMIC SECTION
+      ========================= */}
+
       <section className={styles.dynamicSection}>
+
         {user ? (
+
           <div className={styles.dynamicCard}>
+
             <div className={styles.dynamicContent}>
-              <p className={styles.dynamicEyebrow}>{t("welcomeBack")}</p>
 
-              <h2 className={styles.dynamicTitle}>{t("readyForAdventure")}</h2>
+              <p className={styles.dynamicEyebrow}>
+                {t("welcomeBack")}
+              </p>
 
-              <p className={styles.dynamicText}>{t("manageYourTrips")}</p>
+              <h2 className={styles.dynamicTitle}>
+                {t("readyForAdventure")}
+              </h2>
+
+              <p className={styles.dynamicText}>
+                {t("manageYourTrips")}
+              </p>
+
             </div>
 
             <div className={styles.dynamicActions}>
+
               <button
                 type="button"
                 className={styles.primaryAction}
-                onClick={() => navigate("/create-trip")}
+                onClick={() =>
+                  navigate("/create-trip")
+                }
               >
                 {t("createNewTrip")}
               </button>
@@ -143,29 +254,45 @@ export default function Home({ favorites = [], setFavorites }) {
               <button
                 type="button"
                 className={styles.secondaryAction}
-                onClick={() => navigate("/my-trips")}
+                onClick={() =>
+                  navigate("/my-trips")
+                }
               >
                 {t("myTrips")}
               </button>
+
             </div>
+
           </div>
+
         ) : (
+
           <div className={styles.dynamicCard}>
+
             <div className={styles.dynamicContent}>
-              <p className={styles.dynamicEyebrow}>{t("startYourJourney")}</p>
+
+              <p className={styles.dynamicEyebrow}>
+                {t("startYourJourney")}
+              </p>
 
               <h2 className={styles.dynamicTitle}>
                 {t("planYourTripSmartly")}
               </h2>
 
-              <p className={styles.dynamicText}>{t("smartTripDescription")}</p>
+              <p className={styles.dynamicText}>
+                {t("smartTripDescription")}
+              </p>
+
             </div>
 
             <div className={styles.dynamicActions}>
+
               <button
                 type="button"
                 className={styles.primaryAction}
-                onClick={() => navigate("/register")}
+                onClick={() =>
+                  navigate("/register")
+                }
               >
                 {t("getStarted")}
               </button>
@@ -173,80 +300,214 @@ export default function Home({ favorites = [], setFavorites }) {
               <button
                 type="button"
                 className={styles.secondaryAction}
-                onClick={() => navigate("/login")}
+                onClick={() =>
+                  navigate("/login")
+                }
               >
                 {t("login")}
               </button>
+
             </div>
+
           </div>
+
         )}
+
       </section>
 
-      <section id="destinations-section" className={styles.destinationsSection}>
+      {/* =========================
+          DESTINATIONS
+      ========================= */}
+
+      <section
+        id="destinations-section"
+        className={styles.destinationsSection}
+      >
+
         <div className={styles.sectionHeader}>
+
           <i className="bi bi-fire text-info fs-5"></i>
-          <h2 className={styles.sectionTitle}>{t("trendingDestinations")}</h2>
+
+          <h2 className={styles.sectionTitle}>
+            {t("trendingDestinations")}
+          </h2>
+
         </div>
 
+        <div className="text-center mb-4">
+
+          <button
+            type="button"
+            className={styles.explorePlacesBtn}
+            onClick={() =>
+              navigate("/place")
+            }
+          >
+            {t("exploreAllPlaces") ||
+              "Explore All Places"}
+          </button>
+
+        </div>
+
+        {/* Loading */}
+
         {loading ? (
-          <p className="text-secondary text-center py-4">{t("loading")}...</p>
+
+          <p className="text-secondary text-center py-4">
+            {t("loading")}...
+          </p>
+
         ) : filteredDestinations.length === 0 ? (
+
           <div className="text-center py-5">
-            <p className="text-secondary mb-3">{t("noDestinations")}</p>
+
+            <p className="text-secondary mb-3">
+              {t("noDestinations")}
+            </p>
+
             <button
+              type="button"
               className="btn btn-sm btn-outline-info rounded-pill px-3"
-              onClick={() => {
-                setSearchQuery("");
-                setActiveFilter("All");
-              }}
+              onClick={handleClearFilters}
             >
               {t("clearFilters")}
             </button>
+
           </div>
+
         ) : (
+
           <div className={styles.destinationsList}>
-            {filteredDestinations.map((place) => (
-              <Destinations
-              key={place.id}
-              id={place.id}
-              title={place.title}
-              description={place.description}
-              price={place.price}
-              rating={place.rating}
-              imageUrl={place.image_url || place.imageUrl}
-              category={place.category}
-              location={place.location}
-              lang={lang}
-              favorites={favorites}
-              setFavorites={setFavorites}
-            />
-            ))}
+
+            {filteredDestinations.map(
+              (place) => (
+
+                <Destinations
+                  key={place.id}
+
+                  id={place.id}
+
+                  title={place.title}
+
+                  description={
+                    place.description
+                  }
+
+                  price={place.price}
+
+                  rating={place.rating}
+
+                  imageUrl={
+                    place.image_url ||
+                    place.imageUrl
+                  }
+
+                  category={
+                    place.category
+                  }
+
+                  location={
+                    place.location
+                  }
+
+                  lang={lang}
+
+                  favorites={favorites}
+
+                  setFavorites={
+                    setFavorites
+                  }
+                />
+
+              )
+            )}
+
           </div>
+
         )}
+
       </section>
 
+      {/* =========================
+          BENEFITS
+      ========================= */}
+
       <section className={styles.benefits}>
+
         <div className={styles.benefitsItem}>
+
           <div className={styles.benefitsText}>
-            <h4 className={styles.benefitsHeading}>{t("aiPlanner")}</h4>
-            <p className={styles.benefitsDescription}>{t("aiPlannerDesc")}</p>
+
+            <h4
+              className={
+                styles.benefitsHeading
+              }
+            >
+              {t("aiPlanner")}
+            </h4>
+
+            <p
+              className={
+                styles.benefitsDescription
+              }
+            >
+              {t("aiPlannerDesc")}
+            </p>
+
           </div>
+
         </div>
+
         <div className={styles.benefitsItem}>
+
           <div className={styles.benefitsText}>
-            <h4 className={styles.benefitsHeading}>{t("budgeting")}</h4>
-            <p className={styles.benefitsDescription}>{t("budgetingDesc")}</p>
+
+            <h4
+              className={
+                styles.benefitsHeading
+              }
+            >
+              {t("budgeting")}
+            </h4>
+
+            <p
+              className={
+                styles.benefitsDescription
+              }
+            >
+              {t("budgetingDesc")}
+            </p>
+
           </div>
+
         </div>
+
         <div className={styles.benefitsItem}>
+
           <div className={styles.benefitsText}>
-            <h4 className={styles.benefitsHeading}>{t("offlineAccess")}</h4>
-            <p className={styles.benefitsDescription}>
+
+            <h4
+              className={
+                styles.benefitsHeading
+              }
+            >
+              {t("offlineAccess")}
+            </h4>
+
+            <p
+              className={
+                styles.benefitsDescription
+              }
+            >
               {t("offlineAccessDesc")}
             </p>
+
           </div>
+
         </div>
+
       </section>
+
     </div>
   );
 }

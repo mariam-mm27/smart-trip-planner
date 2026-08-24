@@ -1,0 +1,44 @@
+.notFoundPage {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.notFoundContent {
+  max-width: 600px;
+}
+
+.notFoundContent h1 {
+  font-size: 120px;
+  font-weight: 800;
+  margin: 0;
+  line-height: 1;
+}
+
+.notFoundContent h2 {
+  font-size: 32px;
+  margin: 20px 0 10px;
+}
+
+.notFoundContent p {
+  font-size: 18px;
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.backHomeBtn {
+  display: inline-block;
+  padding: 12px 28px;
+  background-color: #000;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.backHomeBtn:hover {
+  opacity: 0.8;
+}
