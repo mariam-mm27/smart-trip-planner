@@ -1,5 +1,6 @@
 .place-card {
-  width: 350px;
+  width: 100%;
+  max-width: 420px;
   background-color: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 15px;
@@ -91,6 +92,7 @@
 }
 
 /* HEART */
+
 .favorite-btn {
   position: absolute;
   top: 28px;
@@ -107,6 +109,16 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.favorite-btn:hover {
+  background-color: #123454;
+}
+
+.favorite-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 [dir="rtl"] .favorite-btn {
@@ -114,7 +126,8 @@
   left: 28px;
 }
 
-/* METROPOLIS */
+/* CATEGORY */
+
 .category {
   position: absolute;
   top: 28px;

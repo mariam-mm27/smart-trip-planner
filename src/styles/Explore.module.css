@@ -12,6 +12,7 @@
 }
 
 /* Filter Trigger Button */
+
 .sidebarTriggerBtn {
   inset-inline-start: 0;
   background: var(--card-bg);
@@ -36,6 +37,7 @@
 }
 
 /* Dimmed Backdrop */
+
 .backdrop {
   position: fixed;
   inset: 0;
@@ -45,31 +47,15 @@
 }
 
 /* Left Aside Drawer */
-/* .filterSidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 300px;
-  background: var(--bg-secondary);
-  border-right: 1px solid var(--border-color);
-  color: var(--text-primary);
-  z-index: 999;
-  padding: 3.5rem 1.5rem 1.5rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  transform: translateX(-100%);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 10px 0 25px rgba(0, 0, 0, 0.5);
-} */
- .filterSidebar {
+
+.filterSidebar {
   position: fixed;
   top: 0;
   bottom: 0;
-  inset-inline-start: 0;           /* Left in LTR (EN), Right in RTL (AR) */
+  inset-inline-start: 0;
   width: 300px;
   background: var(--bg-secondary);
-  border-inline-end: 1px solid var(--border-color); /* Right border in EN, Left border in AR */
+  border-inline-end: 1px solid var(--border-color);
   z-index: 999;
   padding: 1.5rem;
   display: flex;
@@ -78,19 +64,23 @@
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--text-primary);
 }
-/* 2. Hidden/Closed State for English (Pushes left off-screen) */
+
+/* Hidden/Closed State for English */
+
 :root[dir="ltr"] .filterSidebar,
 html:not([dir="rtl"]) .filterSidebar {
   transform: translateX(-100%);
 }
 
-/* 3. Hidden/Closed State for Arabic (Pushes right off-screen) */
+/* Hidden/Closed State for Arabic */
+
 :root[dir="rtl"] .filterSidebar,
 html[dir="rtl"] .filterSidebar {
   transform: translateX(100%);
 }
 
-/* 4. Open State (Slides into view from whichever edge it belongs to) */
+/* Open State */
+
 .filterSidebar.sidebarOpen {
   transform: translateX(0) !important;
 }
@@ -212,6 +202,19 @@ html[dir="rtl"] .filterSidebar {
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
+}
+
+.searchCard {
+  margin-top: 40px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: left;
+  width: 100%;
+  max-width: 900px;
+  color: var(--text-primary);
+  box-shadow: 0 4px 20px var(--shadow-color);
 }
 
 .searchCard {
