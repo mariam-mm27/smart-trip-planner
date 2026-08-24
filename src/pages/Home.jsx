@@ -7,7 +7,6 @@ import Destinations from "../components/common/Destinations";
 import { useLanguage } from "../context/LanguageContext";
 import { useAuth } from "../context/AuthContext";
 
-
 const categoryItems = [
   { id: "All", label: "all" },
   { id: "Beaches", label: "beaches" },
@@ -23,7 +22,7 @@ export default function Home({ favorites = [], setFavorites }) {
   const [destinations, setDestinations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [activeFilter, setActiveFilter] = useState('All')
+  const [activeFilter, setActiveFilter] = useState("All");
 
   useEffect(() => {
     let isMounted = true;
@@ -62,8 +61,15 @@ export default function Home({ favorites = [], setFavorites }) {
       const query = searchQuery.toLowerCase().trim();
       const placeTitle = (place.title || "").toLowerCase();
       const placeDesc = (place.description || "").toLowerCase();
-      const placeLoc = (place.location || place.Location || place.location_url || "").toLowerCase();
-      const placeCategory = (place.category || place.imgTitle || "").toLowerCase().trim();
+      const placeLoc = (
+        place.location ||
+        place.Location ||
+        place.location_url ||
+        ""
+      ).toLowerCase();
+      const placeCategory = (place.category || place.imgTitle || "")
+        .toLowerCase()
+        .trim();
 
       const matchedSearch =
         query === "" ||
@@ -73,12 +79,18 @@ export default function Home({ favorites = [], setFavorites }) {
 
       const activeFilterNorm = activeFilter.toLowerCase().trim();
       const matchedCategory =
-        activeFilterNorm === "all" ||
-        placeCategory === activeFilterNorm;
+        activeFilterNorm === "all" || placeCategory === activeFilterNorm;
 
       return matchedCategory && matchedSearch;
     });
   }, [destinations, activeFilter, searchQuery]);
+
+  const trendingDestinations = useMemo(() => {
+    return [...filteredDestinations]
+      .filter((place) => Number(place.rating) >= 4.8)
+      .sort((a, b) => Number(b.rating) - Number(a.rating))
+      .slice(0, 8);
+  }, [filteredDestinations]);
 
   return (
     <div className={styles.page}>
@@ -86,7 +98,11 @@ export default function Home({ favorites = [], setFavorites }) {
       {user && (
         <section className={styles.greetingHeader}>
           <h1 className={styles.greetingTitle}>
-            {t("welcomeBack")}, {user?.user_metadata?.full_name ? user.user_metadata.full_name.split(' ')[0] : "Traveler"}! 👋
+            {t("welcomeBack")},{" "}
+            {user?.user_metadata?.full_name
+              ? user.user_metadata.full_name.split(" ")[0]
+              : "Traveler"}
+            ! 👋
           </h1>
           <p className={styles.greetingSubtitle}>{t("readyToPlan")}</p>
           <div className={styles.greetingActions}>
@@ -196,7 +212,7 @@ export default function Home({ favorites = [], setFavorites }) {
           </div>
         ) : (
           <div className={styles.destinationsList}>
-            {filteredDestinations.map((place) => (
+            {trendingDestinations.map((place) => (
               <Destinations
                 key={place.id}
                 id={place.id}
@@ -204,16 +220,10 @@ export default function Home({ favorites = [], setFavorites }) {
                 description={place.description}
                 price={place.price}
                 rating={place.rating}
-                imageUrl={
-                  place.image_url ||
-                  place.imageUrl ||
-                  place.image
-                }
+                imageUrl={place.image_url || place.imageUrl || place.image}
                 category={place.category || place.imgTitle}
                 location={
-                  place.location ||
-                  place.Location ||
-                  place.location_url
+                  place.location || place.Location || place.location_url
                 }
                 lang={lang}
                 favorites={favorites}
@@ -232,7 +242,9 @@ export default function Home({ favorites = [], setFavorites }) {
               <h2 className={styles.dynamicTitle}>
                 {t("planYourTripSmartly")} 🌍
               </h2>
-              <p className={styles.dynamicSubtitle}>{t("smartTripDescription")}</p>
+              <p className={styles.dynamicSubtitle}>
+                {t("smartTripDescription")}
+              </p>
             </div>
 
             <div className={styles.dynamicActions}>
@@ -264,7 +276,9 @@ export default function Home({ favorites = [], setFavorites }) {
           <div className={styles.benefitsItem}>
             <div className={styles.benefitsText}>
               <h4 className={styles.benefitsHeading}>{t("tripPlanner")}</h4>
-              <p className={styles.benefitsDescription}>{t("tripPlannerDesc")}</p>
+              <p className={styles.benefitsDescription}>
+                {t("tripPlannerDesc")}
+              </p>
             </div>
             <button
               className={styles.benefitsBtn}
