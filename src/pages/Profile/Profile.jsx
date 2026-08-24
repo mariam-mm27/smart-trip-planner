@@ -11,6 +11,7 @@ export default function Profile() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const isSigningOut = useRef(false);
 
   const [fullName, setFullName] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
@@ -26,8 +27,9 @@ export default function Profile() {
   const [message, setMessage] = useState({ type: "", text: "" });
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      navigate("/login", { replace: true });
+    if (!authLoading && !user && !isSigningOut.current) {
+      // User accessed profile without being logged in, redirect to home
+      navigate("/", { replace: true });
     } else if (user) {
       getProfile();
     }
@@ -174,7 +176,7 @@ export default function Profile() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    navigate("/login", { replace: true });
+    window.location.href = "/";
   };
 
   if (authLoading) return <div className={styles.loadingScreen}>{t('processing')}</div>;

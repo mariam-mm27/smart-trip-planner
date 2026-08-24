@@ -24,7 +24,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
   // Auto-redirect authenticated users away from login/register
   useEffect(() => {
     if (user && !authLoading) {
-      navigate('/explore', { replace: true });
+      navigate('/', { replace: true });
     }
   }, [user, authLoading, navigate]);
 
@@ -75,7 +75,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
         } else {
           setMessage({ type: 'success', text: t('loggedInSuccessfully') });
           setTimeout(() => {
-            navigate('/explore', { replace: true });
+            navigate('/', { replace: true });
           }, 800);
         }
       } else {
@@ -94,7 +94,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
             text: t('accountCreatedSuccessfully'),
           });
           setTimeout(() => {
-            navigate('/explore', { replace: true });
+            navigate('/', { replace: true });
           }, 800);
         }
       }

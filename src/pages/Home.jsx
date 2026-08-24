@@ -23,7 +23,7 @@ export default function Home({ favorites = [], setFavorites }) {
   const [destinations, setDestinations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [activeFilter,setActiveFilter]= useState('Beaches')
+  const [activeFilter, setActiveFilter] = useState('All')
 
   useEffect(() => {
     const fetchDestinations = async () => {
@@ -60,13 +60,42 @@ export default function Home({ favorites = [], setFavorites }) {
 
   return (
     <div className={styles.page}>
-      <section className={styles.heroSection}>
-        <h1 className={styles.heroTitle}>
-          {t("heroTitle")} <span>{t("heroTitleHighlight")}</span>
-        </h1>
-        <p className={styles.heroSubtitle}>{t("heroSubtitle")}</p>
+      {/* Authenticated User: Top Welcome Header - KEPT EXACTLY AS ORIGINAL */}
+      {user && (
+        <section className={styles.greetingHeader}>
+          <h1 className={styles.greetingTitle}>
+            {t("welcomeBack")}, {user?.user_metadata?.full_name ? user.user_metadata.full_name.split(' ')[0] : "Traveler"}! 👋
+          </h1>
+          <p className={styles.greetingSubtitle}>{t("readyToPlan")}</p>
+          <div className={styles.greetingActions}>
+            <button
+              type="button"
+              className={styles.greetingPrimaryBtn}
+              onClick={() => navigate("/create-trip")}
+            >
+              + {t("createNewTrip")}
+            </button>
+            <button
+              type="button"
+              className={styles.greetingSecondaryBtn}
+              onClick={() => navigate("/my-trips")}
+            >
+              {t("myTrips")}
+            </button>
+          </div>
+        </section>
+      )}
 
+      {/* Hero Search Section - Title & Subtitle ALWAYS Inside Search Card */}
+      <section className={styles.heroSection}>
         <div className={styles.searchCard}>
+          <div className={styles.searchCardHeader}>
+            <h1 className={styles.searchCardTitle}>
+              {t("heroTitle")} <span>{t("heroTitleHighlight")}</span>
+            </h1>
+            <p className={styles.searchCardSubtitle}>{t("heroSubtitle")}</p>
+          </div>
+
           <div className={styles.inputGroup}>
             <span className={styles.inputIcon}>
               <i className="bi bi-search"></i>
@@ -119,73 +148,13 @@ export default function Home({ favorites = [], setFavorites }) {
         </div>
       </section>
 
-      {/* Dynamic section */}
-      <section className={styles.dynamicSection}>
-        {user ? (
-          <div className={styles.dynamicCard}>
-            <div className={styles.dynamicContent}>
-              <p className={styles.dynamicEyebrow}>{t("welcomeBack")}</p>
-
-              <h2 className={styles.dynamicTitle}>{t("readyForAdventure")}</h2>
-
-              <p className={styles.dynamicText}>{t("manageYourTrips")}</p>
-            </div>
-
-            <div className={styles.dynamicActions}>
-              <button
-                type="button"
-                className={styles.primaryAction}
-                onClick={() => navigate("/create-trip")}
-              >
-                {t("createNewTrip")}
-              </button>
-
-              <button
-                type="button"
-                className={styles.secondaryAction}
-                onClick={() => navigate("/my-trips")}
-              >
-                {t("myTrips")}
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className={styles.dynamicCard}>
-            <div className={styles.dynamicContent}>
-              <p className={styles.dynamicEyebrow}>{t("startYourJourney")}</p>
-
-              <h2 className={styles.dynamicTitle}>
-                {t("planYourTripSmartly")}
-              </h2>
-
-              <p className={styles.dynamicText}>{t("smartTripDescription")}</p>
-            </div>
-
-            <div className={styles.dynamicActions}>
-              <button
-                type="button"
-                className={styles.primaryAction}
-                onClick={() => navigate("/register")}
-              >
-                {t("getStarted")}
-              </button>
-
-              <button
-                type="button"
-                className={styles.secondaryAction}
-                onClick={() => navigate("/login")}
-              >
-                {t("login")}
-              </button>
-            </div>
-          </div>
-        )}
-      </section>
-
       <section id="destinations-section" className={styles.destinationsSection}>
-        <div className={styles.sectionHeader}>
-          <i className="bi bi-fire text-info fs-5"></i>
-          <h2 className={styles.sectionTitle}>{t("trendingDestinations")}</h2>
+        <div className={styles.sectionHeaderModern}>
+          <h2 className={styles.sectionTitleModern}>
+            <span className={styles.trendingText}>Trending</span>{" "}
+            <span className={styles.destinationsText}>Destinations</span>
+          </h2>
+          <div className={styles.accentLine}></div>
         </div>
 
         {loading ? (
@@ -225,25 +194,66 @@ export default function Home({ favorites = [], setFavorites }) {
         )}
       </section>
 
-      <section className={styles.benefits}>
-        <div className={styles.benefitsItem}>
-          <div className={styles.benefitsText}>
-            <h4 className={styles.benefitsHeading}>{t("aiPlanner")}</h4>
-            <p className={styles.benefitsDescription}>{t("aiPlannerDesc")}</p>
+      {/* Guest State: Promotional Section (Moved After Destinations) */}
+      {!user && (
+        <section className={styles.dynamicSection}>
+          <div className={styles.dynamicCard}>
+            <div className={styles.dynamicContent}>
+              <h2 className={styles.dynamicTitle}>
+                {t("planYourTripSmartly")} 🌍
+              </h2>
+              <p className={styles.dynamicSubtitle}>{t("smartTripDescription")}</p>
+            </div>
+
+            <div className={styles.dynamicActions}>
+              <button
+                type="button"
+                className={styles.primaryAction}
+                onClick={() => navigate("/register")}
+              >
+                {t("getStarted")}
+              </button>
+
+              <button
+                type="button"
+                className={styles.secondaryAction}
+                onClick={() => navigate("/login")}
+              >
+                {t("login")}
+              </button>
+            </div>
           </div>
+        </section>
+      )}
+
+      <section className={styles.benefitsSection}>
+        <div className={styles.sectionHeader}>
+          <h2 className={styles.sectionTitle}>{t("whySmartTripPlanner")}</h2>
         </div>
-        <div className={styles.benefitsItem}>
-          <div className={styles.benefitsText}>
-            <h4 className={styles.benefitsHeading}>{t("budgeting")}</h4>
-            <p className={styles.benefitsDescription}>{t("budgetingDesc")}</p>
+        <div className={styles.benefits}>
+          <div className={styles.benefitsItem}>
+            <div className={styles.benefitsText}>
+              <h4 className={styles.benefitsHeading}>{t("tripPlanner")}</h4>
+              <p className={styles.benefitsDescription}>{t("tripPlannerDesc")}</p>
+            </div>
+            <button
+              className={styles.benefitsBtn}
+              onClick={() => navigate("/create-trip")}
+            >
+              {t("tryNow")}
+            </button>
           </div>
-        </div>
-        <div className={styles.benefitsItem}>
-          <div className={styles.benefitsText}>
-            <h4 className={styles.benefitsHeading}>{t("offlineAccess")}</h4>
-            <p className={styles.benefitsDescription}>
-              {t("offlineAccessDesc")}
-            </p>
+          <div className={styles.benefitsItem}>
+            <div className={styles.benefitsText}>
+              <h4 className={styles.benefitsHeading}>{t("budgeting")}</h4>
+              <p className={styles.benefitsDescription}>{t("budgetingDesc")}</p>
+            </div>
+            <button
+              className={styles.benefitsBtn}
+              onClick={() => navigate("/my-trips")}
+            >
+              {t("exploreBudget")}
+            </button>
           </div>
         </div>
       </section>

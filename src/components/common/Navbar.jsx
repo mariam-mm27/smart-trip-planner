@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { supabase } from '../../services/supabaseClient';
 import styles from '../../styles/Navbar.module.css';
@@ -8,8 +8,12 @@ import { Toolbar } from './Toolbar';
 
 export default function Navbar() {
   const { user } = useAuth();
+  const location = useLocation();
   const [avatarUrl, setAvatarUrl] = useState('');
   const [fullName, setFullName] = useState('');
+
+  // Hide auth button on auth pages
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   useEffect(() => {
     if (!user) {
@@ -67,12 +71,12 @@ export default function Navbar() {
             )}
             <span>{displayName}</span>
           </Link>
-        ) : (
+        ) : !isAuthPage ? (
           <Link to="/login" className={styles.loginBtn}>
             <FiLogIn />
-            <span>Login</span>
+            <span>Login / Sign Up</span>
           </Link>
-        )}
+        ) : null}
       </div>
     </header>
   );
