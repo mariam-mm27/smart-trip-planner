@@ -54,6 +54,21 @@ export default function MyTrips() {
     }
   }
 
+  function getTripStatus(trip) {
+    if (trip.status) {
+      return trip.status.toLowerCase();
+    }
+    if (trip.end_date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const end = new Date(trip.end_date);
+      if (end < today) {
+        return "completed";
+      }
+    }
+    return "upcoming";
+  }
+
   if (isLoading) {
     return (
       <main className={styles.page}>
@@ -98,14 +113,30 @@ export default function MyTrips() {
 
         {trips.length > 0 && (
           <div className={styles.grid}>
-            {trips.map((trip) => (
-              <Card key={trip.id} className={styles.card}>
-                <Card.Body>
-                  <Card.Title className={styles.tripTitle}>
-                    {trip.title}
-                  </Card.Title>
+            {trips.map((trip) => {
+              const status = getTripStatus(trip);
+              const isCompleted = status === "completed";
 
-                  <p className={styles.destination}>{trip.destination}</p>
+              return (
+                <Card key={trip.id} className={styles.card}>
+                  <Card.Body>
+                    <div className={styles.cardHead}>
+                      <Card.Title className={styles.tripTitle}>
+                        {trip.title}
+                      </Card.Title>
+
+                      <span
+                        className={`${styles.badge} ${
+                          isCompleted
+                            ? styles.badgeCompleted
+                            : styles.badgeUpcoming
+                        }`}
+                      >
+                        {isCompleted ? t("completed") : t("upcoming")}
+                      </span>
+                    </div>
+
+                    <p className={styles.destination}>{trip.destination}</p>
 
                   <div className={styles.details}>
                     <p>
@@ -150,8 +181,9 @@ export default function MyTrips() {
                   </div>
                 </Card.Body>
               </Card>
-            ))}
-          </div>
+            );
+          })}
+        </div>
         )}
       </Container>
     </main>

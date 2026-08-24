@@ -152,3 +152,111 @@ update public.profiles set role = trim(role) where role <> trim(role);
 -- Promote your admin account (replace the email).
 -- update public.profiles set role = 'admin'
 -- where id = (select id from auth.users where email = 'you@example.com');
+
+-- ------------------------------------------------------------------ trips
+alter table public.trips enable row level security;
+
+drop policy if exists trips_select_own on public.trips;
+create policy trips_select_own
+  on public.trips for select
+  to authenticated
+  using (user_id = auth.uid() or public.is_admin());
+
+drop policy if exists trips_insert_own on public.trips;
+create policy trips_insert_own
+  on public.trips for insert
+  to authenticated
+  with check (user_id = auth.uid());
+
+drop policy if exists trips_update_own on public.trips;
+create policy trips_update_own
+  on public.trips for update
+  to authenticated
+  using (user_id = auth.uid() or public.is_admin())
+  with check (user_id = auth.uid() or public.is_admin());
+
+drop policy if exists trips_delete_own on public.trips;
+create policy trips_delete_own
+  on public.trips for delete
+  to authenticated
+  using (user_id = auth.uid() or public.is_admin());
+
+-- ------------------------------------------------------------- trip_items
+alter table public.trip_items enable row level security;
+
+drop policy if exists trip_items_select_own on public.trip_items;
+create policy trip_items_select_own
+  on public.trip_items for select
+  to authenticated
+  using (
+    exists (
+      select 1 from public.trips
+      where public.trips.id = trip_items.trip_id
+        and (public.trips.user_id = auth.uid() or public.is_admin())
+    )
+  );
+
+drop policy if exists trip_items_insert_own on public.trip_items;
+create policy trip_items_insert_own
+  on public.trip_items for insert
+  to authenticated
+  with check (
+    exists (
+      select 1 from public.trips
+      where public.trips.id = trip_items.trip_id
+        and (public.trips.user_id = auth.uid() or public.is_admin())
+    )
+  );
+
+drop policy if exists trip_items_update_own on public.trip_items;
+create policy trip_items_update_own
+  on public.trip_items for update
+  to authenticated
+  using (
+    exists (
+      select 1 from public.trips
+      where public.trips.id = trip_items.trip_id
+        and (public.trips.user_id = auth.uid() or public.is_admin())
+    )
+  )
+  with check (
+    exists (
+      select 1 from public.trips
+      where public.trips.id = trip_items.trip_id
+        and (public.trips.user_id = auth.uid() or public.is_admin())
+    )
+  );
+
+drop policy if exists trip_items_delete_own on public.trip_items;
+create policy trip_items_delete_own
+  on public.trip_items for delete
+  to authenticated
+  using (
+    exists (
+      select 1 from public.trips
+      where public.trips.id = trip_items.trip_id
+        and (public.trips.user_id = auth.uid() or public.is_admin())
+    )
+  );
+
+-- -------------------------------------------------------------- favorites
+alter table public.favorites enable row level security;
+
+drop policy if exists favorites_select_own on public.favorites;
+create policy favorites_select_own
+  on public.favorites for select
+  to authenticated
+  using (user_id = auth.uid());
+
+drop policy if exists favorites_insert_own on public.favorites;
+create policy favorites_insert_own
+  on public.favorites for insert
+  to authenticated
+  with check (user_id = auth.uid());
+
+drop policy if exists favorites_delete_own on public.favorites;
+create policy favorites_delete_own
+  on public.favorites for delete
+  to authenticated
+  using (user_id = auth.uid());
+
