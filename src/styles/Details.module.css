@@ -14,6 +14,27 @@
   width: 1024px;
 }
 
+.backBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #0084ff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 24px;
+  padding: 8px 0;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.backBtn:hover {
+  transform: translateX(-4px);
+  color: #006ddb;
+}
+
 /* Responsive Media Queries */
 @media (max-width: 1024px) {
   .pageWrapper {
