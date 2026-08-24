@@ -68,14 +68,13 @@ export default function MyTrips() {
   return (
     <main className={styles.page}>
       <Container>
+        {/* Back Arrow Button */}
         <button
-          type="button"
-          className={styles.backBtn}
           onClick={() => navigate(-1)}
-          title="Go back"
+          className={styles.backBtn}
           aria-label="Go back"
         >
-          <FiArrowLeft /> {t("back")}
+          <FiArrowLeft /> {t('back') || 'Back'}
         </button>
 
         <div className={styles.header}>

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { AuthProvider } from "./context/AuthContext";
+import { FavoritesProvider } from "./context/FavoritesContext";
 
 import Place from "./components/features/PlaceCard/Place";
 import { AuthForm } from "./components/features/Auth/AuthForm";
@@ -50,7 +51,8 @@ function App() {
 
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <FavoritesProvider>
+        <BrowserRouter>
         <Routes>
           {/* ==================== ADMIN ==================== */}
 
@@ -197,6 +199,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+      </FavoritesProvider>
     </AuthProvider>
   );
 }

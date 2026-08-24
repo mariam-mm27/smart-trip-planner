@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FiHeart } from "react-icons/fi";
-import { toast } from "react-hot-toast";
 
 import Destinations from "../../components/common/Destinations";
+import Toast from "../../components/common/Toast";
 import { supabase } from "../../services/supabaseClient.js";
 import { useLanguage } from "../../context/LanguageContext";
 
@@ -15,6 +15,8 @@ export default function Favorites() {
 
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [toast, setToast] = useState({ show: false, message: '', type: '' });
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   useEffect(() => {
     getFavorites();
@@ -58,10 +60,11 @@ export default function Favorites() {
       setFavorites(places);
     } catch (error) {
       console.error("Get favorites error:", error);
-
-      toast.error(
-        error.message || "Failed to load favorites"
-      );
+      setToast({
+        show: true,
+        message: error?.message || t('failedLoadPlaces') || "Failed to load favorites",
+        type: 'error'
+      });
     } finally {
       setLoading(false);
     }
@@ -72,6 +75,42 @@ export default function Favorites() {
       setFavorites((prev) =>
         prev.filter((place) => place.id !== placeId)
       );
+    }
+  };
+
+  const handleClearAll = async () => {
+    try {
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+
+      if (userError || !user) {
+        throw new Error('Not authenticated');
+      }
+
+      // Delete all favorites for this user
+      const { error } = await supabase
+        .from('favorites')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+
+      setFavorites([]);
+      setShowClearConfirm(false);
+      setToast({
+        show: true,
+        message: t('allFavoritesRemoved') || 'All favorites have been removed',
+        type: 'success'
+      });
+    } catch (error) {
+      console.error('Error clearing favorites:', error);
+      setToast({
+        show: true,
+        message: error?.message || t('failedRemovePlace') || 'Failed to clear favorites',
+        type: 'error'
+      });
     }
   };
 
@@ -117,9 +156,20 @@ export default function Favorites() {
 
           </div>
 
-          <span className={styles.count}>
-            {favorites.length} Saved Locations
-          </span>
+          <div className={styles.headerActions}>
+            <span className={styles.count}>
+              {favorites.length} Saved Locations
+            </span>
+            {favorites.length > 0 && (
+              <button 
+                className={styles.clearAllBtn}
+                onClick={() => setShowClearConfirm(true)}
+                title="Remove all favorites"
+              >
+                {t("clearAll") || "Clear All"}
+              </button>
+            )}
+          </div>
 
         </div>
 
@@ -184,6 +234,41 @@ export default function Favorites() {
         )}
 
       </div>
+
+      {/* Confirmation Modal */}
+      {showClearConfirm && (
+        <div className={styles.modalOverlay} onClick={() => setShowClearConfirm(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <h2 className={styles.modalTitle}>{t("clearAll") || "Clear All"}</h2>
+            <p className={styles.modalMessage}>
+              {t("confirmClearAll") || "Are you sure you want to remove all favorites? This cannot be undone."}
+            </p>
+            <div className={styles.modalActions}>
+              <button 
+                className={styles.modalCancel}
+                onClick={() => setShowClearConfirm(false)}
+              >
+                {t("cancel") || "Cancel"}
+              </button>
+              <button 
+                className={styles.modalConfirm}
+                onClick={handleClearAll}
+              >
+                {t("clearAll") || "Clear All"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ ...toast, show: false })}
+        />
+      )}
     </main>
   );
 }

@@ -7,6 +7,8 @@ import { getLocalized } from "../../utils/i18nHelper";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../services/supabaseClient";
+import { useFavorites } from "../../context/FavoritesContext";
+import { toast } from "react-hot-toast";
 
 export default function Destinations({
   id,
@@ -24,6 +26,7 @@ export default function Destinations({
   const navigate = useNavigate();
   const { t, lang: contextLang } = useLanguage();
   const { user } = useAuth();
+  const { isFavorited, toggleFavorite } = useFavorites();
 
   const currentLang = lang || contextLang;
 
@@ -36,97 +39,54 @@ export default function Destinations({
       getLocalized({ description }, "description", currentLang)
   );
 
-  const [isFavorite, setIsFavorite] = useState(
-    favorites?.some((place) => place.id === id)
-  );
-
-  const [notification, setNotification] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
 
   useEffect(() => {
-    setIsFavorite(favorites?.some((place) => place.id === id));
-  }, [favorites, id]);
-
-  const showNotification = (message) => {
-    setNotification(message);
-
-    setTimeout(() => {
-      setNotification(null);
-    }, 2000);
-  };
+    setIsFavorite(isFavorited(id));
+  }, [id, isFavorited]);
 
  const handleFavorite = async (e) => {
   e.stopPropagation();
 
-  // User is not logged in
-  if (!user) {
-    showNotification("Please login to add favorites");
+  if (favoriteLoading) return;
 
+  if (!user) {
+    toast.error("Please login to add favorites");
     setTimeout(() => {
       navigate("/login");
     }, 1200);
-
     return;
   }
 
+  setFavoriteLoading(true);
+
   try {
-    // =========================
-    // REMOVE FAVORITE
-    // =========================
-    if (isFavorite) {
-      const { error } = await supabase
-        .from("favorites")
-        .delete()
-        .eq("user_id", user.id)
-        .eq("place_id", id);
-
-      if (error) throw error;
-
-      const updatedFavorites = favorites.filter(
-        (place) => place.id !== id
-      );
-
-      setFavorites(updatedFavorites);
+    const success = await toggleFavorite(id);
+    
+    if (!isFavorite) {
+      // Adding to favorites
+      setIsFavorite(true);
+      toast.success("Added to Favorites successfully! ❤️");
+    } else {
+      // Removing from favorites
       setIsFavorite(false);
-
-      showNotification("Removed from favorites");
+      toast.success("Removed from Favorites");
     }
 
-    // =========================
-    // ADD FAVORITE
-    // =========================
-    else {
-      const { error } = await supabase
-        .from("favorites")
-        .insert([
-          {
-            user_id: user.id,
-            place_id: id,
-          },
-        ]);
-
-      if (error) throw error;
-
-      const favoritePlace = {
-        id,
-        title: displayTitle,
-        description: displayDescription,
-        price,
-        rating,
-        stars: rating,
-        image: imageUrl,
-        imageUrl,
-        location: location || "",
-        imgTitle: category || "",
-      };
-
-      setFavorites([...favorites, favoritePlace]);
-      setIsFavorite(true);
-
-      showNotification("Added to favorites ❤️");
+    // Update parent component if needed
+    if (setFavorites) {
+      if (isFavorite) {
+        const updated = favorites.filter(place => place.id !== id);
+        setFavorites(updated);
+      }
     }
   } catch (error) {
     console.error("Favorite error:", error);
-    showNotification(error.message || "Something went wrong");
+    toast.error(error.message || "Something went wrong");
+    setIsFavorite(!isFavorite);
+  } finally {
+    setFavoriteLoading(false);
   }
 };
 
@@ -147,12 +107,6 @@ export default function Destinations({
 
   return (
     <div className={styles.destinationCard}>
-      {notification && (
-        <div className={styles.favoriteNotification}>
-          {notification}
-        </div>
-      )}
-
       <div
         className={styles.cardImageWrapper}
         style={{ position: "relative" }}
@@ -169,6 +123,7 @@ export default function Destinations({
         <button
           type="button"
           onClick={handleFavorite}
+          disabled={favoriteLoading}
           className={styles.favoriteButton}
           aria-label="Toggle Favorite"
         >

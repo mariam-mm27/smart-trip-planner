@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { useLanguage } from '../../../context/LanguageContext';
 import { supabase } from '../../../services/supabaseClient';
+import { updateUserEmailInProfile } from '../../../services/userService';
 import { FiCompass, FiMail, FiLock, FiEye, FiEyeOff, FiUser } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 import '../../../styles/AuthForm.css';
@@ -22,11 +23,12 @@ export const AuthForm = ({ initialTab = 'login' }) => {
   const [message, setMessage] = useState({ type: '', text: '' });
 
   // Single source of redirect truth: fires once the session (and role) resolve.
+  // Explicitly navigate to home page (/) for all users after successful login
   useEffect(() => {
     if (user && !authLoading) {
-      navigate(isAdmin ? '/admin' : '/explore', { replace: true });
+      navigate('/', { replace: true });
     }
-  }, [user, isAdmin, authLoading, navigate]);
+  }, [user, authLoading, navigate]);
 
   useEffect(() => {
     if (initialTab) {
@@ -76,7 +78,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
           setMessage({ type: 'success', text: t('loggedInSuccessfully') });
         }
       } else {
-        const { error } = await supabase.auth.signUp({
+        const { data: signupData, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -86,6 +88,10 @@ export const AuthForm = ({ initialTab = 'login' }) => {
         if (error) {
           setMessage({ type: 'error', text: formatErrorMessage(error) });
         } else {
+          // Store email in profiles table for later retrieval (admin panel)
+          if (signupData?.user?.id) {
+            await updateUserEmailInProfile(signupData.user.id, email, fullName);
+          }
           setMessage({
             type: 'success',
             text: t('accountCreatedSuccessfully'),

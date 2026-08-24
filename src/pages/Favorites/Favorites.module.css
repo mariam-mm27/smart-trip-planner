@@ -1,6 +1,6 @@
 .page {
   min-height: calc(100vh - var(--navbar-height));
-  padding: 60px 0;
+  padding: 16px 0;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-main);
@@ -10,7 +10,7 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 70px 24px;
+  padding: 24px 24px;
 }
 
 /* HEADER */
@@ -21,11 +21,18 @@
   align-items: center;
   margin: 0 auto 35px;
   padding: 0;
+  gap: 20px;
 }
 
 .header > div {
   display: flex;
   align-items: center;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 /* BACK BUTTON */
@@ -102,6 +109,125 @@
   color: var(--primary-color);
   font-size: 11px;
   font-weight: 600;
+}
+
+/* CLEAR ALL BUTTON */
+
+.clearAllBtn {
+  padding: 8px 16px;
+  background-color: #fef2f2;
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  color: #991b1b;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clearAllBtn:hover {
+  background-color: #fee2e2;
+  border-color: #f87171;
+  box-shadow: 0 2px 8px rgba(153, 27, 27, 0.15);
+}
+
+/* CONFIRMATION MODAL */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+.modalTitle {
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.modalMessage {
+  margin: 0 0 20px 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modalCancel {
+  padding: 10px 16px;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalCancel:hover {
+  background-color: var(--bg-surface);
+  border-color: var(--primary-color);
+}
+
+.modalConfirm {
+  padding: 10px 16px;
+  background-color: #dc2626;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalConfirm:hover {
+  background-color: #991b1b;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* CARDS GRID */
