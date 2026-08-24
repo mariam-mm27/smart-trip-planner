@@ -24,7 +24,7 @@ export const AuthForm = ({ initialTab = 'login' }) => {
   // Single source of redirect truth: fires once the session (and role) resolve.
   useEffect(() => {
     if (user && !authLoading) {
-      navigate(isAdmin ? '/admin' : '/explore', { replace: true });
+      navigate(isAdmin ? '/admin' : '/', { replace: true });
     }
   }, [user, isAdmin, authLoading, navigate]);
 

@@ -275,7 +275,20 @@ export const translations = {
     whereAreYouGoing: "Where are you going?",
     whereTo: "Where to?",
     within24Hours: "Usually within 24 hours",
-    yourTrips: "Your Trips"
+    yourTrips: "Your Trips",
+    share: "Share",
+    linkCopiedToClipboard: "Link copied to clipboard!",
+    failedToCopyLink: "Failed to copy link",
+    addedToTripSuccess: "Added to My Trips successfully!",
+    pleaseLoginToAddTrip: "Please login to add places to your trip",
+    selectTripModal: "Select a Trip",
+    selectTripToAdd: "Please select a trip",
+    selectDay: "Select Day",
+    clearAll: "Clear All",
+    confirmClearAll: "Are you sure you want to remove all favorites? This cannot be undone.",
+    allFavoritesRemoved: "All favorites have been removed",
+    addedToFavorites: "Added to favorites!",
+    removedFromFavorites: "Removed from favorites"
   },
   ar: {
     T: "[AR: T]",
@@ -553,7 +566,20 @@ export const translations = {
     whereAreYouGoing: "إلى أين أنت ذاهب؟",
     whereTo: "إلى أين؟",
     within24Hours: "عادةً خلال 24 ساعة",
-    yourTrips: "رحلاتك"
+    yourTrips: "رحلاتك",
+    share: "مشاركة",
+    linkCopiedToClipboard: "تم نسخ الرابط إلى الحافظة!",
+    failedToCopyLink: "فشل نسخ الرابط",
+    addedToTripSuccess: "تم الإضافة إلى رحلاتي بنجاح!",
+    pleaseLoginToAddTrip: "يرجى تسجيل الدخول لإضافة أماكن إلى رحلتك",
+    selectTripModal: "اختر رحلة",
+    selectTripToAdd: "يرجى اختيار رحلة",
+    selectDay: "اختر اليوم",
+    clearAll: "مسح الكل",
+    confirmClearAll: "هل أنت متأكد من رغبتك في إزالة جميع المفضلات؟ لا يمكن التراجع عن هذا الإجراء.",
+    allFavoritesRemoved: "تم إزالة جميع المفضلات",
+    addedToFavorites: "تم الإضافة إلى المفضلات!",
+    removedFromFavorites: "تم الحذف من المفضلات"
   }
 };
 

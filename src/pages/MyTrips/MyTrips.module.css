@@ -2,7 +2,7 @@
   min-height: calc(100vh - var(--navbar-height));
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  padding: 60px 0;
+  padding: 16px 0;
   font-family: var(--font-main);
 }
 

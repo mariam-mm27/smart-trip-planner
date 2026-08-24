@@ -64,7 +64,7 @@ export default function Home({ favorites = [], setFavorites }) {
       {user && (
         <section className={styles.greetingHeader}>
           <h1 className={styles.greetingTitle}>
-            {t("welcomeBack")}, {user?.user_metadata?.full_name ? user.user_metadata.full_name.split(' ')[0] : "Traveler"}! ­ƒæï
+            {t("welcomeBack")}, {user?.user_metadata?.full_name ? user.user_metadata.full_name.split(' ')[0] : "Traveler"}! 👋
           </h1>
           <p className={styles.greetingSubtitle}>{t("readyToPlan")}</p>
           <div className={styles.greetingActions}>
@@ -200,7 +200,7 @@ export default function Home({ favorites = [], setFavorites }) {
           <div className={styles.dynamicCard}>
             <div className={styles.dynamicContent}>
               <h2 className={styles.dynamicTitle}>
-                {t("planYourTripSmartly")} ­ƒîì
+                {t("planYourTripSmartly")} 🌍
               </h2>
               <p className={styles.dynamicSubtitle}>{t("smartTripDescription")}</p>
             </div>

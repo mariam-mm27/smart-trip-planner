@@ -5,6 +5,10 @@ import styles from '../styles/Details.module.css';
 import { useLanguage } from '../context/LanguageContext';
 import { useAutoText } from '../hooks/useAutoText';
 import { getLocalized } from '../utils/i18nHelper';
+import { FiArrowLeft, FiShare2, FiHeart, FiHeartFill } from 'react-icons/fi';
+import { useAuth } from '../context/AuthContext';
+import TripSelector from '../components/common/TripSelector';
+import Toast from '../components/common/Toast';
 
 const ALLOWED_MAP_HOSTS = ['maps.app.goo.gl', 'goo.gl', 'maps.google.com', 'google.com'];
 
@@ -28,11 +32,163 @@ export default function DestinationDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { t, lang } = useLanguage();
+  const { user } = useAuth();
   const [place, setPlace] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [showTripSelector, setShowTripSelector] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: '' });
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const handleAddToTrip = () => {
+    if (!user) {
+      setToast({
+        show: true,
+        message: t('pleaseLoginToAddTrip') || 'Please login to add places to your trip',
+        type: 'error'
+      });
+      setTimeout(() => {
+        navigate('/login');
+      }, 1500);
+      return;
+    }
+    setShowTripSelector(true);
+  };
+
+  const handleTripSelected = async (tripId, dayNumber) => {
+    try {
+      const { error } = await supabase
+        .from('trip_items')
+        .insert({
+          trip_id: tripId,
+          place_id: id,
+          day_number: dayNumber
+        });
+
+      if (error) throw error;
+
+      setToast({
+        show: true,
+        message: t('addedToTripSuccess') || 'Added to My Trips successfully!',
+        type: 'success'
+      });
+
+      setShowTripSelector(false);
+
+      // Redirect to View Trip page
+      setTimeout(() => {
+        navigate(`/view-trip/${tripId}`);
+      }, 1500);
+    } catch (error) {
+      console.error('Error adding to trip:', error);
+      setToast({
+        show: true,
+        message: t('failedToAddToTrip') || 'Failed to add to trip',
+        type: 'error'
+      });
+    }
+  };
+
+  const handleShare = async () => {
+    try {
+      const url = window.location.href;
+      await navigator.clipboard.writeText(url);
+      setToast({
+        show: true,
+        message: t('linkCopiedToClipboard') || 'Link copied to clipboard!',
+        type: 'success'
+      });
+    } catch (error) {
+      console.error('Error copying to clipboard:', error);
+      setToast({
+        show: true,
+        message: t('failedToCopyLink') || 'Failed to copy link',
+        type: 'error'
+      });
+    }
+  };
+
+  const handleToggleFavorite = async () => {
+    if (!user) {
+      setToast({
+        show: true,
+        message: t('pleaseLoginToAddTrip') || 'Please login to add to favorites',
+        type: 'error'
+      });
+      setTimeout(() => {
+        navigate('/login');
+      }, 1500);
+      return;
+    }
+
+    try {
+      if (isFavorite) {
+        // Remove from favorites
+        const { error } = await supabase
+          .from('favorites')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('place_id', id);
+
+        if (error) throw error;
+
+        setIsFavorite(false);
+        setToast({
+          show: true,
+          message: t('removedFromFavorites') || 'Removed from favorites',
+          type: 'success'
+        });
+      } else {
+        // Add to favorites
+        const { error } = await supabase
+          .from('favorites')
+          .insert({
+            user_id: user.id,
+            place_id: id
+          });
+
+        if (error) throw error;
+
+        setIsFavorite(true);
+        setToast({
+          show: true,
+          message: t('addedToFavorites') || 'Added to favorites!',
+          type: 'success'
+        });
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      setToast({
+        show: true,
+        message: error?.message || t('unexpectedError') || 'An error occurred',
+        type: 'error'
+      });
+    }
+  };
+
+  const checkIfFavorite = async () => {
+    if (!user) return;
+
+    try {
+      const { data, error } = await supabase
+        .from('favorites')
+        .select('id')
+        .eq('user_id', user.id)
+        .eq('place_id', id)
+        .single();
+
+      if (data) {
+        setIsFavorite(true);
+      } else {
+        setIsFavorite(false);
+      }
+    } catch (error) {
+      // No favorite found or error, that's okay
+      setIsFavorite(false);
+    }
   };
 
   useEffect(() => {
@@ -53,6 +209,9 @@ export default function DestinationDetails() {
 
         if (error) throw error;
         setPlace(data);
+        
+        // Check if this place is favorited
+        await checkIfFavorite();
       } catch (err) {
         console.error('Error loading destination:', err.message);
       } finally {
@@ -61,7 +220,7 @@ export default function DestinationDetails() {
     };
 
     if (id) fetchPlaceDetails();
-  }, [id]);
+  }, [id, user]);
 
   // Localized dynamic texts
   const displayTitle = useAutoText(
@@ -103,6 +262,15 @@ export default function DestinationDetails() {
 
   return (
     <div className={styles.pageWrapper}>
+      {/* Back Arrow Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className={styles.backBtn}
+        aria-label="Go back"
+      >
+        <FiArrowLeft /> {t('back') || 'Back'}
+      </button>
+
       {/* Top Image Banner */}
       <div className={styles.imageContainer}>
         <img
@@ -181,9 +349,33 @@ export default function DestinationDetails() {
           </div>
         )}
 
-        <button className={styles.pricingAddBtn}>
+        <button 
+          className={styles.pricingAddBtn}
+          onClick={handleAddToTrip}
+        >
           {t('addToMyTrip') || (lang === 'ar' ? 'أضف إلى رحلتي' : 'Add to My Trip')}
         </button>
+
+        <div className={styles.buttonGroup}>
+          <button 
+            className={`${styles.favoriteBtn} ${isFavorite ? styles.favorited : ''}`}
+            onClick={handleToggleFavorite}
+            title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          >
+            {isFavorite ? <FiHeartFill /> : <FiHeart />}
+            {t('favorites') || 'Favorite'}
+          </button>
+
+          <button 
+            className={styles.shareBtn}
+            onClick={handleShare}
+            title="Share this destination"
+            aria-label="Share"
+          >
+            <FiShare2 /> {t('share') || 'Share'}
+          </button>
+        </div>
       </div>
 
       {/* Full-Width Bottom Back Button */}
@@ -195,6 +387,23 @@ export default function DestinationDetails() {
         <i className="bi bi-arrow-left"></i>
         <span>{t('back') || (lang === 'ar' ? 'رجوع' : 'Go Back')}</span>
       </button>
+
+      {/* Trip Selector Modal */}
+      {showTripSelector && (
+        <TripSelector
+          onClose={() => setShowTripSelector(false)}
+          onSelectTrip={handleTripSelected}
+        />
+      )}
+
+      {/* Toast Notification */}
+      {toast.show && (
+        <Toast
+          message={toast.message}
+          type={toast.type}
+          onClose={() => setToast({ ...toast, show: false })}
+        />
+      )}
     </div>
   );
 } 
