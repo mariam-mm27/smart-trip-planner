@@ -49,8 +49,8 @@ export default function PlaceForm({ show, onHide, place, onSaved }) {
             category: place.category ?? '',
             rating: place.rating ?? '',
             price: place.price ?? '',
-            imageUrl: place.image_url ?? '',
-            location: place.Location ?? '',
+            imageUrl: place.image_url ?? place.imageUrl ?? place.image ?? '',
+            location: place.Location ?? place.location ?? place.location_url ?? '',
           }
         : EMPTY_FORM,
     );

@@ -218,7 +218,11 @@ export default function Favorites() {
                   place.imageUrl ||
                   place.image
                 }
-                location={place.location}
+                location={
+                  place.location ||
+                  place.Location ||
+                  place.location_url
+                }
                 category={
                   place.category ||
                   place.imgTitle

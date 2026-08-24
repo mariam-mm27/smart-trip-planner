@@ -17,7 +17,11 @@ export default function Destinations({
   price,
   rating,
   imageUrl,
+  image_url,
+  image,
   location,
+  Location,
+  location_url,
   category,
   lang,
   favorites = [],
@@ -38,6 +42,16 @@ export default function Destinations({
     description ||
       getLocalized({ description }, "description", currentLang)
   );
+
+  const displayImage =
+    imageUrl ||
+    image_url ||
+    image ||
+    "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
+
+  const displayLocation = location || Location || location_url || "";
+  const displayRating = rating != null ? rating : "5.0";
+  const displayPrice = price != null ? price : 0;
 
   const [isFavorite, setIsFavorite] = useState(false);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
@@ -97,9 +111,11 @@ export default function Destinations({
           id,
           title: displayTitle,
           description: displayDescription,
-          price,
-          rating,
-          imageUrl,
+          price: displayPrice,
+          rating: displayRating,
+          imageUrl: displayImage,
+          location: displayLocation,
+          category: category || "",
         },
       },
     });
@@ -112,12 +128,14 @@ export default function Destinations({
         style={{ position: "relative" }}
       >
         <img
-          src={
-            imageUrl ||
-            "https://via.placeholder.com/400x200"
-          }
+          src={displayImage}
           alt={displayTitle || "Destination"}
           className={styles.cardImage}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src =
+              "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
+          }}
         />
 
         <button
@@ -135,7 +153,7 @@ export default function Destinations({
         </button>
 
         <span className={styles.ratingBadge}>
-          ⭐ {rating || "5.0"}
+          ⭐ {displayRating}
         </span>
       </div>
 
@@ -155,7 +173,7 @@ export default function Destinations({
             </span>
 
             <div className={styles.priceAmount}>
-              ${price || 0}
+              ${displayPrice}
 
               <span className={styles.priceUnit}>
                 {t("perDay") || "/day"}

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { supabase } from "../services/supabaseClient";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/Home.module.css";
@@ -26,33 +26,55 @@ export default function Home({ favorites = [], setFavorites }) {
   const [activeFilter, setActiveFilter] = useState('All')
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchDestinations = async () => {
       try {
-        const { data, error } = await supabase.from("places").select("*").order('rating',{ascending:false}).limit(6);
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("places")
+          .select("*")
+          .order("id", { ascending: false });
+
         if (error) throw error;
-        setDestinations(data || []);
+        if (isMounted) {
+          setDestinations(data || []);
+        }
       } catch (err) {
-        console.error("Error fetching destinations:", err.message);
+        console.error("Error fetching destinations:", err.message || err);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchDestinations();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const filteredDestinations = useMemo(() => {
     return destinations.filter((place) => {
+      if (!place) return false;
       const query = searchQuery.toLowerCase().trim();
+      const placeTitle = (place.title || "").toLowerCase();
+      const placeDesc = (place.description || "").toLowerCase();
+      const placeLoc = (place.location || place.Location || place.location_url || "").toLowerCase();
+      const placeCategory = (place.category || place.imgTitle || "").toLowerCase().trim();
+
       const matchedSearch =
         query === "" ||
-        place.title?.toLowerCase().includes(query) ||
-        place.description?.toLowerCase().includes(query);
+        placeTitle.includes(query) ||
+        placeDesc.includes(query) ||
+        placeLoc.includes(query);
 
+      const activeFilterNorm = activeFilter.toLowerCase().trim();
       const matchedCategory =
-        activeFilter.toLowerCase() === "all" ||
-        place.category?.toLowerCase().trim() ===
-          activeFilter.toLowerCase().trim();
+        activeFilterNorm === "all" ||
+        placeCategory === activeFilterNorm;
 
       return matchedCategory && matchedSearch;
     });
@@ -176,19 +198,27 @@ export default function Home({ favorites = [], setFavorites }) {
           <div className={styles.destinationsList}>
             {filteredDestinations.map((place) => (
               <Destinations
-              key={place.id}
-              id={place.id}
-              title={place.title}
-              description={place.description}
-              price={place.price}
-              rating={place.rating}
-              imageUrl={place.image_url || place.imageUrl}
-              category={place.category}
-              location={place.location}
-              lang={lang}
-              favorites={favorites}
-              setFavorites={setFavorites}
-            />
+                key={place.id}
+                id={place.id}
+                title={place.title}
+                description={place.description}
+                price={place.price}
+                rating={place.rating}
+                imageUrl={
+                  place.image_url ||
+                  place.imageUrl ||
+                  place.image
+                }
+                category={place.category || place.imgTitle}
+                location={
+                  place.location ||
+                  place.Location ||
+                  place.location_url
+                }
+                lang={lang}
+                favorites={favorites}
+                setFavorites={setFavorites}
+              />
             ))}
           </div>
         )}

@@ -2,28 +2,34 @@ import { supabase } from "./supabaseClient";
 
 // `Location` is capitalised in the database, unlike every other column.
 function toPlaceRow(placeData) {
-  return {
+  const row = {
     title: placeData.title,
     description: placeData.description,
     category: placeData.category,
-    rating: Number(placeData.rating),
-    price: Number(placeData.price),
-    image_url: placeData.imageUrl,
-    Location: placeData.location,
+    rating: Number(placeData.rating) || 0,
+    price: Number(placeData.price) || 0,
+    image_url: placeData.imageUrl || placeData.image_url || placeData.image || null,
   };
+
+  const loc = placeData.location || placeData.Location || placeData.location_url;
+  if (loc !== undefined) {
+    row.Location = loc;
+  }
+
+  return row;
 }
 
 export async function getPlaces() {
   const { data, error } = await supabase
     .from("places")
     .select("*")
-    .order("rating", { ascending: false });
+    .order("id", { ascending: false });
 
   if (error) {
     throw error;
   }
 
-  return data;
+  return data || [];
 }
 
 export async function getAllPlaces() {
@@ -36,7 +42,7 @@ export async function getAllPlaces() {
     throw error;
   }
 
-  return data;
+  return data || [];
 }
 
 export async function getPlaceById(placeId) {
@@ -89,4 +95,5 @@ export async function deletePlace(placeId) {
     throw error;
   }
 }
+
 
