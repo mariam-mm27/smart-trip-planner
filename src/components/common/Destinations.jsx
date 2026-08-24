@@ -1,7 +1,3 @@
-<<<<<<< Updated upstream
-import styles from '../../styles/Home.module.css';import { useNavigate } from 'react-router-dom';
-import placeholderImage from '../../assets/images/Frame 1.png';
-=======
 import React, { useState, useEffect } from "react";
 import styles from "../../styles/Home.module.css";
 import { useNavigate } from "react-router-dom";
@@ -10,12 +6,21 @@ import { useLanguage } from "../../context/LanguageContext";
 import { getLocalized } from "../../utils/i18nHelper";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
->>>>>>> Stashed changes
 
-export default function Destinations({ id, title, description, price, rating, imageUrl }) {
+export default function Destinations({
+  id,
+  title,
+  description,
+  price,
+  rating,
+  imageUrl,
+  location,
+  category,
+  lang,
+  favorites = [],
+  setFavorites,
+}) {
   const navigate = useNavigate();
-<<<<<<< Updated upstream
-=======
   const { t, lang: contextLang } = useLanguage();
   const { user } = useAuth();
 
@@ -36,12 +41,12 @@ export default function Destinations({ id, title, description, price, rating, im
 
   const [notification, setNotification] = useState(null);
 
-  // Sync favorite state with favorites array
   useEffect(() => {
-    setIsFavorite(favorites?.some((place) => place.id === id));
+    setIsFavorite(
+      favorites?.some((place) => place.id === id)
+    );
   }, [favorites, id]);
 
-  // Show notification
   const showNotification = (message) => {
     setNotification(message);
 
@@ -50,13 +55,10 @@ export default function Destinations({ id, title, description, price, rating, im
     }, 2000);
   };
 
-  // Handle favorite button
   const handleFavorite = (e) => {
     e.stopPropagation();
 
-    // =========================
-    // USER NOT LOGGED IN
-    // =========================
+    // User is not logged in
     if (!user) {
       showNotification("Please login to add favorites");
 
@@ -69,9 +71,7 @@ export default function Destinations({ id, title, description, price, rating, im
 
     if (!setFavorites) return;
 
-    // =========================
-    // REMOVE FAVORITE
-    // =========================
+    // Remove favorite
     if (isFavorite) {
       const updatedFavorites = favorites.filter(
         (place) => place.id !== id
@@ -83,9 +83,7 @@ export default function Destinations({ id, title, description, price, rating, im
       showNotification("Removed from favorites");
     }
 
-    // =========================
-    // ADD FAVORITE
-    // =========================
+    // Add favorite
     else {
       const favoritePlace = {
         id,
@@ -100,39 +98,41 @@ export default function Destinations({ id, title, description, price, rating, im
         imgTitle: category || "",
       };
 
-      setFavorites([...favorites, favoritePlace]);
+      setFavorites([
+        ...favorites,
+        favoritePlace,
+      ]);
+
       setIsFavorite(true);
->>>>>>> Stashed changes
 
       showNotification("Added to favorites ❤️");
     }
   };
 
-  // View details
   const handleViewDetails = () => {
-    navigate(`/destination/${id}`
-    ,{state:{itemData:{id,title,description,price,rating,imageUrl}}});
+    navigate(`/details/${id}`, {
+      state: {
+        itemData: {
+          id,
+          title: displayTitle,
+          description: displayDescription,
+          price,
+          rating,
+          imageUrl,
+        },
+      },
+    });
   };
-  return (
-  
-    <div className={styles.destinationCard}>
-<<<<<<< Updated upstream
-      <div className={styles.cardImageWrapper}>
-        <img
-          src={imageUrl || placeholderImage}
-          alt={title}
-          className={styles.cardImage}
-        />
-=======
 
-      {/* Notification */}
+  return (
+    <div className={styles.destinationCard}>
+
       {notification && (
         <div className={styles.favoriteNotification}>
           {notification}
         </div>
       )}
 
-      {/* Image */}
       <div
         className={styles.cardImageWrapper}
         style={{ position: "relative" }}
@@ -146,7 +146,6 @@ export default function Destinations({ id, title, description, price, rating, im
           className={styles.cardImage}
         />
 
-        {/* Favorite Heart */}
         <button
           type="button"
           onClick={handleFavorite}
@@ -160,19 +159,12 @@ export default function Destinations({ id, title, description, price, rating, im
           )}
         </button>
 
-        {/* Rating */}
->>>>>>> Stashed changes
         <span className={styles.ratingBadge}>
           ⭐ {rating || "5.0"}
         </span>
       </div>
 
-      {/* Card Content */}
       <div className={styles.cardContent}>
-<<<<<<< Updated upstream
-        <h3 className={styles.cardTitle}>{title}</h3>
-        <p className={styles.cardDescription}>{description}</p>
-=======
 
         <h3 className={styles.cardTitle}>
           {displayTitle}
@@ -181,17 +173,10 @@ export default function Destinations({ id, title, description, price, rating, im
         <p className={styles.cardDescription}>
           {displayDescription}
         </p>
->>>>>>> Stashed changes
 
         <div className={styles.cardFooter}>
 
           <div>
-<<<<<<< Updated upstream
-            <span className={styles.priceLabel}>From</span>
-            <div className={styles.priceAmount}>
-              ${price || 0}
-              <span className={styles.priceUnit}>/day</span>
-=======
             <span className={styles.priceLabel}>
               {t("from") || "From"}
             </span>
@@ -202,7 +187,6 @@ export default function Destinations({ id, title, description, price, rating, im
               <span className={styles.priceUnit}>
                 {t("perDay") || "/day"}
               </span>
->>>>>>> Stashed changes
             </div>
           </div>
 
@@ -210,11 +194,7 @@ export default function Destinations({ id, title, description, price, rating, im
             className={styles.detailsBtn}
             onClick={handleViewDetails}
           >
-<<<<<<< Updated upstream
-            View Details
-=======
             {t("viewDetails") || "View Details"}
->>>>>>> Stashed changes
           </button>
 
         </div>
