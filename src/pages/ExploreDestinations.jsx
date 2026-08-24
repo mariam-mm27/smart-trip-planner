@@ -27,7 +27,7 @@ export default function ExploreDestinations({
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [maxPrice, setMaxPrice] = useState(1000);
+  const [maxPrice, setMaxPrice] = useState(10000);
   const [minRating, setMinRating] = useState(0);
   const [sortBy, setSortBy] = useState("popular");
 
@@ -36,30 +36,42 @@ export default function ExploreDestinations({
     setSearchQuery("");
     setActiveFilter("All");
     setSelectedCategories([]);
-    setMaxPrice(1000);
+    setMaxPrice(10000);
     setMinRating(0);
     setSortBy("popular");
 
+    let isMounted = true;
+
     const fetchDestinations = async () => {
       try {
+        setLoading(true);
         const { data, error } = await supabase
           .from("places")
-          .select("*");
+          .select("*")
+          .order("id", { ascending: false });
 
         if (error) throw error;
 
-        setDestinations(data || []);
+        if (isMounted) {
+          setDestinations(data || []);
+        }
       } catch (err) {
         console.error(
           "Error fetching destinations:",
-          err.message
+          err.message || err
         );
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchDestinations();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const toggleCategory = (catId) => {
@@ -74,31 +86,41 @@ export default function ExploreDestinations({
     setSearchQuery("");
     setActiveFilter("All");
     setSelectedCategories([]);
-    setMaxPrice(1000);
+    setMaxPrice(10000);
     setMinRating(0);
     setSortBy("popular");
   };
 
   const filteredDestinations = useMemo(() => {
     const filtered = destinations.filter((place) => {
+      if (!place) return false;
+
       const query = searchQuery.toLowerCase().trim();
+      const placeTitle = (place.title || "").toLowerCase();
+      const placeDesc = (place.description || "").toLowerCase();
+      const placeLoc = (place.location || place.Location || place.location_url || "").toLowerCase();
+      const placeCategory = (place.category || place.imgTitle || "").toLowerCase().trim();
 
       const matchedSearch =
         query === "" ||
-        place.title?.toLowerCase().includes(query) ||
-        place.description?.toLowerCase().includes(query);
+        placeTitle.includes(query) ||
+        placeDesc.includes(query) ||
+        placeLoc.includes(query);
 
+      const activeFilterNorm = activeFilter.toLowerCase().trim();
       const matchedCategory =
-        activeFilter.toLowerCase() === "all" ||
-        place.category
-          ?.toLowerCase()
-          .trim() === activeFilter.toLowerCase().trim();
+        activeFilterNorm === "all" ||
+        placeCategory === activeFilterNorm ||
+        (selectedCategories.length > 0 &&
+          selectedCategories.some((c) => c.toLowerCase().trim() === placeCategory));
 
+      const priceNum = Number(place.price);
       const matchedPrice =
-        Number(place.price || 0) <= maxPrice;
+        maxPrice >= 10000 || isNaN(priceNum) || priceNum <= maxPrice;
 
+      const ratingNum = Number(place.rating);
       const matchedRating =
-        Number(place.rating || 0) >= minRating;
+        minRating === 0 || isNaN(ratingNum) || ratingNum >= minRating;
 
       return (
         matchedCategory &&
@@ -110,18 +132,27 @@ export default function ExploreDestinations({
 
     return [...filtered].sort((a, b) => {
       if (sortBy === "price-asc") {
-        return (a.price || 0) - (b.price || 0);
+        return (Number(a.price) || 0) - (Number(b.price) || 0);
       }
 
       if (sortBy === "price-desc") {
-        return (b.price || 0) - (a.price || 0);
+        return (Number(b.price) || 0) - (Number(a.price) || 0);
       }
 
       if (sortBy === "rating") {
-        return (b.rating || 0) - (a.rating || 0);
+        return (Number(b.rating) || 0) - (Number(a.rating) || 0);
       }
 
-      return (b.id || 0) - (a.id || 0);
+      // Default popular: newest first
+      if (a.created_at && b.created_at) {
+        return new Date(b.created_at) - new Date(a.created_at);
+      }
+
+      if (!isNaN(a.id) && !isNaN(b.id)) {
+        return Number(b.id) - Number(a.id);
+      }
+
+      return String(b.id || "").localeCompare(String(a.id || ""));
     });
   }, [
     destinations,
@@ -194,15 +225,15 @@ export default function ExploreDestinations({
               </label>
 
               <span className={styles.filterValue}>
-                ${maxPrice}
+                {maxPrice >= 10000 ? "$10000+" : `$${maxPrice}`}
               </span>
             </div>
 
             <input
               type="range"
               min="100"
-              max="1000"
-              step="50"
+              max="10000"
+              step="100"
               value={maxPrice}
               onChange={(e) =>
                 setMaxPrice(Number(e.target.value))
@@ -334,10 +365,12 @@ export default function ExploreDestinations({
                 price={place.price}
                 rating={place.rating}
                 imageUrl={
-                  place.image_url || place.imageUrl
+                  place.image_url || place.imageUrl || place.image
                 }
-                category={place.category}
-                location={place.location}
+                category={place.category || place.imgTitle}
+                location={
+                  place.location || place.Location || place.location_url
+                }
                 lang={lang}
                 favorites={favorites}
                 setFavorites={setFavorites}
@@ -348,4 +381,4 @@ export default function ExploreDestinations({
       </section>
     </div>
   );
-}
+}

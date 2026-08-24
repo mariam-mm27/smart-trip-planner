@@ -15,23 +15,32 @@ export default function Place({ favorites, setFavorites }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchPlaces = async () => {
       setLoading(true);
 
       const { data, error } = await supabase
         .from("places")
-        .select("*");
+        .select("*")
+        .order("id", { ascending: false });
 
-      if (!error) {
-        setPlaces(data);
-      } else {
+      if (!error && isMounted) {
+        setPlaces(data || []);
+      } else if (error) {
         console.error("Error fetching places:", error);
       }
 
-      setLoading(false);
+      if (isMounted) {
+        setLoading(false);
+      }
     };
 
     fetchPlaces();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -106,11 +115,13 @@ export default function Place({ favorites, setFavorites }) {
 
                 <PlaceCard
                   id={place.id}
-                  image={placeImage}
+                  image={place.image_url || place.imageUrl || place.image || placeImage}
+                  imgTitle={place.category || place.imgTitle}
                   title={place.title}
                   description={place.description}
-                  location={place.location}
-                  stars={place.stars}
+                  location={place.Location || place.location || place.location_url}
+                  stars={place.rating || place.stars || "5.0"}
+                  price={place.price}
                   reviews={place.reviews}
                   favorites={favorites}
                   setFavorites={setFavorites}

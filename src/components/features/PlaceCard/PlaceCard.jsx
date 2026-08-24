@@ -112,16 +112,27 @@ export default function PlaceCard(prop) {
     }
   }
 
+  const displayImage =
+    prop.image ||
+    prop.image_url ||
+    prop.imageUrl ||
+    "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
+
   return (
     <div className={styles["place-card"]}>
       <div className={styles["card-image"]}>
         <img
-          src={prop.image}
+          src={displayImage}
           alt={displayTitle || ""}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src =
+              "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
+          }}
         />
 
         <span className={styles["category"]}>
-          {prop.imgTitle}
+          {prop.imgTitle || prop.category}
         </span>
 
         <button

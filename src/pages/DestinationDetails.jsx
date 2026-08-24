@@ -254,7 +254,9 @@ export default function DestinationDetails() {
     );
   }
 
-  const mapsUrl = getSafeMapsUrl(place?.Location);
+  const mapsUrl = getSafeMapsUrl(
+    place?.Location || place?.location || place?.location_url
+  );
   // The short share link can't be framed, so the preview is geocoded from the title instead.
   const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
     place?.title || ''
@@ -266,8 +268,18 @@ export default function DestinationDetails() {
       <div className={styles.heroContainer}>
         <div className={styles.imageContainer}>
           <img
-            src={place.image_url || place.imageUrl}
+            src={
+              place.image_url ||
+              place.imageUrl ||
+              place.image ||
+              "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80"
+            }
             alt={displayTitle || 'Destination'}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src =
+                "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80";
+            }}
           />
         </div>
         
