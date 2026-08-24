@@ -1,49 +1,42 @@
-.page {
+﻿.page {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
-  padding: 32px 16px;
+  padding: 80px 16px 32px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
-}
-
-@media (max-width: 1024px) {
-  .page {
-    width: 864px;
-  }
-}
-
-@media (max-width: 964px) {
-  .page {
-    width: 680px;
-  }
 }
 
 @media (max-width: 768px) {
   .page {
-    width: 90%;
-    padding: 100px 1rem 4rem;
+    padding: 100px 16px 32px;
   }
 }
 
 @media (max-width: 480px) {
   .page {
-    width: 100%;
-    padding: 90px 0.5rem 4rem;
+    padding: 90px 12px 24px;
   }
 }
 
-/* =========================
-   HERO
-========================= */
+.page > section {
+  width: 100%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .heroSection {
   text-align: center;
   margin-bottom: 32px;
-  width: 70%;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.heroSection[data-authenticated="true"] {
+  margin-top: 0;
 }
 
 .heroTitle {
@@ -80,25 +73,206 @@
   text-align: center;
 }
 
-/* =========================
-   SEARCH CARD
-========================= */
+/* Clean Greeting Header (Authenticated User) */
+.greetingHeader {
+  width: 100%;
+  padding: 32px 16px 24px;
+  margin-bottom: 24px;
+  text-align: left;
+}
 
+[dir="rtl"] .greetingHeader {
+  text-align: right;
+}
+
+.greetingTitle {
+  margin: 0 0 12px;
+  color: var(--text-primary);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+
+[dir="rtl"] .greetingTitle {
+  letter-spacing: normal;
+}
+
+.greetingSubtitle {
+  margin: 0 0 20px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  max-width: 500px;
+}
+
+.greetingActions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.greetingPrimaryBtn,
+.greetingSecondaryBtn {
+  padding: 11px 24px;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.greetingPrimaryBtn {
+  background: linear-gradient(135deg, #0084ff 0%, #006ddb 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
+}
+
+.greetingPrimaryBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 132, 255, 0.4);
+}
+
+.greetingSecondaryBtn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #0084ff;
+  border: 1px solid rgba(0, 132, 255, 0.3);
+}
+
+.greetingSecondaryBtn:hover {
+  background: rgba(0, 132, 255, 0.1);
+  border-color: rgba(0, 132, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .greetingHeader {
+    padding: 24px 16px 20px;
+    margin-bottom: 20px;
+  }
+
+  .greetingTitle {
+    font-size: 1.5rem;
+  }
+
+  .greetingSubtitle {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .greetingHeader {
+    padding: 20px 12px 16px;
+  }
+
+  .greetingTitle {
+    font-size: 1.25rem;
+  }
+
+  .greetingActions {
+    flex-direction: column;
+  }
+
+  .greetingPrimaryBtn,
+  .greetingSecondaryBtn {
+    width: 100%;
+  }
+}
+
+.heroTitle {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  text-align: center;
+}
+
+[dir="rtl"] .heroTitle {
+  letter-spacing: normal;
+  text-align: center;
+}
+
+.heroTitle span {
+  color: var(--primary-color);
+  display: inline-block;
+}
+
+.heroSubtitle {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  letter-spacing: 0.3px;
+  text-align: center;
+}
+
+[dir="rtl"] .heroSubtitle {
+  letter-spacing: normal;
+  text-align: center;
+}
+
+/* Search Card */
 .searchCard {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   color: var(--text-primary);
   border-radius: 16px;
-  padding: 16px;
+  padding: 24px;
   text-align: left;
   box-shadow: 0 4px 20px var(--shadow-color);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 [dir="rtl"] .searchCard {
   text-align: right;
+}
+
+.searchCardHeader {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 8px;
+}
+
+.searchCardTitle {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+
+[dir="rtl"] .searchCardTitle {
+  letter-spacing: normal;
+}
+
+.searchCardTitle span {
+  color: var(--primary-color);
+  display: inline-block;
+}
+
+.searchCardSubtitle {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+[dir="rtl"] .searchCardSubtitle {
+  letter-spacing: normal;
 }
 
 .inputGroup {
@@ -148,10 +322,7 @@
   opacity: 0.8;
 }
 
-/* =========================
-   SEARCH BUTTON
-========================= */
-
+/* Primary Action Search Button */
 .searchBtn {
   width: 100%;
   background: #0084ff !important;
@@ -173,27 +344,28 @@
   box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35) !important;
 }
 
-/* =========================
-   CATEGORIES
-========================= */
-
+/* Categories */
 .categories {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  padding: 8px 0;
+  padding-bottom: 0;
 }
 
 .categoryBtn {
   background-color: var(--bg-surface);
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
-  padding: 6px 16px;
+  padding: 8px 16px;
   border-radius: 50px;
   font-size: 0.85rem;
   white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
 }
 
 .activeCategory {
@@ -202,14 +374,12 @@
   border-color: #0084ff;
 }
 
-/* =========================
-   DESTINATIONS
-========================= */
-
 .destinationsSection {
-  margin-top: 24px;
+  margin-top: 32px;
+  margin-bottom: 32px;
   background-color: transparent;
   width: 100%;
+  padding: 0 16px;
 }
 
 .sectionHeader {
@@ -228,42 +398,133 @@
   color: var(--text-primary);
   background-color: transparent;
   line-height: 1.3;
-  letter-spacing: 0;
+  letter-spacing: 0px;
 }
 
 [dir="rtl"] .sectionTitle {
   letter-spacing: normal;
 }
 
-.destinationsList {
+/* Modern Trending Destinations Title */
+.sectionHeaderModern {
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 16px;
+  margin-bottom: 40px;
+  margin-top: 24px;
   background-color: transparent;
 }
 
-/* =========================
-   DESTINATION CARD
-========================= */
+.sectionTitleModern {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 16px;
+  text-align: center;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  background-color: transparent;
+}
+
+[dir="rtl"] .sectionTitleModern {
+  letter-spacing: normal;
+}
+
+.trendingText {
+  color: var(--text-primary);
+  background-color: transparent;
+}
+
+.destinationsText {
+  background: linear-gradient(135deg, #0084ff 0%, #00d4ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+}
+
+.accentLine {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent 0%, #0084ff 50%, transparent 100%);
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.4);
+}
+
+@media (max-width: 768px) {
+  .sectionHeaderModern {
+    margin-bottom: 32px;
+    margin-top: 20px;
+  }
+
+  .sectionTitleModern {
+    font-size: 1.75rem;
+  }
+
+  .accentLine {
+    width: 60px;
+    height: 3px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionHeaderModern {
+    margin-bottom: 24px;
+    margin-top: 16px;
+  }
+
+  .sectionTitleModern {
+    font-size: 1.5rem;
+  }
+
+  .accentLine {
+    width: 50px;
+  }
+}
+
+.destinationsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .destinationsList {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .destinationsList {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .destinationsList {
+    grid-template-columns: 1fr;
+  }
+}
 
 .destinationCard {
   background-color: var(--card-bg);
   border-radius: 16px;
   overflow: hidden;
   border: 1px solid var(--border-color);
-  width: 320px;
-  max-width: 30%;
   color: var(--text-primary);
   box-shadow: 0 4px 20px var(--shadow-color);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
 
-/* =========================
-   CARD IMAGE
-========================= */
+.destinationCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 132, 255, 0.4);
+  box-shadow: 0 12px 32px rgba(0, 132, 255, 0.2);
+}
 
+/* card */
 .cardImageWrapper {
   position: relative;
   width: 100%;
@@ -278,12 +539,12 @@
   object-fit: cover;
 }
 
-/* Favorite Button */
-
+/* 1. Anchors the heart button to the START edge */
+/* (Left in English LTR, Right in Arabic RTL) */
 .favoriteButton {
   position: absolute;
   top: 10px;
-  inset-inline-start: 10px;
+  inset-inline-start: 10px; 
   background: var(--glass-bg, rgba(7, 11, 20, 0.65));
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
   backdrop-filter: blur(4px);
@@ -300,12 +561,12 @@
   transition: transform 0.2s ease;
 }
 
-/* Rating */
-
+/* 2. Anchors the rating badge to the END edge */
+/* (Right in English LTR, Left in Arabic RTL) */
 .ratingBadge {
   position: absolute;
   top: 10px;
-  inset-inline-end: 10px;
+  inset-inline-end: 10px; 
   background: var(--glass-bg, rgba(7, 11, 20, 0.65));
   border: 1px solid var(--border-color, rgba(255, 255, 255, 0.2));
   backdrop-filter: blur(4px);
@@ -320,9 +581,10 @@
   gap: 0.25rem;
 }
 
-/* =========================
-   CARD CONTENT
-========================= */
+[dir="rtl"] .ratingBadge {
+  right: auto;
+  left: 10px;
+}
 
 .cardContent {
   padding: 16px;
@@ -335,7 +597,7 @@
   margin-top: 0;
   color: var(--text-primary);
   line-height: 1.3;
-  letter-spacing: 0;
+  letter-spacing: 0px;
 }
 
 [dir="rtl"] .cardTitle {
@@ -348,7 +610,7 @@
   line-height: 1.5;
   margin-bottom: 14px;
   margin-top: 0;
-  letter-spacing: 0;
+  letter-spacing: 0px;
 }
 
 [dir="rtl"] .cardDescription {
@@ -379,8 +641,7 @@
   font-weight: 400;
 }
 
-/* Details Button */
-
+/* Unified Card Action Button */
 .detailsBtn {
   background: #0084ff !important;
   border: none !important;
@@ -401,136 +662,51 @@
   box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35) !important;
 }
 
-/* =========================
-   EXPLORE BUTTON
-========================= */
-
-.explorePlacesBtn {
-  padding: 6px 16px;
-  border: 1px solid #00bcd4;
-  border-radius: 20px;
-  background: transparent;
-  color: #00bcd4;
-  font-size: 13px;
-  cursor: pointer;
-  transition: 0.3s ease;
+.benefitsSection {
+  width: 100%;
+  margin-top: 32px;
+  padding: 0 16px;
 }
 
-.explorePlacesBtn:hover {
-  background: #00bcd4;
-  color: white;
-}
-
-/* =========================
-   DYNAMIC HOME SECTION
-========================= */
-
-.dynamicSection {
-  width: 90%;
-  max-width: 1100px;
-  margin: 55px auto 0;
-  background-color: transparent;
-}
-
-.dynamicCard {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  padding: 30px 34px;
-  background-color: var(--card-bg);
-  border: 1px solid rgba(0, 132, 255, 0.18);
-  border-radius: 16px;
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease;
-}
-
-.dynamicCard:hover {
-  transform: translateY(-3px);
-  border-color: rgba(0, 132, 255, 0.4);
-}
-
-.dynamicContent {
-  min-width: 0;
-}
-
-.dynamicEyebrow {
-  margin: 0 0 8px;
-  color: #0084ff;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  background-color: transparent;
-}
-
-.dynamicTitle {
-  margin: 0 0 8px;
-  color: var(--text-primary);
-  font-size: 1.5rem;
-  font-weight: 700;
-  background-color: transparent;
-}
-
-.dynamicText {
-  max-width: 650px;
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  background-color: transparent;
-}
-
-.dynamicActions {
-  display: flex;
-  gap: 10px;
-  flex-shrink: 0;
-  background-color: transparent;
-}
-
-.primaryAction,
-.secondaryAction {
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    opacity 0.2s ease;
-}
-
-.primaryAction {
-  border: 1px solid #0084ff;
-  background-color: #0084ff;
-  color: #ffffff;
-}
-
-.secondaryAction {
-  border: 1px solid #0084ff;
-  background-color: transparent;
-  color: #0084ff;
-}
-
-.primaryAction:hover,
-.secondaryAction:hover {
-  transform: translateY(-2px);
-  opacity: 0.9;
-}
-
-/* =========================
-   BENEFITS
-========================= */
-
-.benefits {
-  margin-top: 80px;
-  background-color: transparent;
+.benefitsSection .sectionHeader {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 30px;
+  gap: 8px;
+  margin-bottom: 32px;
+  background-color: transparent;
+}
+
+.benefitsSection .sectionTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+  background-color: transparent;
+  line-height: 1.3;
+  letter-spacing: 0px;
+  text-align: center;
+}
+
+[dir="rtl"] .benefitsSection .sectionTitle {
+  letter-spacing: normal;
+}
+
+/* benefits */
+.benefits {
+  margin: 0;
+  background-color: transparent;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
   width: 100%;
+}
+
+@media (min-width: 768px) {
+  .benefits {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 }
 
 .benefitsItem {
@@ -538,19 +714,27 @@
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 90%;
-  max-width: 800px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
   padding: 24px;
   border-radius: 15px;
   box-shadow: 0 4px 20px var(--shadow-color);
+  transition: all 0.3s ease;
+}
+
+.benefitsItem:hover {
+  transform: translateY(-6px);
+  border-color: #0084ff;
+  box-shadow: 0 12px 32px rgba(0, 132, 255, 0.2);
+  background-color: var(--bg-secondary);
 }
 
 .benefitsText {
   width: 100%;
-  padding: 0 8px;
+  padding: 0;
   background-color: transparent;
+  flex: 1;
 }
 
 .benefitsHeading {
@@ -560,7 +744,7 @@
   margin-bottom: 8px;
   margin-top: 0;
   line-height: 1.3;
-  letter-spacing: 0;
+  letter-spacing: 0px;
   font-size: 1rem;
 }
 
@@ -574,98 +758,165 @@
   margin: 0;
   line-height: 1.5;
   font-size: 0.9rem;
-  letter-spacing: 0;
+  letter-spacing: 0px;
 }
 
 [dir="rtl"] .benefitsDescription {
   letter-spacing: normal;
 }
 
-/* =========================
-   FAVORITE NOTIFICATION
-========================= */
-
-.favoriteNotification {
-  position: fixed;
-  top: 90px;
-  right: 30px;
-  z-index: 9999;
-  padding: 12px 20px;
-  border-radius: 10px;
-  background: #0f172a;
+.benefitsBtn {
+  width: 100%;
+  background-color: #0084ff;
   color: #ffffff;
-  font-size: 14px;
-  font-weight: 500;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-  animation: notificationSlide 0.3s ease;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.25);
 }
 
-@keyframes notificationSlide {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.benefitsBtn:hover {
+  background-color: #006ddb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35);
+}
+/* Dynamic Home Section */
+.dynamicSection {
+  width: 100%;
+  margin: 32px auto 0;
+  margin-bottom: 32px;
+  background-color: transparent;
+  padding: 0 16px;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (min-width: 326px) {
-  .destinationCard {
-    min-width: 70%;
-  }
+.dynamicCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  padding: 32px 40px;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.5) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 132, 255, 0.15);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-@media (min-width: 762px) {
-  .destinationCard {
-    min-width: 45%;
-  }
+.dynamicCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 132, 255, 0.3);
+  box-shadow: 0 12px 48px rgba(0, 132, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.1);
 }
 
-@media (min-width: 964px) {
-  .destinationCard {
-    min-width: 30%;
-  }
+.dynamicContent {
+  min-width: 0;
+  flex: 1;
+}
+
+.dynamicTitle {
+  margin: 0 0 12px;
+  color: var(--text-primary);
+  font-size: 1.75rem;
+  font-weight: 700;
+  background-color: transparent;
+  line-height: 1.4;
+}
+
+.dynamicSubtitle {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  background-color: transparent;
+}
+
+.dynamicActions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+  background-color: transparent;
+}
+
+.primaryAction,
+.secondaryAction {
+  padding: 12px 24px;
+  border-radius: 9999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+}
+
+.primaryAction {
+  background: linear-gradient(135deg, #0084ff 0%, #006ddb 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 132, 255, 0.3);
+}
+
+.primaryAction:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 132, 255, 0.4);
+}
+
+.secondaryAction {
+  background: rgba(255, 255, 255, 0.1);
+  color: #0084ff;
+  border: 1px solid rgba(0, 132, 255, 0.3);
+}
+
+.secondaryAction:hover {
+  background: rgba(0, 132, 255, 0.1);
+  border-color: rgba(0, 132, 255, 0.6);
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
   .dynamicCard {
     flex-direction: column;
     align-items: flex-start;
+    padding: 24px 28px;
+    gap: 20px;
+  }
+
+  .dynamicTitle {
+    font-size: 1.5rem;
   }
 
   .dynamicActions {
     width: 100%;
+    justify-content: flex-start;
   }
 
   .primaryAction,
   .secondaryAction {
     flex: 1;
   }
-
-  .heroSection {
-    width: 95%;
-  }
-
-  .destinationCard {
-    max-width: 100%;
-    width: 100%;
-  }
 }
 
 @media (max-width: 480px) {
+  .dynamicCard {
+    padding: 20px 16px;
+  }
+
+  .dynamicTitle {
+    font-size: 1.25rem;
+  }
+
   .dynamicActions {
     flex-direction: column;
+    width: 100%;
   }
 
   .primaryAction,
   .secondaryAction {
     width: 100%;
+    padding: 12px 20px;
   }
 }
