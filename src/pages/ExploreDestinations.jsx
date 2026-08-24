@@ -23,7 +23,7 @@ export default function ExploreDestinations({
 
   const [destinations, setDestinations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState("Beaches");
+  const [activeFilter, setActiveFilter] = useState("All");
   const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -32,6 +32,14 @@ export default function ExploreDestinations({
   const [sortBy, setSortBy] = useState("popular");
 
   useEffect(() => {
+    // Reset all filters when component mounts
+    setSearchQuery("");
+    setActiveFilter("All");
+    setSelectedCategories([]);
+    setMaxPrice(1000);
+    setMinRating(0);
+    setSortBy("popular");
+
     const fetchDestinations = async () => {
       try {
         const { data, error } = await supabase

@@ -5,7 +5,7 @@ import styles from '../styles/Details.module.css';
 import { useLanguage } from '../context/LanguageContext';
 import { useAutoText } from '../hooks/useAutoText';
 import { getLocalized } from '../utils/i18nHelper';
-import { FiArrowLeft, FiShare2, FiHeart, FiHeartFill } from 'react-icons/fi';
+import { FiArrowLeft, FiShare2, FiHeart } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import TripSelector from '../components/common/TripSelector';
 import Toast from '../components/common/Toast';
@@ -262,21 +262,44 @@ export default function DestinationDetails() {
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Back Arrow Button */}
-      <button
-        onClick={() => navigate(-1)}
-        className={styles.backBtn}
-        aria-label="Go back"
-      >
-        <FiArrowLeft /> {t('back') || 'Back'}
-      </button>
+      {/* Hero Image Container with Floating Action Icons */}
+      <div className={styles.heroContainer}>
+        <div className={styles.imageContainer}>
+          <img
+            src={place.image_url || place.imageUrl}
+            alt={displayTitle || 'Destination'}
+          />
+        </div>
+        
+        {/* Floating Action Buttons - Top Right */}
+        <div className={styles.floatingActions}>
+          <button 
+            className={`${styles.favoriteBtn} ${isFavorite ? styles.favorited : ''}`}
+            onClick={handleToggleFavorite}
+            title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          >
+            <FiHeart className={isFavorite ? styles.heartFilled : ''} />
+          </button>
 
-      {/* Top Image Banner */}
-      <div className={styles.imageContainer}>
-        <img
-          src={place.image_url || place.imageUrl}
-          alt={displayTitle || 'Destination'}
-        />
+          <button 
+            className={styles.shareBtn}
+            onClick={handleShare}
+            title="Share this destination"
+            aria-label="Share"
+          >
+            <FiShare2 />
+          </button>
+        </div>
+
+        {/* Back Button - Top Left */}
+        <button
+          onClick={() => navigate(-1)}
+          className={styles.backBtnFloating}
+          aria-label="Go back"
+        >
+          <FiArrowLeft />
+        </button>
       </div>
 
       {/* Place Details */}
@@ -356,37 +379,16 @@ export default function DestinationDetails() {
           {t('addToMyTrip') || (lang === 'ar' ? 'أضف إلى رحلتي' : 'Add to My Trip')}
         </button>
 
-        <div className={styles.buttonGroup}>
-          <button 
-            className={`${styles.favoriteBtn} ${isFavorite ? styles.favorited : ''}`}
-            onClick={handleToggleFavorite}
-            title={isFavorite ? "Remove from favorites" : "Add to favorites"}
-            aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-          >
-            {isFavorite ? <FiHeartFill /> : <FiHeart />}
-            {t('favorites') || 'Favorite'}
-          </button>
-
-          <button 
-            className={styles.shareBtn}
-            onClick={handleShare}
-            title="Share this destination"
-            aria-label="Share"
-          >
-            <FiShare2 /> {t('share') || 'Share'}
-          </button>
-        </div>
+        {/* Full-Width Bottom Back Button */}
+        <button
+          type="button"
+          onClick={handleGoBack}
+          className={styles.fullWidthBackBtn}
+        >
+          <i className="bi bi-arrow-left"></i>
+          <span>{t('back') || (lang === 'ar' ? 'رجوع' : 'Go Back')}</span>
+        </button>
       </div>
-
-      {/* Full-Width Bottom Back Button */}
-      <button
-        type="button"
-        onClick={handleGoBack}
-        className={styles.fullWidthBackBtn}
-      >
-        <i className="bi bi-arrow-left"></i>
-        <span>{t('back') || (lang === 'ar' ? 'رجوع' : 'Go Back')}</span>
-      </button>
 
       {/* Trip Selector Modal */}
       {showTripSelector && (

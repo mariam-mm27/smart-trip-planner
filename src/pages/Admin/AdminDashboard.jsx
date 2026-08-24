@@ -7,10 +7,12 @@ import AutoText from '../../components/common/AutoText';
 import PlaceForm, {
   PLACE_CATEGORIES,
 } from '../../components/features/Admin/PlaceForm';
+import UsersTab from '../../components/features/Admin/UsersTab';
 import styles from './AdminDashboard.module.css';
 
 export default function AdminDashboard() {
   const { t } = useLanguage();
+  const [activeTab, setActiveTab] = useState('places');
   const [places, setPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
@@ -21,24 +23,29 @@ export default function AdminDashboard() {
   const [editingPlace, setEditingPlace] = useState(null);
 
   useEffect(() => {
-    async function loadPlaces() {
-      try {
-        setIsLoading(true);
-        setError('');
+    // Only load places when switching to places tab
+    if (activeTab === 'places') {
+      async function loadPlaces() {
+        try {
+          setIsLoading(true);
+          setError('');
 
-        const data = await getAllPlaces();
+          const data = await getAllPlaces();
 
-        setPlaces(data || []);
-      } catch (loadError) {
-        console.error('Failed to load places:', loadError);
-        setError(t('failedLoadPlaces'));
-      } finally {
-        setIsLoading(false);
+          setPlaces(data || []);
+        } catch (loadError) {
+          console.error('Failed to load places:', loadError);
+          setError(t('failedLoadPlaces'));
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
 
-    loadPlaces();
-  }, []);
+      loadPlaces();
+    } else {
+      setIsLoading(false);
+    }
+  }, [activeTab, t]);
 
   const filteredPlaces = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
@@ -114,130 +121,162 @@ export default function AdminDashboard() {
 
   return (
     <>
-      <div className={styles.header}>
-        <div>
-          <span className={styles.eyebrow}>{t('adminDashboard')}</span>
-          <h1 className={styles.title}>{t('managePlaces')}</h1>
-          <p className={styles.subtitle}>{t('managePlacesDescription')}</p>
-        </div>
-
-        <Button className={styles.addBtn} onClick={handleCreateClick}>
-          <FiPlus /> {t('addNewPlace')}
-        </Button>
+      {/* Tab Navigation */}
+      <div className={styles.tabNav}>
+        <button
+          className={`${styles.tabBtn} ${activeTab === 'places' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('places')}
+        >
+          <FiPlus size={16} />
+          {t('places') || 'Places'}
+        </button>
+        <button
+          className={`${styles.tabBtn} ${activeTab === 'users' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('users')}
+        >
+          {t('users') || 'Users'}
+        </button>
       </div>
 
-      {error && <p className={styles.error}>{error}</p>}
-      {feedback && <p className={styles.success}>{feedback}</p>}
+      {/* Places Tab */}
+      {activeTab === 'places' && (
+        <>
+          <div className={styles.header}>
+            <div>
+              <span className={styles.eyebrow}>{t('adminDashboard')}</span>
+              <h1 className={styles.title}>{t('managePlaces')}</h1>
+              <p className={styles.subtitle}>{t('managePlacesDescription')}</p>
+            </div>
 
-      <div className={styles.toolbar}>
-        <input
-          type="search"
-          className={styles.search}
-          placeholder={t('searchPlaces')}
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
-        />
+            <Button className={styles.addBtn} onClick={handleCreateClick}>
+              <FiPlus /> {t('addNewPlace')}
+            </Button>
+          </div>
 
-        <div className={styles.filters}>
-          {['All', ...PLACE_CATEGORIES].map((category) => (
-            <button
-              key={category}
-              type="button"
-              className={
-                activeCategory === category
-                  ? `${styles.filterBtn} ${styles.filterBtnActive}`
-                  : styles.filterBtn
-              }
-              onClick={() => setActiveCategory(category)}
-            >
-              {t(category.toLowerCase())}
-            </button>
-          ))}
-        </div>
-      </div>
+          {error && <p className={styles.error}>{error}</p>}
+          {feedback && <p className={styles.success}>{feedback}</p>}
 
-      <p className={styles.count}>
-        {filteredPlaces.length} / {places.length}
-      </p>
+          <div className={styles.toolbar}>
+            <input
+              type="search"
+              className={styles.search}
+              placeholder={t('searchPlaces')}
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+            />
 
-      {filteredPlaces.length === 0 ? (
-        <div className={styles.empty}>
-          <h2>{t('noPlacesFound')}</h2>
-        </div>
-      ) : (
-        <div className={styles.tableWrap}>
-          <Table responsive className={styles.table}>
-            <thead>
-              <tr>
-                <th></th>
-                <th>{t('placeTitle')}</th>
-                <th>{t('placeCategory')}</th>
-                <th>{t('placeRating')}</th>
-                <th>{t('placePrice')}</th>
-                <th className={styles.actionsCol}>{t('actions')}</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {filteredPlaces.map((place) => (
-                <tr key={place.id}>
-                  <td>
-                    {place.image_url ? (
-                      <img
-                        src={place.image_url}
-                        alt=""
-                        className={styles.thumb}
-                      />
-                    ) : (
-                      <div className={styles.thumbFallback} />
-                    )}
-                  </td>
-
-                  <td>
-                    <span className={styles.placeTitle}>
-                      <AutoText text={place.title} />
-                    </span>
-                    <span className={styles.placeDescription}>
-                      <AutoText text={place.description} />
-                    </span>
-                  </td>
-
-                  <td>
-                    <span className={styles.badge}>
-                      {place.category ? t(place.category.toLowerCase()) : '—'}
-                    </span>
-                  </td>
-
-                  <td>{place.rating}</td>
-                  <td>{place.price}</td>
-
-                  <td className={styles.actionsCol}>
-                    <div className={styles.rowActions}>
-                      <Button
-                        size="sm"
-                        variant="outline-primary"
-                        onClick={() => handleEditClick(place)}
-                        title={t('editPlace')}
-                      >
-                        <FiEdit2 />
-                      </Button>
-
-                      <Button
-                        size="sm"
-                        variant="outline-danger"
-                        onClick={() => handleDelete(place)}
-                        title={t('deletePlace')}
-                      >
-                        <FiTrash2 />
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
+            <div className={styles.filters}>
+              {['All', ...PLACE_CATEGORIES].map((category) => (
+                <button
+                  key={category}
+                  type="button"
+                  className={
+                    activeCategory === category
+                      ? `${styles.filterBtn} ${styles.filterBtnActive}`
+                      : styles.filterBtn
+                  }
+                  onClick={() => setActiveCategory(category)}
+                >
+                  {t(category.toLowerCase())}
+                </button>
               ))}
-            </tbody>
-          </Table>
-        </div>
+            </div>
+          </div>
+
+          <p className={styles.count}>
+            {filteredPlaces.length} / {places.length}
+          </p>
+
+          {filteredPlaces.length === 0 ? (
+            <div className={styles.empty}>
+              <h2>{t('noPlacesFound')}</h2>
+            </div>
+          ) : (
+            <div className={styles.tableWrap}>
+              <Table responsive className={styles.table}>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>{t('placeTitle')}</th>
+                    <th>{t('placeCategory')}</th>
+                    <th>{t('placeRating')}</th>
+                    <th>{t('placePrice')}</th>
+                    <th className={styles.actionsCol}>{t('actions')}</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {filteredPlaces.map((place) => (
+                    <tr key={place.id}>
+                      <td>
+                        {place.image_url ? (
+                          <img
+                            src={place.image_url}
+                            alt=""
+                            className={styles.thumb}
+                          />
+                        ) : (
+                          <div className={styles.thumbFallback} />
+                        )}
+                      </td>
+
+                      <td>
+                        <span className={styles.placeTitle}>
+                          <AutoText text={place.title} />
+                        </span>
+                        <span className={styles.placeDescription}>
+                          <AutoText text={place.description} />
+                        </span>
+                      </td>
+
+                      <td>
+                        <span className={styles.badge}>
+                          {place.category ? t(place.category.toLowerCase()) : '—'}
+                        </span>
+                      </td>
+
+                      <td>{place.rating}</td>
+                      <td>{place.price}</td>
+
+                      <td className={styles.actionsCol}>
+                        <div className={styles.rowActions}>
+                          <Button
+                            size="sm"
+                            variant="outline-primary"
+                            onClick={() => handleEditClick(place)}
+                            title={t('editPlace')}
+                          >
+                            <FiEdit2 />
+                          </Button>
+
+                          <Button
+                            size="sm"
+                            variant="outline-danger"
+                            onClick={() => handleDelete(place)}
+                            title={t('deletePlace')}
+                          >
+                            <FiTrash2 />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+          )}
+
+          {isLoading && (
+            <div className={styles.center}>
+              <Spinner animation="border" />
+              <p>{t('loadingPlaces')}</p>
+            </div>
+          )}
+        </>
       )}
+
+      {/* Users Tab */}
+      {activeTab === 'users' && <UsersTab />}
 
       <PlaceForm
         show={isFormOpen}

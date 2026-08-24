@@ -48,7 +48,7 @@ export default function PublicRoute({ children }) {
   if (user) {
     return (
       <Navigate
-        to={isAdmin ? "/admin" : "/explore"}
+        to={isAdmin ? "/admin" : "/"}
         replace
       />
     );

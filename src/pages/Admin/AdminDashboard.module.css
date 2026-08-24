@@ -8,6 +8,42 @@
   color: var(--text-secondary);
 }
 
+/* TAB NAVIGATION */
+
+.tabNav {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: -2px;
+}
+
+.tabBtn:hover {
+  color: var(--text-primary);
+}
+
+.tabActive {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
 .header {
   display: flex;
   align-items: flex-end;
@@ -131,6 +167,13 @@
   --bs-table-border-color: var(--border-color);
   --bs-table-hover-bg: var(--glass-bg);
   --bs-table-hover-color: var(--text-primary);
+}
+
+/* Override Bootstrap's hardcoded white cell backgrounds for dark mode */
+.table > :not(caption) > * > * {
+  background-color: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
 }
 
 .table thead th {

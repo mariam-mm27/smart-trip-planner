@@ -1,22 +1,19 @@
 .toast {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  left: 24px;
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 500px;
+  width: calc(100% - 48px);
   padding: 16px 20px;
   background-color: #f0fdf4;
   border: 1px solid #86efac;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  animation: slideIn 0.3s ease-out;
+  animation: slideInDown 0.3s ease-out;
   z-index: 1000;
 }
 
@@ -34,20 +31,44 @@
 
 .content {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: flex-start;
+  gap: 14px;
   flex: 1;
 }
 
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  min-width: 24px;
+  height: 24px;
+}
+
 .icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   flex-shrink: 0;
 }
 
-.text {
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.toastTitle {
   font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.text {
+  font-size: 13px;
   font-weight: 500;
+  line-height: 1.4;
+  word-break: break-word;
 }
 
 .close {
@@ -68,28 +89,34 @@
   opacity: 1;
 }
 
-@keyframes slideIn {
+@keyframes slideInDown {
   from {
     opacity: 0;
-    transform: translateY(100%);
+    transform: translateX(-50%) translateY(-20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(-50%) translateY(0);
   }
 }
 
 @media (max-width: 640px) {
   .toast {
-    left: 12px;
-    right: 12px;
-    max-width: calc(100% - 24px);
+    top: 12px;
+    width: calc(100% - 24px);
+    max-width: none;
   }
 }
 
 [dir="rtl"] .toast {
+  left: auto;
   right: auto;
-  left: 24px;
+  transform: translateX(50%);
+}
+
+[dir="rtl"] .toast {
+  left: auto;
+  right: 50%;
 }
 
 [dir="rtl"] .close {
