@@ -6,6 +6,7 @@ import { useLanguage } from "../../context/LanguageContext";
 import { getLocalized } from "../../utils/i18nHelper";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../services/supabaseClient";
 
 export default function Destinations({
   id,
@@ -53,24 +54,33 @@ export default function Destinations({
     }, 2000);
   };
 
-  const handleFavorite = (e) => {
-    e.stopPropagation();
+ const handleFavorite = async (e) => {
+  e.stopPropagation();
 
-    // User is not logged in
-    if (!user) {
-      showNotification("Please login to add favorites");
+  // User is not logged in
+  if (!user) {
+    showNotification("Please login to add favorites");
 
-      setTimeout(() => {
-        navigate("/login");
-      }, 1200);
+    setTimeout(() => {
+      navigate("/login");
+    }, 1200);
 
-      return;
-    }
+    return;
+  }
 
-    if (!setFavorites) return;
-
-    // Remove favorite
+  try {
+    // =========================
+    // REMOVE FAVORITE
+    // =========================
     if (isFavorite) {
+      const { error } = await supabase
+        .from("favorites")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("place_id", id);
+
+      if (error) throw error;
+
       const updatedFavorites = favorites.filter(
         (place) => place.id !== id
       );
@@ -81,8 +91,21 @@ export default function Destinations({
       showNotification("Removed from favorites");
     }
 
-    // Add favorite
+    // =========================
+    // ADD FAVORITE
+    // =========================
     else {
+      const { error } = await supabase
+        .from("favorites")
+        .insert([
+          {
+            user_id: user.id,
+            place_id: id,
+          },
+        ]);
+
+      if (error) throw error;
+
       const favoritePlace = {
         id,
         title: displayTitle,
@@ -101,7 +124,11 @@ export default function Destinations({
 
       showNotification("Added to favorites ❤️");
     }
-  };
+  } catch (error) {
+    console.error("Favorite error:", error);
+    showNotification(error.message || "Something went wrong");
+  }
+};
 
   const handleViewDetails = () => {
     navigate(`/details/${id}`, {

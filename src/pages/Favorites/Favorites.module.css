@@ -7,9 +7,10 @@
 }
 
 .container {
+  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 70px 24px;
 }
 
 /* HEADER */
@@ -19,7 +20,7 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 auto 35px;
-  padding: 0 0;
+  padding: 0;
 }
 
 .header > div {
@@ -107,12 +108,18 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(300px, 1fr)
-  );
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
-  align-items: start;
+  width: 100%;
+  margin-top: 40px;
+}
+
+/* FORCE DESTINATION CARDS TO FILL GRID */
+
+.grid > * {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0;
 }
 
 /* EMPTY */
