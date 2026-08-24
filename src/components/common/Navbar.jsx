@@ -1,106 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+﻿import React, { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useLanguage } from '../../context/LanguageContext';
 import { supabase } from '../../services/supabaseClient';
 import styles from '../../styles/Navbar.module.css';
-import { FiUser, FiLogIn, FiMenu, FiX, FiMapPin } from 'react-icons/fi';
+import { FiUser, FiLogIn } from 'react-icons/fi';
 import { Toolbar } from './Toolbar';
 
 export default function Navbar() {
-  const { user, profile, isAdmin } = useAuth();
-  const { t } = useLanguage();
+  const { user } = useAuth();
   const location = useLocation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState('');
+  const [fullName, setFullName] = useState('');
 
   // Hide auth button on auth pages
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
-  // Close the mobile menu whenever the route changes.
   useEffect(() => {
-    setIsMenuOpen(false);
-  }, [location.pathname]);
+    if (!user) {
+      setAvatarUrl('');
+      setFullName('');
+      return;
+    }
 
-  const avatarUrl = profile?.avatar_url || '';
-  const displayName =
-    profile?.full_name || user?.email?.split('@')[0] || t('profile');
+    let isMounted = true;
 
-  const navLinks = [
-    { to: '/', label: t('home'), end: true },
-    { to: '/explore', label: t('explore') },
-    ...(user
-      ? [
-          { to: '/my-trips', label: t('myTrips') },
-          { to: '/favorites', label: t('favorites') },
-        ]
-      : []),
-    ...(isAdmin ? [{ to: '/admin', label: t('adminDashboard') }] : []),
-  ];
+    async function fetchUserProfile() {
+      try {
+        const { data } = await supabase
+          .from('profiles')
+          .select('full_name, avatar_url')
+          .eq('id', user.id)
+          .maybeSingle();
 
-  const getLinkClass = ({ isActive }) =>
-    isActive ? `${styles.link} ${styles.linkActive}` : styles.link;
+        if (isMounted && data) {
+          if (data.avatar_url) setAvatarUrl(data.avatar_url);
+          if (data.full_name) setFullName(data.full_name);
+        }
+      } catch (err) {
+        console.error('Error fetching profile for navbar icon:', err);
+      }
+    }
+
+    fetchUserProfile();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [user]);
+
+  const displayName = fullName || user?.email?.split('@')[0] || 'Profile';
 
   return (
-    <header className={styles.navbar}>
-      <nav className={styles.inner}>
-        <Link to="/" className={styles.brand}>
-          <FiMapPin className={styles.brandIcon} />
-          <span>{t('appName')}</span>
-        </Link>
-
-        <button
-          type="button"
-          className={styles.hamburger}
-          onClick={() => setIsMenuOpen((open) => !open)}
-          aria-label={t('menu')}
-          aria-expanded={isMenuOpen}
-          aria-controls="primary-navigation"
-        >
-          {isMenuOpen ? <FiX /> : <FiMenu />}
-        </button>
-
-        <div
-          id="primary-navigation"
-          className={`${styles.menu} ${isMenuOpen ? styles.menuOpen : ''}`}
-        >
-          <ul className={styles.links}>
-            {navLinks.map((link) => (
-              <li key={link.to}>
-                <NavLink to={link.to} end={link.end} className={getLinkClass}>
-                  {link.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-
-          <div className={styles.actions}>
-            <Toolbar />
-            {user ? (
-              <Link
-                to="/profile"
-                className={styles.profileAvatarBtn}
-                title={t('profile')}
-              >
-                {avatarUrl ? (
-                  <img
-                    src={avatarUrl}
-                    alt={displayName}
-                    className={styles.avatarImage}
-                  />
-                ) : (
-                  <FiUser className={styles.avatarPlaceholderIcon} />
-                )}
-                <span>{displayName}</span>
-              </Link>
-            ) : !isAuthPage ? (
-              <Link to="/login" className={styles.loginBtn}>
-                <FiLogIn />
-                <span>Login / Sign Up</span>
-              </Link>
-            ) : null}
-          </div>
-        </div>
-      </nav>
+    <header className={styles.topRightHeader}>
+      <Toolbar />
+      <div className={styles.userSection}>
+        {user ? (
+          <Link
+            to="/profile"
+            className={styles.profileAvatarBtn}
+            title="Profile"
+          >
+            {avatarUrl ? (
+              <img
+                src={avatarUrl}
+                alt={displayName}
+                className={styles.avatarImage}
+              />
+            ) : (
+              <FiUser className={styles.avatarPlaceholderIcon} />
+            )}
+            <span>{displayName}</span>
+          </Link>
+        ) : !isAuthPage ? (
+          <Link to="/login" className={styles.loginBtn}>
+            <FiLogIn />
+            <span>Login / Sign Up</span>
+          </Link>
+        ) : null}
+      </div>
     </header>
   );
 }

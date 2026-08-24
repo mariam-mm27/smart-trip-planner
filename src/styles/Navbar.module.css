@@ -1,271 +1,139 @@
-.navbar {
-  position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
+﻿.topRightHeader {
+  position: absolute;
+  top: 16px;
+  right: 24px;
   z-index: 1000;
-  height: var(--navbar-height);
-  background-color: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-color);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-
-.inner {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  height: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-  color: var(--text-primary);
-  font-size: 1.05rem;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.brand:hover {
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.brandIcon {
-  flex-shrink: 0;
-  font-size: 1.35rem;
-  color: var(--primary-color);
-}
-
-.menu {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.links {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  background: transparent !important;
+  padding: 0;
   margin: 0;
-  padding: 0;
-  list-style: none;
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  overflow: visible !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  height: auto !important;
 }
 
-.link {
-  display: inline-block;
-  padding: 8px 14px;
-  border-radius: 8px;
-  border-bottom: 2px solid transparent;
-  color: var(--text-secondary);
-  font-size: 0.92rem;
-  font-weight: 600;
-  text-decoration: none;
-  white-space: nowrap;
-  transition:
-    color 0.2s ease,
-    background-color 0.2s ease;
+[dir="rtl"] .topRightHeader {
+  right: auto !important;
+  left: 24px !important;
+  flex-direction: row-reverse;
 }
 
-.link:hover {
-  color: var(--text-primary);
-  background-color: var(--glass-bg);
-  text-decoration: none;
+.topRightHeader *,
+.topRightHeader a,
+.topRightHeader span {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  outline: none !important;
+  text-decoration: none !important;
 }
 
-.linkActive {
-  color: var(--primary-color);
-  border-bottom-color: var(--primary-color);
-  border-radius: 8px 8px 0 0;
-}
-
-.actions {
+.userSection {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
-}
-
-.hamburger {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  margin-inline-start: auto;
-  padding: 0;
-  background: transparent;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  color: var(--text-primary);
-  font-size: 1.35rem;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    color 0.2s ease;
-}
-
-.hamburger:hover {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  overflow: visible !important;
 }
 
 /* Profile Badge Button */
-
-.profileAvatarBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border: 1.5px solid rgba(0, 132, 255, 0.6);
-  border-radius: 30px;
-  background: transparent;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.4;
-  text-decoration: none;
-  white-space: nowrap;
-  transition: border-color 0.2s ease;
-}
-
+.profileAvatarBtn,
 .profileAvatarBtn:hover,
 .profileAvatarBtn:focus,
-.profileAvatarBtn:active {
-  border-color: var(--primary-color);
-  color: var(--text-primary);
-  text-decoration: none;
+.profileAvatarBtn:active,
+.profileAvatarBtn:visited {
+  height: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  text-decoration: none !important;
+  color: var(--text-primary, #f1f5f9) !important;
+  background: transparent !important;
+  border: 1.5px solid rgba(0, 132, 255, 0.6) !important;
+  padding: 6px 14px 8px 14px !important;
+  border-radius: 30px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  overflow: visible !important;
+  transition: all 0.2s ease;
 }
 
 .profileAvatarBtn span {
-  color: inherit;
+  color: var(--text-primary, #ffffff) !important;
+  line-height: 1.4 !important;
+  display: inline-block !important;
+}
+
+.profileAvatarBtn:hover {
+  background: transparent !important;
+  border-color: #0084ff !important;
 }
 
 .avatarImage {
   width: 28px;
   height: 28px;
-  flex-shrink: 0;
   border-radius: 50%;
-  border: 1.5px solid var(--primary-color);
   object-fit: cover;
+  border: 1.5px solid #0084ff !important;
+  box-shadow: none !important;
+  flex-shrink: 0;
 }
 
 .avatarPlaceholderIcon {
-  flex-shrink: 0;
   font-size: 1.1rem;
-  color: var(--primary-color);
+  color: #0084ff;
+  flex-shrink: 0;
 }
 
-.loginBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-height: 40px;
-  padding: 8px 18px;
-  border: none;
-  border-radius: 8px;
-  background: var(--primary-color);
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.4;
-  text-decoration: none;
-  white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.25);
-  transition: all 0.25s ease;
-}
-
+.loginBtn,
 .loginBtn:hover,
 .loginBtn:focus,
-.loginBtn:active {
-  background: var(--primary-hover);
-  color: #ffffff;
-  text-decoration: none;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35);
+.loginBtn:active,
+.loginBtn:visited {
+  height: auto !important;
+  min-height: 40px !important;
+  background: #0084ff !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  padding: 8px 18px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.4 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.25) !important;
+  outline: none !important;
+  overflow: visible !important;
+  transition: all 0.25s ease !important;
+}
+
+.loginBtn:hover {
+  background: #006ddb !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 12px rgba(0, 132, 255, 0.35) !important;
 }
 
 .loginBtn svg {
-  flex-shrink: 0;
-  font-size: 1.1rem;
+  font-size: 1.1rem !important;
+  color: #ffffff !important;
+  flex-shrink: 0 !important;
+  background: transparent !important;
+  display: inline-block !important;
+  vertical-align: middle !important;
 }
 
-/* =========================
-   RESPONSIVE NAVBAR
-========================= */
-
-@media (max-width: 992px) {
-  .hamburger {
-    display: inline-flex;
-  }
-
-  .menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    padding: 16px 24px 22px;
-    background-color: var(--bg-secondary);
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 16px 30px var(--shadow-color);
-  }
-
-  .menuOpen {
-    display: flex;
-  }
-
-  .links {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 2px;
-  }
-
-  .link {
-    border-bottom: none;
-    border-inline-start: 3px solid transparent;
-  }
-
-  .linkActive {
-    border-radius: 8px;
-    border-inline-start-color: var(--primary-color);
-    background-color: var(--glass-bg);
-  }
-
-  .actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    padding-top: 14px;
-    border-top: 1px solid var(--border-color);
-  }
-
-  .actions > * {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .inner {
-    gap: 12px;
-    padding: 0 16px;
-  }
-
-  .brand span {
-    font-size: 0.95rem;
-  }
+.loginBtn span {
+  color: #ffffff !important;
+  line-height: 1.4 !important;
+  display: inline-block !important;
+  background: transparent !important;
 }
